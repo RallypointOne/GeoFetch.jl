@@ -1,6 +1,6 @@
-using JuliaPackageTemplate
+using WeatherData
 using Test
 
-@testset "JuliaPackageTemplate.jl" begin
-    @test JuliaPackageTemplate.greet() == "Hello from JuliaPackageTemplate!"
+@testset "WeatherData.jl" begin
+    @test WeatherData.greet() == "Hello from WeatherData!"
 end

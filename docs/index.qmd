@@ -1,19 +1,19 @@
 ---
-title: "JuliaPackageTemplate.jl"
+title: "WeatherData.jl"
 engine: julia
 ---
 
-Welcome to the documentation for **JuliaPackageTemplate.jl**.
+Welcome to the documentation for **WeatherData.jl**.
 
 ## Overview
 
-JuliaPackageTemplate.jl is a Julia package that ...
+WeatherData.jl is a Julia package that ...
 
 ## Installation
 
 ```julia
 using Pkg
-Pkg.add("JuliaPackageTemplate")
+Pkg.add("WeatherData")
 ```
 
 ## Quickstart

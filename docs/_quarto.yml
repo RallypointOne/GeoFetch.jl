@@ -7,7 +7,7 @@ julia:
   project: "."
 
 book:
-  title: "JuliaPackageTemplate.jl"
+  title: "WeatherData.jl"
   search:
     location: sidebar
     keyboard-shortcut:
@@ -17,10 +17,10 @@ book:
     logo-href: https://rallypoint1.com
     right:
       - icon: star
-        href: https://github.com/RallypointOne/JuliaPackageTemplate.jl/stargazers
+        href: https://github.com/RallypointOne/WeatherData.jl/stargazers
         text: "Star"
       - icon: github
-        href: https://github.com/RallypointOne/JuliaPackageTemplate.jl
+        href: https://github.com/RallypointOne/WeatherData.jl
   chapters:
     - part: "Docs"
       chapters:
@@ -35,7 +35,7 @@ book:
         - resources/coverage.qmd
 
   page-footer:
-    center: "Built on 2026-02-23"
+    center: "Built on __BUILD_DATE__"
 
 language:
   search-text-placeholder: "Search  (/)"

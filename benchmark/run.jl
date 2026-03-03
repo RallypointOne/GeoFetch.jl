@@ -1,5 +1,5 @@
 using BenchmarkTools, JSON3, Dates
-using JuliaPackageTemplate
+using WeatherData
 
 #--------------------------------------------------------------------------------# Benchmark Suite
 #--------------------------------------------------------------------------------

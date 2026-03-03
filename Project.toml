@@ -1,7 +1,7 @@
-name = "JuliaPackageTemplate"
-uuid = "7adf5606-a580-4ec5-b7a7-75603f58a1cf"
+name = "WeatherData"
+uuid = "fe46492c-ed59-45b2-958b-ebe72753a52e"
 version = "0.1.0"
-authors = ["author <author@email.com>"]
+authors = ["Josh Day <emailjoshday@gmail.com> and contributors"]
 
 [compat]
 julia = "1"
