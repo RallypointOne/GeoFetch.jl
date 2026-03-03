@@ -1,0 +1,123 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "WeatherData.jl",
+    "section": "",
+    "text": "Overview\nWelcome to the documentation for WeatherData.jl.\nWeatherData.jl is a Julia package that …",
+    "crumbs": [
+      "Docs",
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>WeatherData.jl</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#installation",
+    "href": "index.html#installation",
+    "title": "WeatherData.jl",
+    "section": "Installation",
+    "text": "Installation\nusing Pkg\nPkg.add(\"WeatherData\")",
+    "crumbs": [
+      "Docs",
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>WeatherData.jl</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#quickstart",
+    "href": "index.html#quickstart",
+    "title": "WeatherData.jl",
+    "section": "Quickstart",
+    "text": "Quickstart\n\nprintln(\"Hello, World!\")\n\nHello, World!",
+    "crumbs": [
+      "Docs",
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>WeatherData.jl</span>"
+    ]
+  },
+  {
+    "objectID": "getting-started.html",
+    "href": "getting-started.html",
+    "title": "Getting Started",
+    "section": "",
+    "text": "Basic Usage",
+    "crumbs": [
+      "Docs",
+      "Getting Started"
+    ]
+  },
+  {
+    "objectID": "getting-started.html#basic-usage",
+    "href": "getting-started.html#basic-usage",
+    "title": "Getting Started",
+    "section": "",
+    "text": "using WeatherData",
+    "crumbs": [
+      "Docs",
+      "Getting Started"
+    ]
+  },
+  {
+    "objectID": "getting-started.html#examples",
+    "href": "getting-started.html#examples",
+    "title": "Getting Started",
+    "section": "Examples",
+    "text": "Examples\nTODO: Add examples here.",
+    "crumbs": [
+      "Docs",
+      "Getting Started"
+    ]
+  },
+  {
+    "objectID": "api.html",
+    "href": "api.html",
+    "title": "API",
+    "section": "",
+    "text": "Types",
+    "crumbs": [
+      "API",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>API</span>"
+    ]
+  },
+  {
+    "objectID": "api.html#types",
+    "href": "api.html#types",
+    "title": "API",
+    "section": "",
+    "text": "Config\n\n\nConfig\nConfiguration for the package.\n\nFields\n\nname::String: The name to use in greetings.\nverbose::Bool: Whether to print extra information.",
+    "crumbs": [
+      "API",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>API</span>"
+    ]
+  },
+  {
+    "objectID": "api.html#functions",
+    "href": "api.html#functions",
+    "title": "API",
+    "section": "Functions",
+    "text": "Functions\n\n\ngreet\n\n\ngreet()\ngreet(name::String)\nReturn a greeting string. If name is provided, greet that person.\n\nExamples\njulia&gt; greet()\n\"Hello from WeatherData!\"\n\njulia&gt; greet(\"Julia\")\n\"Hello, Julia!\"\n\n\n\n\n\ntransform\n\n\ntransform(x::AbstractVector; scale=1.0)\nApply a transformation to x, scaling each element by scale.\n\nExamples\njulia&gt; transform([1, 2, 3]; scale=2.0)\n3-element Vector{Float64}:\n 2.0\n 4.0\n 6.0",
+    "crumbs": [
+      "API",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>API</span>"
+    ]
+  },
+  {
+    "objectID": "api.html#constants",
+    "href": "api.html#constants",
+    "title": "API",
+    "section": "Constants",
+    "text": "Constants\n\n\nDEFAULT_GREETING\n\n\nString(s::AbstractString)\nCreate a new String from an existing AbstractString.\nString(v::AbstractVector{UInt8})\nCreate a new String object using the data buffer from byte vector v. If v is a Vector{UInt8} it will be truncated to zero length and future modification of v cannot affect the contents of the resulting string. To avoid truncation of Vector{UInt8} data, use String(copy(v)); for other AbstractVector types, String(v) already makes a copy.\nWhen possible, the memory of v will be used without copying when the String object is created. This is guaranteed to be the case for byte vectors returned by take! on a writable IOBuffer and by calls to read(io, nb). This allows zero-copy conversion of I/O data to strings. In other cases, Vector{UInt8} data may be copied, but v is truncated anyway to guarantee consistent behavior.\nString &lt;: AbstractString\nThe default string type in Julia, used by e.g. string literals.\nStrings are immutable sequences of Chars. A String is stored internally as a contiguous byte array, and while they are interpreted as being UTF-8 encoded, they can be composed of any byte sequence. Use isvalid to validate that the underlying byte sequence is valid as UTF-8.",
+    "crumbs": [
+      "API",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>API</span>"
+    ]
+  },
+  {
+    "objectID": "resources/changelog.html",
+    "href": "resources/changelog.html",
+    "title": "Changelog",
+    "section": "",
+    "text": "Unreleased",
+    "crumbs": [
+      "Resources",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Changelog</span>"
+    ]
+  }
+]
