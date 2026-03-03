@@ -1,0 +1,51 @@
+project:
+  type: book
+  output-dir: _site
+
+engine: julia
+julia:
+  project: "."
+
+book:
+  title: "JuliaPackageTemplate.jl"
+  search:
+    location: sidebar
+    keyboard-shortcut:
+      - "/"
+  navbar:
+    logo: https://github.com/user-attachments/assets/f7216152-0d6e-4459-8e65-b9ed59421638
+    logo-href: https://rallypoint1.com
+    right:
+      - icon: star
+        href: https://github.com/RallypointOne/JuliaPackageTemplate.jl/stargazers
+        text: "Star"
+      - icon: github
+        href: https://github.com/RallypointOne/JuliaPackageTemplate.jl
+  chapters:
+    - part: "Docs"
+      chapters:
+        - index.qmd
+        - getting-started.qmd
+    - part: "API"
+      chapters:
+        - api.qmd
+    - part: "Resources"
+      chapters:
+        - resources/changelog.qmd
+        - resources/coverage.qmd
+
+  page-footer:
+    center: "Built on 2026-02-23"
+
+language:
+  search-text-placeholder: "Search  (/)"
+
+format:
+  html:
+    css: styles.css
+    number-sections: false
+    theme:
+      - flatly
+      - theme.scss
+    include-after-body:
+      - file: _version-selector.html

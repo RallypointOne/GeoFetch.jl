@@ -1,0 +1,23 @@
+---
+title: "JuliaPackageTemplate.jl"
+engine: julia
+---
+
+Welcome to the documentation for **JuliaPackageTemplate.jl**.
+
+## Overview
+
+JuliaPackageTemplate.jl is a Julia package that ...
+
+## Installation
+
+```julia
+using Pkg
+Pkg.add("JuliaPackageTemplate")
+```
+
+## Quickstart
+
+```{julia}
+println("Hello, World!")
+```

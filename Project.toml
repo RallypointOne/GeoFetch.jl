@@ -1,0 +1,13 @@
+name = "JuliaPackageTemplate"
+uuid = "7adf5606-a580-4ec5-b7a7-75603f58a1cf"
+version = "0.1.0"
+authors = ["author <author@email.com>"]
+
+[compat]
+julia = "1"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
