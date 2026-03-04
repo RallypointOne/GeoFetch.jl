@@ -46,6 +46,16 @@ struct MetaData
     temporal_extent::String                     # "1940-present", "2020", "N/A"
     license::String                             # "CC BY 4.0", "Public Domain"
     docs_url::String                            # URL to API documentation
+    load_packages::Dict{String, String}           # name => uuid of packages needed by `load`
+end
+
+function MetaData(api_key_env_var, rate_limit, domain, variables, spatial_type,
+                  spatial_resolution, coverage, temporal_type, temporal_resolution,
+                  temporal_extent, license, docs_url;
+                  load_packages::Dict{String, String} = Dict{String, String}())
+    MetaData(api_key_env_var, rate_limit, domain, variables, spatial_type,
+             spatial_resolution, coverage, temporal_type, temporal_resolution,
+             temporal_extent, license, docs_url, load_packages)
 end
 
 has_api_key(source::AbstractDataSource) = !isempty(MetaData(source).api_key_env_var)
@@ -93,14 +103,16 @@ end
     DataAccessPlan
 
 A plan for retrieving data from a source.  Created by calling `DataAccessPlan(source, extent, ...)`
-without making network calls.  Inspect the plan, then call `fetch!(plan)` to execute.
+without making network calls.  Inspect the plan, then call `fetch(plan)` to get file paths
+or `load(plan)` to get parsed data.
 
 ### Examples
 
 ```julia
 plan = DataAccessPlan(OpenMeteoArchive(), (-74.0, 40.7), Date(2023,1,1), Date(2023,1,3))
 plan          # inspect
-fetch!(plan)  # execute
+fetch(plan)   # download → file paths
+load(plan)    # download → parsed data
 ```
 """
 struct DataAccessPlan{S<:AbstractDataSource}
@@ -144,14 +156,33 @@ Return extra HTTP headers needed for a source (e.g. API key headers).  Default i
 _request_headers(::AbstractDataSource) = Pair{String,String}[]
 
 """
-    fetch!(plan::DataAccessPlan) -> Vector{String}
+    fetch(plan::DataAccessPlan) -> Vector{String}
 
-Execute a `DataAccessPlan`, downloading the planned requests and returning file paths.
+Execute a `DataAccessPlan`, downloading the planned requests and returning local file paths.
 """
-function fetch!(plan::DataAccessPlan)
+function fetch(plan::DataAccessPlan)
     src_name = name(typeof(plan.source))
     hdrs = _request_headers(plan.source)
     [_cached_get(src_name, req.url; headers=hdrs) for req in plan.requests]
+end
+
+"""
+    load(plan::DataAccessPlan)
+
+Execute a `DataAccessPlan`, downloading and parsing the data.  Requires a package extension —
+install the packages listed in `MetaData(source).load_packages` to enable `load` for a source.
+"""
+function load(plan::DataAccessPlan)
+    src = plan.source
+    pkgs = MetaData(src).load_packages
+    src_name = name(typeof(src))
+    if isempty(pkgs)
+        error("`load` is not implemented for $src_name. Use `fetch(plan)` to get file paths.")
+    end
+    pkg_list = join(["Pkg.add(\"$k\")" for k in keys(pkgs)], "; ")
+    error("`load` for $src_name requires a package extension. Install the required packages:\n\n" *
+          "  using Pkg; $pkg_list\n\n" *
+          "Then `using` the package(s) before calling `load`.")
 end
 
 """
@@ -162,12 +193,12 @@ Returns file paths to the downloaded data.
 """
 function fetch_data(source::AbstractDataSource, extent, start_date::Date, stop_date::Date; kw...)
     plan = DataAccessPlan(source, extent, start_date, stop_date; kw...)
-    fetch!(plan)
+    fetch(plan)
 end
 
 function fetch_data(source::AbstractDataSource, extent; kw...)
     plan = DataAccessPlan(source, extent; kw...)
-    fetch!(plan)
+    fetch(plan)
 end
 
 #--------------------------------------------------------------------------------# Source Registry

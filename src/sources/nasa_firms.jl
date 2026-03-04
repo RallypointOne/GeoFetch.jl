@@ -29,7 +29,7 @@ using GeoInterface.Extents: Extent
 plan = DataAccessPlan(NASAFIRMS(),
     Extent(X=(-125.0, -114.0), Y=(32.0, 42.0)),
     Date(2024, 7, 1), Date(2024, 7, 5))
-files = fetch!(plan)
+files = fetch(plan)
 
 # Country-level query
 plan = DataAccessPlan(NASAFIRMS(), (0.0, 0.0),  # extent ignored for country queries

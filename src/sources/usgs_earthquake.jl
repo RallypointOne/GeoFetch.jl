@@ -23,7 +23,7 @@ plan = DataAccessPlan(USGSEarthquake(),
     Extent(X=(-125.0, -114.0), Y=(32.0, 42.0)),
     Date(2024, 1, 1), Date(2024, 1, 31);
     minmagnitude = 4.0)
-files = fetch!(plan)
+files = fetch(plan)
 ```
 """
 struct USGSEarthquake <: AbstractDataSource end

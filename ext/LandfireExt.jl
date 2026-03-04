@@ -2,9 +2,10 @@ module LandfireExt
 
 using GeoDataAccess
 using Landfire
+using Rasters
 
 import GeoDataAccess: AbstractDataSource, DataAccessPlan, MetaData, RequestInfo,
-    _register_source!, name, _describe_extent, _estimate_bytes
+    _register_source!, name, _describe_extent, _estimate_bytes, load
 
 import Dates: Day
 import GeoInterface as GI
@@ -29,14 +30,15 @@ Requires `Landfire.Product` objects via the `products` keyword argument.  Use
 ### Examples
 
 ```julia
-using GeoDataAccess, Landfire
+using GeoDataAccess, Landfire, Rasters
 using GeoInterface.Extents: Extent
 
 prods = Landfire.products(layer="FBFM40")
 ext = Extent(X=(-107.7, -106.0), Y=(46.5, 47.3))
 
 plan = DataAccessPlan(LandfireSource(), ext; products=prods)
-files = fetch!(plan)  # submits job, polls, downloads, extracts → returns [tif_path]
+raster = load(plan)   # submits job, polls, downloads, extracts → Raster
+files = fetch(plan)   # same workflow → returns [tif_path]
 ```
 """
 struct LandfireSource <: AbstractDataSource end
@@ -70,7 +72,9 @@ MetaData(::LandfireSource) = MetaData(
     :raster, "30 m", "CONUS, AK, HI",
     :snapshot, nothing, "Multi-year (2001–2024)",
     "Public Domain",
-    "https://landfire.gov/",
+    "https://landfire.gov/";
+    load_packages = Dict("Landfire" => "16f38fd6-0379-4569-89bb-2d3d56e50de8",
+                         "Rasters" => "a3a2b9e3-a471-40c9-b274-f788e487c689"),
 )
 
 #--------------------------------------------------------------------------------# DataAccessPlan
@@ -87,7 +91,7 @@ function DataAccessPlan(source::LandfireSource, extent;
     aoi = Landfire.area_of_interest(extent)
     extent_desc = _describe_extent(extent)
 
-    # Store Landfire.Job in kwargs for fetch! to use
+    # Store Landfire.Job in kwargs for fetch to use
     job = Landfire.Job(products, extent;
         email, output_projection, resample_resolution)
 
@@ -104,16 +108,25 @@ function DataAccessPlan(source::LandfireSource, extent;
         0)
 end
 
-#--------------------------------------------------------------------------------# fetch!
+#--------------------------------------------------------------------------------# fetch / load
 
-function GeoDataAccess.fetch!(plan::DataAccessPlan{LandfireSource})
+function _dataset(plan::DataAccessPlan{LandfireSource})
     job = plan.kwargs[:job]::Landfire.Job
-    data = Landfire.Dataset(job.layers, job.area_of_interest;
+    Landfire.Dataset(job.layers, job.area_of_interest;
         email=job.email,
         output_projection=job.output_projection,
         resample_resolution=job.resample_resolution)
+end
+
+function GeoDataAccess.fetch(plan::DataAccessPlan{LandfireSource})
+    data = _dataset(plan)
     tif = Base.get(data)
     [tif]
+end
+
+function GeoDataAccess.load(plan::DataAccessPlan{LandfireSource})
+    files = GeoDataAccess.fetch(plan)
+    Raster(files[1])
 end
 
 end # module

@@ -7,7 +7,7 @@ engine: julia
 #| echo: false
 #| output: false
 using GeoDataAccess
-using GeoDataAccess: Cache, MetaData, DataAccessPlan, fetch!, fetch_data, name,
+using GeoDataAccess: Cache, MetaData, DataAccessPlan, fetch, fetch_data, name,
     all_sources, available_sources,
     OpenMeteoArchive, OpenMeteoForecast, NOAANCEI, NASAPower, TomorrowIO, VisualCrossing
 using Dates
@@ -23,7 +23,7 @@ GeoDataAccess.jl does not export symbols by default.  Import what you need expli
 
 ```julia
 using GeoDataAccess
-using GeoDataAccess: DataAccessPlan, fetch!, fetch_data, MetaData
+using GeoDataAccess: DataAccessPlan, fetch, fetch_data, MetaData
 using Dates
 ```
 
@@ -58,7 +58,7 @@ Every data request follows two steps:
 
 1. **Plan** — `DataAccessPlan(source, extent, start_date, stop_date; kw...)` builds a plan
    describing the API calls that will be made, without executing them.
-2. **Fetch** — `fetch!(plan)` executes the plan, downloads data, and returns file paths to
+2. **Fetch** — `fetch(plan)` executes the plan, downloads data, and returns file paths to
    cached JSON files.
 
 The interface is the same regardless of which source you choose.
@@ -81,10 +81,10 @@ range, and variables — before any network requests are made.
 ### Step 2: Fetch the Data
 
 ```{julia}
-files = fetch!(plan)
+files = fetch(plan)
 ```
 
-`fetch!` returns a vector of file paths to cached JSON files.  Read them with
+`fetch` returns a vector of file paths to cached JSON files.  Read them with
 [JSON.jl](https://github.com/JuliaIO/JSON.jl):
 
 ```{julia}

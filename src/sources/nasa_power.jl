@@ -20,7 +20,7 @@ endpoint requires at least 2° in both latitude and longitude.
 plan = DataAccessPlan(NASAPower(), (-74.0, 40.7),
     Date(2024, 1, 1), Date(2024, 1, 7);
     variables = [:T2M, :PRECTOTCORR])
-files = fetch!(plan)
+files = fetch(plan)
 ```
 """
 struct NASAPower <: AbstractDataSource end

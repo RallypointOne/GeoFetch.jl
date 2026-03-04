@@ -20,7 +20,7 @@ plan = DataAccessPlan(TomorrowIO(), (-74.0, 40.7),
     Date(2024, 1, 1), Date(2024, 1, 7);
     variables = [:temperature, :humidity],
     timestep = "1d")
-files = fetch!(plan)
+files = fetch(plan)
 ```
 """
 struct TomorrowIO <: AbstractDataSource end

@@ -19,7 +19,7 @@ plan = DataAccessPlan(VisualCrossing(), (-74.0, 40.7),
     Date(2024, 1, 1), Date(2024, 1, 7);
     variables = [:tempmax, :tempmin, :precip],
     include = "days")
-files = fetch!(plan)
+files = fetch(plan)
 ```
 """
 struct VisualCrossing <: AbstractDataSource end

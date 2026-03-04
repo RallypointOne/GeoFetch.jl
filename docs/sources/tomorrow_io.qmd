@@ -28,14 +28,14 @@ ENV["TOMORROW_IO_API_KEY"] = "your-api-key"
 ## Example
 
 ```julia
-using GeoDataAccess: DataAccessPlan, fetch!, TomorrowIO
+using GeoDataAccess: DataAccessPlan, fetch, TomorrowIO
 using Dates
 
 plan = DataAccessPlan(TomorrowIO(), (-74.0, 40.7),
     Date(2024, 1, 1), Date(2024, 1, 7);
     variables = [:temperature, :humidity, :precipitationIntensity],
     timestep = "1d")
-files = fetch!(plan)
+files = fetch(plan)
 ```
 
 The `timestep` parameter controls temporal resolution: `"1h"` for hourly or `"1d"` for daily.

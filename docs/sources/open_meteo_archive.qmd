@@ -7,7 +7,7 @@ engine: julia
 #| echo: false
 #| output: false
 using GeoDataAccess
-using GeoDataAccess: DataAccessPlan, fetch!, fetch_data, MetaData, OpenMeteoArchive
+using GeoDataAccess: DataAccessPlan, fetch, fetch_data, MetaData, OpenMeteoArchive
 using Dates, JSON
 import GeoInterface as GI
 ```
@@ -29,7 +29,7 @@ plan = DataAccessPlan(OpenMeteoArchive(), (-74.0, 40.7),
 ```
 
 ```{julia}
-files = fetch!(plan)
+files = fetch(plan)
 data = JSON.parsefile(files[1])
 keys(data)
 ```

@@ -22,7 +22,7 @@ plan = DataAccessPlan(USGSWaterServices(), (-77.1, 38.9),
     Date(2024, 1, 1), Date(2024, 12, 31);
     sites = ["01646500"],
     variables = [Symbol("00060")])  # Discharge
-files = fetch!(plan)
+files = fetch(plan)
 ```
 """
 struct USGSWaterServices <: AbstractDataSource

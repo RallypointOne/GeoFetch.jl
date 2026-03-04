@@ -7,7 +7,7 @@ engine: julia
 #| echo: false
 #| output: false
 using GeoDataAccess
-using GeoDataAccess: Cache, MetaData, fetch_data, DataAccessPlan, fetch!, name,
+using GeoDataAccess: Cache, MetaData, fetch_data, DataAccessPlan, fetch, name,
     all_sources, available_sources,
     OpenMeteoArchive, OpenMeteoForecast, NOAANCEI, NASAPower, TomorrowIO, VisualCrossing,
     USGSEarthquake, USGSWaterServices, OpenAQ, NASAFIRMS, EPAAQS
@@ -47,12 +47,12 @@ Pkg.add("GeoDataAccess")
 
 ## Quickstart
 
-The core workflow is: create a `DataAccessPlan`, inspect it, then `fetch!` to download the data
+The core workflow is: create a `DataAccessPlan`, inspect it, then `fetch` to download the data
 as JSON files.
 
 ```{julia}
 using GeoDataAccess
-using GeoDataAccess: DataAccessPlan, fetch!, OpenMeteoArchive
+using GeoDataAccess: DataAccessPlan, fetch, OpenMeteoArchive
 using Dates
 
 # Create a plan: hourly temperature and precipitation for NYC
@@ -64,7 +64,7 @@ plan = DataAccessPlan(OpenMeteoArchive(), (-74.0, 40.7),
 
 ```{julia}
 # Execute the plan — returns file paths to cached JSON
-files = fetch!(plan)
+files = fetch(plan)
 ```
 
 ```{julia}

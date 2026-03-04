@@ -17,7 +17,7 @@ is available as a **package extension** — load both `GeoDataAccess` and
 
 ::: {.callout-note}
 LANDFIRE uses an async job workflow (submit -> poll -> download ZIP -> extract GeoTIFF) which is
-handled automatically by `fetch!`.  Jobs may take several minutes to complete depending on the
+handled automatically by `fetch`.  Jobs may take several minutes to complete depending on the
 extent and number of products requested.
 :::
 
@@ -40,7 +40,7 @@ ENV["LANDFIRE_EMAIL"] = "your-email@example.com"
 
 ```julia
 using GeoDataAccess, Landfire
-using GeoDataAccess: DataAccessPlan, fetch!
+using GeoDataAccess: DataAccessPlan, fetch
 using GeoInterface.Extents: Extent
 
 # Browse available products
@@ -51,7 +51,7 @@ ext = Extent(X=(-107.7, -106.0), Y=(46.5, 47.3))
 
 # Create plan and fetch
 plan = DataAccessPlan(LandfireSource(), ext; products=prods)
-files = fetch!(plan)  # submits job, polls, downloads, extracts -> [tif_path]
+files = fetch(plan)  # submits job, polls, downloads, extracts -> [tif_path]
 ```
 
 ## Options

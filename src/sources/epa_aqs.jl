@@ -31,7 +31,7 @@ plan = DataAccessPlan(EPAAQS(),
     Extent(X=(-87.0, -86.7), Y=(33.3, 33.6)),
     Date(2023, 6, 1), Date(2023, 6, 30);
     parameters = [Symbol("88101")])
-files = fetch!(plan)
+files = fetch(plan)
 
 # By state and county FIPS codes
 plan = DataAccessPlan(EPAAQS(), (0.0, 0.0),  # extent ignored for FIPS queries

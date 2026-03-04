@@ -7,7 +7,7 @@ engine: julia
 #| echo: false
 #| output: false
 using GeoDataAccess
-using GeoDataAccess: DataAccessPlan, fetch!, MetaData, USGSEarthquake
+using GeoDataAccess: DataAccessPlan, fetch, MetaData, USGSEarthquake
 using Dates, JSON
 using GeoInterface.Extents: Extent
 ```
@@ -34,7 +34,7 @@ plan
 ```
 
 ```{julia}
-files = fetch!(plan)
+files = fetch(plan)
 data = JSON.parsefile(files[1])
 n = length(data["features"])
 println("$n earthquakes found")

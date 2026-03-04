@@ -1,5 +1,5 @@
 using GeoDataAccess
-using GeoDataAccess: Cache, MetaData, DataAccessPlan, RequestInfo, fetch_data, fetch!, name,
+using GeoDataAccess: Cache, MetaData, DataAccessPlan, RequestInfo, fetch_data, fetch, name,
                    all_sources, available_sources, has_api_key, is_available
 using Dates
 using Test
@@ -168,8 +168,8 @@ const NYC = (-74.0, 40.7)
         end
     end
 
-    #------------------------------------------------------------------------# fetch! returns file paths (live)
-    @testset "fetch! returns file paths (live)" begin
+    #------------------------------------------------------------------------# fetch returns file paths (live)
+    @testset "fetch returns file paths (live)" begin
         @testset "OpenMeteoArchive" begin
             files = fetch_data(GeoDataAccess.OpenMeteoArchive(), NYC,
                 Date(2023, 1, 1), Date(2023, 1, 3);
@@ -180,11 +180,11 @@ const NYC = (-74.0, 40.7)
             @test isfile(files[1])
         end
 
-        @testset "via plan then fetch!" begin
+        @testset "via plan then fetch" begin
             plan = DataAccessPlan(GeoDataAccess.OpenMeteoArchive(), NYC,
                 Date(2023, 1, 1), Date(2023, 1, 3);
                 variables = [:temperature_2m_max], frequency = :daily)
-            files = fetch!(plan)
+            files = fetch(plan)
             @test files isa Vector{String}
             @test length(files) == 1
             @test isfile(files[1])

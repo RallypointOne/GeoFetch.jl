@@ -7,7 +7,7 @@ engine: julia
 #| echo: false
 #| output: false
 using GeoDataAccess
-using GeoDataAccess: DataAccessPlan, fetch!, MetaData, USGSWaterServices
+using GeoDataAccess: DataAccessPlan, fetch, MetaData, USGSWaterServices
 using Dates, JSON
 ```
 
@@ -32,7 +32,7 @@ plan
 ```
 
 ```{julia}
-files = fetch!(plan)
+files = fetch(plan)
 data = JSON.parsefile(files[1])
 ts = data["value"]["timeSeries"][1]
 println("Site: ", ts["sourceInfo"]["siteName"])

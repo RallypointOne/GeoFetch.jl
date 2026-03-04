@@ -28,14 +28,14 @@ ENV["VISUAL_CROSSING_API_KEY"] = "your-api-key"
 ## Example
 
 ```julia
-using GeoDataAccess: DataAccessPlan, fetch!, VisualCrossing
+using GeoDataAccess: DataAccessPlan, fetch, VisualCrossing
 using Dates
 
 plan = DataAccessPlan(VisualCrossing(), (-74.0, 40.7),
     Date(2024, 1, 1), Date(2024, 1, 7);
     variables = [:tempmax, :tempmin, :precip, :humidity],
     include = "days")
-files = fetch!(plan)
+files = fetch(plan)
 ```
 
 The `include` parameter controls temporal resolution: `"days"` for daily or `"hours"` for hourly.

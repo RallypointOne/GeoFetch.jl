@@ -37,7 +37,7 @@ plan = DataAccessPlan(EPAAQS(),
     Extent(X=(-87.0, -86.7), Y=(33.3, 33.6)),
     Date(2023, 6, 1), Date(2023, 6, 30);
     parameters = [Symbol("88101")])  # PM2.5
-files = fetch!(plan)
+files = fetch(plan)
 ```
 
 ## By State / County / Site

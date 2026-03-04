@@ -21,7 +21,7 @@ plan = DataAccessPlan(NOAANCEI(), (-74.0, 40.7),
     Date(2024, 1, 1), Date(2024, 1, 7);
     stations = ["USW00094728"],  # Central Park, NYC
     variables = [:TMAX, :TMIN, :PRCP])
-files = fetch!(plan)
+files = fetch(plan)
 ```
 """
 struct NOAANCEI <: AbstractDataSource

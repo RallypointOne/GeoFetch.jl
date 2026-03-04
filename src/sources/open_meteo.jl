@@ -17,7 +17,7 @@ plan = DataAccessPlan(OpenMeteoArchive(), (-74.0, 40.7),
     Date(2024, 1, 1), Date(2024, 1, 7);
     variables = [:temperature_2m, :precipitation],
     frequency = :hourly)
-files = fetch!(plan)
+files = fetch(plan)
 ```
 """
 struct OpenMeteoArchive <: AbstractDataSource end
@@ -41,7 +41,7 @@ plan = DataAccessPlan(OpenMeteoForecast(), (-74.0, 40.7),
     today(), today() + Day(3);
     variables = [:temperature_2m, :precipitation],
     frequency = :hourly)
-files = fetch!(plan)
+files = fetch(plan)
 ```
 """
 struct OpenMeteoForecast <: AbstractDataSource end

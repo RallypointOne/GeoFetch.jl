@@ -7,7 +7,7 @@ engine: julia
 #| echo: false
 #| output: false
 using GeoDataAccess
-using GeoDataAccess: DataAccessPlan, fetch!, MetaData, OpenMeteoForecast
+using GeoDataAccess: DataAccessPlan, fetch, MetaData, OpenMeteoForecast
 using Dates
 ```
 
