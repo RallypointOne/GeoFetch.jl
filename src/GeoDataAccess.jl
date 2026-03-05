@@ -230,18 +230,27 @@ function _cache_path(source_name::String, url::String; ext::String=".json")
     Cache.dir(source_name, "$h$ext")
 end
 
-function _cached_get(source_name::String, url::String; headers=Pair{String,String}[], ext::String=".json")
+function _cached_get(source_name::String, url::String; headers=Pair{String,String}[], ext::String=".json", retries::Int=3)
     cache_path = _cache_path(source_name, url; ext)
     if Cache.ENABLED[] && isfile(cache_path)
         return cache_path
     end
-    if Cache.ENABLED[]
-        mkpath(dirname(cache_path))
-        Downloads.download(url, cache_path; headers)
-        return cache_path
-    else
-        return Downloads.download(url; headers)
+    local last_err
+    for attempt in 1:retries
+        try
+            if Cache.ENABLED[]
+                mkpath(dirname(cache_path))
+                Downloads.download(url, cache_path; headers, timeout=120)
+                return cache_path
+            else
+                return Downloads.download(url; headers, timeout=120)
+            end
+        catch e
+            last_err = e
+            attempt < retries && @warn "Download attempt $attempt/$retries failed, retrying..." url exception=e
+        end
     end
+    throw(last_err)
 end
 
 
