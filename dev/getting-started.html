@@ -276,6 +276,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <a href="./sources/era5.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">ERA5</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./sources/copernicus_dem.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Copernicus DEM</span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -378,7 +383,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="4" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">all_sources</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="1">
-<pre><code>13-element Vector{GeoDataAccess.AbstractDataSource}:
+<pre><code>14-element Vector{GeoDataAccess.AbstractDataSource}:
  OpenMeteoArchive()
  OpenMeteoForecast()
  NOAANCEI("daily-summaries")
@@ -391,21 +396,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  GeoDataAccess.NASAFIRMS()
  GeoDataAccess.EPAAQS()
  GeoDataAccess.NOAAGFS()
- GeoDataAccess.ERA5()</code></pre>
+ GeoDataAccess.ERA5()
+ GeoDataAccess.CopernicusDEM(30)</code></pre>
 </div>
 </div>
 <div id="6" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Only sources you can use right now (API key set or not required)</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">available_sources</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="1">
-<pre><code>7-element Vector{GeoDataAccess.AbstractDataSource}:
+<pre><code>8-element Vector{GeoDataAccess.AbstractDataSource}:
  OpenMeteoArchive()
  OpenMeteoForecast()
  NOAANCEI("daily-summaries")
  NASAPower()
  GeoDataAccess.USGSEarthquake()
  USGSWaterServices("dv")
- GeoDataAccess.NOAAGFS()</code></pre>
+ GeoDataAccess.NOAAGFS()
+ GeoDataAccess.CopernicusDEM(30)</code></pre>
 </div>
 </div>
 <p>Every source carries a <code>MetaData</code> record describing its coverage, resolution, variables, and access requirements:</p>
@@ -1084,7 +1091,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       &nbsp;
     </div>   
     <div class="nav-footer-center">
-<p>Built on 2026-03-05</p>
+<p>Built on 2026-03-09</p>
 </div>
     <div class="nav-footer-right">
       &nbsp;
