@@ -360,5 +360,6 @@ include("sources/nasa_firms.jl")
 include("sources/epa_aqs.jl")
 include("sources/noaa_gfs.jl")
 include("sources/era5.jl")
+include("sources/copernicus_dem.jl")
 
 end # module

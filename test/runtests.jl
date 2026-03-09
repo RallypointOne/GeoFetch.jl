@@ -76,6 +76,22 @@ const NYC = (-74.0, 40.7)
             @test haskey(m.variables, :tempmax)
             @test haskey(m.variables, :precip)
         end
+        @testset "CopernicusDEM" begin
+            m = MetaData(GeoDataAccess.CopernicusDEM())
+            @test m.api_key_env_var == ""
+            @test m.domain == :terrain
+            @test m.spatial_type == :raster
+            @test m.spatial_resolution == "30 m"
+            @test m.coverage == "Global"
+            @test m.temporal_type == :snapshot
+            @test m.temporal_resolution === nothing
+            @test haskey(m.variables, :elevation)
+
+            m90 = MetaData(GeoDataAccess.CopernicusDEM(resolution=90))
+            @test m90.spatial_resolution == "90 m"
+
+            @test_throws ErrorException GeoDataAccess.CopernicusDEM(resolution=10)
+        end
     end
 
     #------------------------------------------------------------------------# name
@@ -149,6 +165,30 @@ const NYC = (-74.0, 40.7)
         @testset "NOAANCEI plan requires stations" begin
             @test_throws ErrorException DataAccessPlan(GeoDataAccess.NOAANCEI(), NYC,
                 Date(2023, 1, 1), Date(2023, 1, 7))
+        end
+
+        @testset "CopernicusDEM plan - point" begin
+            plan = DataAccessPlan(GeoDataAccess.CopernicusDEM(), NYC)
+            @test plan isa DataAccessPlan
+            @test plan.source isa GeoDataAccess.CopernicusDEM
+            @test length(plan.requests) == 1
+            @test plan.time_range === nothing
+            @test plan.variables == [:elevation]
+        end
+
+        @testset "CopernicusDEM plan - extent" begin
+            ext = Extent(X=(-76.0, -73.0), Y=(39.0, 42.0))
+            plan = DataAccessPlan(GeoDataAccess.CopernicusDEM(), ext)
+            @test plan isa DataAccessPlan
+            @test length(plan.requests) == 4 * 4  # 4 lon tiles × 4 lat tiles
+        end
+
+        @testset "CopernicusDEM plan - 90m" begin
+            plan = DataAccessPlan(GeoDataAccess.CopernicusDEM(resolution=90), NYC)
+            @test length(plan.requests) == 1
+            @test plan.kwargs[:resolution] == 90
+            @test occursin("copernicus-dem-90m", plan.requests[1].url)
+            @test occursin("COG_30", plan.requests[1].url)
         end
 
         @testset "invalid frequency" begin
