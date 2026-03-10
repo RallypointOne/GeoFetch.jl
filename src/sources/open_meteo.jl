@@ -94,20 +94,20 @@ const OPEN_METEO_VARIABLES = Dict{Symbol, String}(
 
 MetaData(::OpenMeteoArchive) = MetaData(
     "", "10,000 calls/day (non-commercial)",
-    :weather, OPEN_METEO_VARIABLES,
-    :raster, "25 km", "Global",
+    Weather, OPEN_METEO_VARIABLES,
+    Raster, "25 km", "Global",
     :timeseries, Hour(1), "1940-present",
-    "CC BY 4.0",
+    CC_BY_4_0,
     "https://open-meteo.com/en/docs/historical-weather-api";
     load_packages = Dict("DataFrames" => "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"),
 )
 
 MetaData(::OpenMeteoForecast) = MetaData(
     "", "10,000 calls/day (non-commercial)",
-    :weather, OPEN_METEO_VARIABLES,
-    :raster, "9 km", "Global",
+    Weather, OPEN_METEO_VARIABLES,
+    Raster, "9 km", "Global",
     :forecast, Hour(1), "16-day forecast",
-    "CC BY 4.0",
+    CC_BY_4_0,
     "https://open-meteo.com/en/docs";
     load_packages = Dict("DataFrames" => "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"),
 )

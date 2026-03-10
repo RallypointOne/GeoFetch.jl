@@ -81,10 +81,10 @@ const GFS_LEVELS = [
 
 MetaData(::NOAAGFS) = MetaData(
     "", "~10 sec between requests",
-    :weather, GFS_VARIABLES,
-    :raster, "0.25° (~25 km)", "Global",
+    Weather, GFS_VARIABLES,
+    Raster, "0.25° (~25 km)", "Global",
     :forecast, nothing, "Forecast (4 cycles/day, 0–240 h)",
-    "Public Domain",
+    PublicDomain,
     "https://nomads.ncep.noaa.gov/";
     load_packages = Dict("Rasters" => "a3a2b9e3-a471-40c9-b274-f788e487c689"),
 )

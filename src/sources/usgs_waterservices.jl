@@ -54,10 +54,10 @@ const USGS_WATER_VARIABLES = Dict{Symbol, String}(
 
 MetaData(::USGSWaterServices) = MetaData(
     "", "~5-10 req/s (informal)",
-    :hydrology, USGS_WATER_VARIABLES,
-    :point, "Station-based", "US",
+    Hydrology, USGS_WATER_VARIABLES,
+    Point, "Station-based", "US",
     :timeseries, Day(1), "Varies by site (many decades)",
-    "Public Domain",
+    PublicDomain,
     "https://waterservices.usgs.gov/docs/";
     load_packages = Dict("DataFrames" => "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"),
 )

@@ -5,7 +5,8 @@ using DataFrames
 
 import GeoDataAccess: DataAccessPlan, load, fetch,
     OpenMeteoArchive, OpenMeteoForecast, NOAANCEI, NASAPower, TomorrowIO,
-    VisualCrossing, USGSEarthquake, USGSWaterServices, OpenAQ, EPAAQS
+    VisualCrossing, USGSEarthquake, USGSWaterServices, OpenAQ, EPAAQS,
+    OpenStreetMap
 
 using GeoDataAccess: JSON3
 
@@ -225,6 +226,47 @@ function GeoDataAccess.load(plan::DataAccessPlan{EPAAQS})
         push!(all_dfs, DataFrame(data))
     end
     _merge_dfs(all_dfs)
+end
+
+#--------------------------------------------------------------------------------# OpenStreetMap
+
+function GeoDataAccess.load(plan::DataAccessPlan{OpenStreetMap})
+    files = fetch(plan)
+    all_rows = NamedTuple[]
+    for (file, var) in zip(files, plan.variables)
+        json = JSON3.read(read(file, String))
+        for elem in json.elements
+            hasproperty(elem, :tags) || continue
+            lat = if hasproperty(elem, :lat)
+                elem.lat
+            elseif hasproperty(elem, :center)
+                elem.center.lat
+            else
+                missing
+            end
+            lon = if hasproperty(elem, :lon)
+                elem.lon
+            elseif hasproperty(elem, :center)
+                elem.center.lon
+            else
+                missing
+            end
+            tag_val = hasproperty(elem.tags, var) ? string(getproperty(elem.tags, var)) : missing
+            name_val = hasproperty(elem.tags, :name) ? string(elem.tags.name) : missing
+            push!(all_rows, (
+                osm_type = string(elem.type),
+                osm_id = elem.id,
+                latitude = lat,
+                longitude = lon,
+                tag_key = string(var),
+                tag_value = tag_val,
+                name = name_val,
+                tags = JSON3.write(elem.tags),
+            ))
+        end
+    end
+    isempty(all_rows) && return DataFrame()
+    DataFrame(all_rows)
 end
 
 end # module

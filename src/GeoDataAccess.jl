@@ -20,6 +20,14 @@ end  # Cache module
 #--------------------------------------------------------------------------------# AbstractDataSource
 abstract type AbstractDataSource end
 
+#--------------------------------------------------------------------------------# Enums
+
+@enum Domain Weather Terrain AirQuality Hydrology NaturalHazards Infrastructure
+
+@enum SpatialType Raster Point VectorFeature
+
+@enum License CC_BY_4_0 PublicDomain Commercial OpenDataNASA NASA_EOSDIS CopernicusLicense ODbL_1_0
+
 """
     name(::Type{<:AbstractDataSource}) -> String
 
@@ -37,15 +45,15 @@ Describes a data source's capabilities, access requirements, and data characteri
 struct MetaData
     api_key_env_var::String                     # "" if no key needed
     rate_limit::String                          # human-readable, e.g., "10,000/day"
-    domain::Symbol                              # :weather, :terrain, :landcover, :ocean, :soil, :air_quality, :hydrology, :satellite, :socioeconomic
+    domain::Domain
     variables::Dict{Symbol, String}             # variable_name => description
-    spatial_type::Symbol                        # :raster, :point, :vector
+    spatial_type::SpatialType
     spatial_resolution::String                  # "25 km", "30 m", "station-based"
     coverage::String                            # "Global", "US", "Europe"
     temporal_type::Symbol                       # :timeseries, :snapshot, :climatology, :forecast
     temporal_resolution::Union{Dates.Period, Nothing}  # nothing for static data
     temporal_extent::String                     # "1940-present", "2020", "N/A"
-    license::String                             # "CC BY 4.0", "Public Domain"
+    license::License
     docs_url::String                            # URL to API documentation
     load_packages::Dict{String, String}           # name => uuid of packages needed by `load`
 end
@@ -207,7 +215,7 @@ end
 
 Return all registered data sources, optionally filtered by domain.
 """
-function all_sources(; domain::Union{Nothing, Symbol} = nothing)
+function all_sources(; domain::Union{Nothing, Domain} = nothing)
     isnothing(domain) && return copy(SOURCES)
     filter(s -> MetaData(s).domain == domain, SOURCES)
 end
@@ -361,5 +369,6 @@ include("sources/epa_aqs.jl")
 include("sources/noaa_gfs.jl")
 include("sources/era5.jl")
 include("sources/copernicus_dem.jl")
+include("sources/openstreetmap.jl")
 
 end # module

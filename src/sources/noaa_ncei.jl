@@ -56,10 +56,10 @@ const NOAA_NCEI_VARIABLES = Dict{Symbol, String}(
 
 MetaData(::NOAANCEI) = MetaData(
     "", "Undocumented",
-    :weather, NOAA_NCEI_VARIABLES,
-    :point, "Station-based", "Global (station-based)",
+    Weather, NOAA_NCEI_VARIABLES,
+    Point, "Station-based", "Global (station-based)",
     :timeseries, Day(1), "1763-present",
-    "Public Domain",
+    PublicDomain,
     "https://www.ncei.noaa.gov/support/access-data-service-api-user-documentation";
     load_packages = Dict("DataFrames" => "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"),
 )

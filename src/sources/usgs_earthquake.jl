@@ -51,10 +51,10 @@ const USGS_EARTHQUAKE_VARIABLES = Dict{Symbol, String}(
 
 MetaData(::USGSEarthquake) = MetaData(
     "", "20,000 events/query",
-    :natural_hazards, USGS_EARTHQUAKE_VARIABLES,
-    :point, "Event-based", "Global",
+    NaturalHazards, USGS_EARTHQUAKE_VARIABLES,
+    Point, "Event-based", "Global",
     :timeseries, nothing, "Comprehensive catalog",
-    "Public Domain",
+    PublicDomain,
     "https://earthquake.usgs.gov/fdsnws/event/1/";
     load_packages = Dict("DataFrames" => "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"),
 )

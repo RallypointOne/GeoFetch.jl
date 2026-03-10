@@ -49,10 +49,10 @@ const OPENAQ_VARIABLES = Dict{Symbol, String}(
 
 MetaData(::OpenAQ) = MetaData(
     "OPENAQ_API_KEY", "60 req/min (free tier)",
-    :air_quality, OPENAQ_VARIABLES,
-    :point, "Station-based", "Global",
+    AirQuality, OPENAQ_VARIABLES,
+    Point, "Station-based", "Global",
     :timeseries, Hour(1), "Varies by station",
-    "CC BY 4.0",
+    CC_BY_4_0,
     "https://docs.openaq.org/";
     load_packages = Dict("DataFrames" => "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"),
 )

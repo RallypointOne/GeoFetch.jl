@@ -61,10 +61,10 @@ const EPA_AQS_VARIABLES = Dict{Symbol, String}(
 
 MetaData(::EPAAQS) = MetaData(
     "EPA_AQS_KEY", "10 req/min",
-    :air_quality, EPA_AQS_VARIABLES,
-    :point, "Station-based", "US",
+    AirQuality, EPA_AQS_VARIABLES,
+    Point, "Station-based", "US",
     :timeseries, Day(1), "Varies by station (decades)",
-    "Public Domain",
+    PublicDomain,
     "https://aqs.epa.gov/aqsweb/documents/data_api.html";
     load_packages = Dict("DataFrames" => "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"),
 )

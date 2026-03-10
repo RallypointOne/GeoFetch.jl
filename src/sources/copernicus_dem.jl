@@ -53,10 +53,10 @@ const COPERNICUS_DEM_VARIABLES = Dict{Symbol, String}(
 function MetaData(source::CopernicusDEM)
     MetaData(
         "", "None (AWS S3)",
-        :terrain, COPERNICUS_DEM_VARIABLES,
-        :raster, "$(source.resolution) m", "Global",
+        Terrain, COPERNICUS_DEM_VARIABLES,
+        Raster, "$(source.resolution) m", "Global",
         :snapshot, nothing, "Static",
-        "Copernicus License",
+        CopernicusLicense,
         "https://copernicus-dem-$(source.resolution)m.s3.amazonaws.com/readme.html";
         load_packages = Dict("Rasters" => "a3a2b9e3-a471-40c9-b274-f788e487c689"),
     )

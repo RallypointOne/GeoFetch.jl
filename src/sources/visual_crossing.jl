@@ -55,10 +55,10 @@ const VISUAL_CROSSING_VARIABLES = Dict{Symbol, String}(
 
 MetaData(::VisualCrossing) = MetaData(
     "VISUAL_CROSSING_API_KEY", "1000 records/day (free tier)",
-    :weather, VISUAL_CROSSING_VARIABLES,
-    :raster, "1 km", "Global",
+    Weather, VISUAL_CROSSING_VARIABLES,
+    Raster, "1 km", "Global",
     :timeseries, Day(1), "~50 years of history",
-    "Commercial (free tier available)",
+    Commercial,
     "https://www.visualcrossing.com/resources/documentation/weather-api/timeline-weather-api/";
     load_packages = Dict("DataFrames" => "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"),
 )

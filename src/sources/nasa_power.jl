@@ -54,10 +54,10 @@ const NASA_POWER_VARIABLES = Dict{Symbol, String}(
 
 MetaData(::NASAPower) = MetaData(
     "", "No published rate limit",
-    :weather, NASA_POWER_VARIABLES,
-    :raster, "55 km", "Global",
+    Weather, NASA_POWER_VARIABLES,
+    Raster, "55 km", "Global",
     :timeseries, Day(1), "1981-present",
-    "Open Data (NASA)",
+    OpenDataNASA,
     "https://power.larc.nasa.gov/docs/services/api/";
     load_packages = Dict("DataFrames" => "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"),
 )

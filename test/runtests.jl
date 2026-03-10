@@ -1,6 +1,10 @@
 using GeoDataAccess
 using GeoDataAccess: Cache, MetaData, DataAccessPlan, RequestInfo, fetch, name,
-                   all_sources, available_sources, has_api_key, is_available
+                   all_sources, available_sources, has_api_key, is_available,
+                   Domain, SpatialType, License,
+                   Weather, Terrain, AirQuality, Hydrology, NaturalHazards, Infrastructure,
+                   Raster, Point, VectorFeature,
+                   CC_BY_4_0, PublicDomain, Commercial, OpenDataNASA, NASA_EOSDIS, CopernicusLicense, ODbL_1_0
 using Dates
 using Test
 import GeoInterface as GI
@@ -21,9 +25,9 @@ const NYC = (-74.0, 40.7)
         @test any(s -> s isa GeoDataAccess.TomorrowIO, sources)
         @test any(s -> s isa GeoDataAccess.VisualCrossing, sources)
 
-        weather_sources = all_sources(domain=:weather)
+        weather_sources = all_sources(domain=Weather)
         @test length(weather_sources) >= 5
-        @test all(s -> MetaData(s).domain == :weather, weather_sources)
+        @test all(s -> MetaData(s).domain == Weather, weather_sources)
     end
 
     #------------------------------------------------------------------------# MetaData
@@ -31,8 +35,8 @@ const NYC = (-74.0, 40.7)
         @testset "OpenMeteoArchive" begin
             m = MetaData(GeoDataAccess.OpenMeteoArchive())
             @test m.api_key_env_var == ""
-            @test m.domain == :weather
-            @test m.spatial_type == :raster
+            @test m.domain == Weather
+            @test m.spatial_type == Raster
             @test m.spatial_resolution == "25 km"
             @test m.coverage == "Global"
             @test m.temporal_type == :timeseries
@@ -49,14 +53,14 @@ const NYC = (-74.0, 40.7)
         @testset "NOAANCEI" begin
             m = MetaData(GeoDataAccess.NOAANCEI())
             @test m.api_key_env_var == ""
-            @test m.spatial_type == :point
+            @test m.spatial_type == Point
             @test m.temporal_resolution == Day(1)
             @test haskey(m.variables, :TMAX)
         end
         @testset "NASAPower" begin
             m = MetaData(GeoDataAccess.NASAPower())
             @test m.api_key_env_var == ""
-            @test m.domain == :weather
+            @test m.domain == Weather
             @test m.spatial_resolution == "55 km"
             @test m.temporal_resolution == Day(1)
             @test haskey(m.variables, :T2M)
@@ -79,8 +83,8 @@ const NYC = (-74.0, 40.7)
         @testset "CopernicusDEM" begin
             m = MetaData(GeoDataAccess.CopernicusDEM())
             @test m.api_key_env_var == ""
-            @test m.domain == :terrain
-            @test m.spatial_type == :raster
+            @test m.domain == Terrain
+            @test m.spatial_type == Raster
             @test m.spatial_resolution == "30 m"
             @test m.coverage == "Global"
             @test m.temporal_type == :snapshot
@@ -91,6 +95,16 @@ const NYC = (-74.0, 40.7)
             @test m90.spatial_resolution == "90 m"
 
             @test_throws ErrorException GeoDataAccess.CopernicusDEM(resolution=10)
+        end
+        @testset "OpenStreetMap" begin
+            m = MetaData(GeoDataAccess.OpenStreetMap())
+            @test m.api_key_env_var == ""
+            @test m.domain == Infrastructure
+            @test m.spatial_type == VectorFeature
+            @test m.license == ODbL_1_0
+            @test m.temporal_type == :snapshot
+            @test haskey(m.variables, :building)
+            @test haskey(m.variables, :highway)
         end
     end
 
@@ -191,6 +205,25 @@ const NYC = (-74.0, 40.7)
             @test occursin("COG_30", plan.requests[1].url)
         end
 
+        @testset "OpenStreetMap plan - point" begin
+            plan = DataAccessPlan(GeoDataAccess.OpenStreetMap(), NYC;
+                variables = [:building])
+            @test plan isa DataAccessPlan
+            @test plan.source isa GeoDataAccess.OpenStreetMap
+            @test length(plan.requests) == 1
+            @test plan.time_range === nothing
+            @test plan.variables == [:building]
+            @test occursin("overpass", plan.requests[1].url)
+        end
+
+        @testset "OpenStreetMap plan - extent, multiple variables" begin
+            ext = Extent(X=(-74.01, -73.99), Y=(40.70, 40.72))
+            plan = DataAccessPlan(GeoDataAccess.OpenStreetMap(), ext;
+                variables = [:building, :highway])
+            @test length(plan.requests) == 2
+            @test plan.variables == [:building, :highway]
+        end
+
         @testset "invalid frequency" begin
             @test_throws ErrorException DataAccessPlan(GeoDataAccess.OpenMeteoArchive(), NYC,
                 Date(2023, 1, 1), Date(2023, 1, 3); frequency = :monthly)
@@ -277,6 +310,15 @@ const NYC = (-74.0, 40.7)
             @test files isa Vector{String}
             @test length(files) == 2
             @test all(isfile, files)
+        end
+
+
+        @testset "OpenStreetMap" begin
+            files = fetch(GeoDataAccess.OpenStreetMap(), NYC;
+                variables = [:building])
+            @test files isa Vector{String}
+            @test length(files) == 1
+            @test isfile(files[1])
         end
     end
 

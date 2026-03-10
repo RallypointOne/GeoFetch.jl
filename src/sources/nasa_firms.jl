@@ -63,10 +63,10 @@ const FIRMS_VARIABLES = Dict{Symbol, String}(
 
 MetaData(::NASAFIRMS) = MetaData(
     "FIRMS_MAP_KEY", "5,000 req/10 min",
-    :natural_hazards, FIRMS_VARIABLES,
-    :point, "375 m (VIIRS) / 1 km (MODIS)", "Global",
+    NaturalHazards, FIRMS_VARIABLES,
+    Point, "375 m (VIIRS) / 1 km (MODIS)", "Global",
     :timeseries, nothing, "Near real-time + archive",
-    "NASA EOSDIS",
+    NASA_EOSDIS,
     "https://firms.modaps.eosdis.nasa.gov/api/";
     load_packages = Dict("DataFrames" => "a93c6f00-e57d-5684-b7b6-d8193f3e46c0",
                          "CSV" => "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"),

@@ -85,10 +85,10 @@ const ERA5_CDS_NAMES = Dict{Symbol, String}(
 
 MetaData(::ERA5) = MetaData(
     "CDSAPI_KEY", "1 concurrent job",
-    :weather, ERA5_VARIABLES,
-    :raster, "0.25° (~25 km)", "Global",
+    Weather, ERA5_VARIABLES,
+    Raster, "0.25° (~25 km)", "Global",
     :timeseries, Dates.Hour(1), "1940–present",
-    "CC BY 4.0",
+    CC_BY_4_0,
     "https://cds.climate.copernicus.eu/";
     load_packages = Dict("Rasters" => "a3a2b9e3-a471-40c9-b274-f788e487c689"),
 )

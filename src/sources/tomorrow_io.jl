@@ -54,10 +54,10 @@ const TOMORROW_IO_VARIABLES = Dict{Symbol, String}(
 
 MetaData(::TomorrowIO) = MetaData(
     "TOMORROW_IO_API_KEY", "~500 req/day (free tier)",
-    :weather, TOMORROW_IO_VARIABLES,
-    :raster, "4 km", "Global",
+    Weather, TOMORROW_IO_VARIABLES,
+    Raster, "4 km", "Global",
     :timeseries, Hour(1), "2000-present",
-    "Commercial (free tier available)",
+    Commercial,
     "https://docs.tomorrow.io/reference/welcome";
     load_packages = Dict("DataFrames" => "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"),
 )
