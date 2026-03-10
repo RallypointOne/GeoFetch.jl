@@ -359,7 +359,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="4" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">MetaData</span>(<span class="fu">TomorrowIO</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="1">
-<pre><code>MetaData("TOMORROW_IO_API_KEY", "~500 req/day (free tier)", :weather, Dict(:temperatureMin =&gt; "Daily min temperature (°C)", :pressureSurfaceLevel =&gt; "Surface-level pressure (hPa)", :precipitationIntensity =&gt; "Precipitation intensity (mm/hr)", :dewPoint =&gt; "Dew point (°C)", :windDirection =&gt; "Wind direction (°)", :temperatureApparent =&gt; "Apparent temperature (°C)", :humidity =&gt; "Humidity (%)", :windSpeed =&gt; "Wind speed (m/s)", :temperature =&gt; "Temperature (°C)", :temperatureMax =&gt; "Daily max temperature (°C)"…), :raster, "4 km", "Global", :timeseries, Dates.Hour(1), "2000-present", "Commercial (free tier available)", "https://docs.tomorrow.io/reference/welcome", Dict("DataFrames" =&gt; "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"))</code></pre>
+<pre><code>MetaData("TOMORROW_IO_API_KEY", "~500 req/day (free tier)", GeoDataAccess.Weather, Dict(:temperatureMin =&gt; "Daily min temperature (°C)", :pressureSurfaceLevel =&gt; "Surface-level pressure (hPa)", :precipitationIntensity =&gt; "Precipitation intensity (mm/hr)", :dewPoint =&gt; "Dew point (°C)", :windDirection =&gt; "Wind direction (°)", :temperatureApparent =&gt; "Apparent temperature (°C)", :humidity =&gt; "Humidity (%)", :windSpeed =&gt; "Wind speed (m/s)", :temperature =&gt; "Temperature (°C)", :temperatureMax =&gt; "Daily max temperature (°C)"…), GeoDataAccess.Raster, "4 km", "Global", :timeseries, Dates.Hour(1), "2000-present", GeoDataAccess.Commercial, "https://docs.tomorrow.io/reference/welcome", Dict("DataFrames" =&gt; "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"))</code></pre>
 </div>
 </div>
 <section id="setup" class="level2">
@@ -887,7 +887,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       &nbsp;
     </div>   
     <div class="nav-footer-center">
-<p>Built on 2026-03-09</p>
+<p>Built on 2026-03-10</p>
 </div>
     <div class="nav-footer-right">
       &nbsp;

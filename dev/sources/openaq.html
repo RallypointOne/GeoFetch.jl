@@ -360,7 +360,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="4" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">MetaData</span>(<span class="fu">OpenAQ</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="1">
-<pre><code>MetaData("OPENAQ_API_KEY", "60 req/min (free tier)", :air_quality, Dict(:pm25 =&gt; "PM2.5 (µg/m³)", :pm1 =&gt; "PM1 (µg/m³)", :co =&gt; "Carbon monoxide (ppm)", :so2 =&gt; "Sulfur dioxide (µg/m³)", :bc =&gt; "Black carbon (µg/m³)", :pm10 =&gt; "PM10 (µg/m³)", :o3 =&gt; "Ozone (µg/m³)", :no2 =&gt; "Nitrogen dioxide (µg/m³)"), :point, "Station-based", "Global", :timeseries, Hour(1), "Varies by station", "CC BY 4.0", "https://docs.openaq.org/", Dict("DataFrames" =&gt; "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"))</code></pre>
+<pre><code>MetaData("OPENAQ_API_KEY", "60 req/min (free tier)", GeoDataAccess.AirQuality, Dict(:pm25 =&gt; "PM2.5 (µg/m³)", :pm1 =&gt; "PM1 (µg/m³)", :co =&gt; "Carbon monoxide (ppm)", :so2 =&gt; "Sulfur dioxide (µg/m³)", :bc =&gt; "Black carbon (µg/m³)", :pm10 =&gt; "PM10 (µg/m³)", :o3 =&gt; "Ozone (µg/m³)", :no2 =&gt; "Nitrogen dioxide (µg/m³)"), GeoDataAccess.Point, "Station-based", "Global", :timeseries, Hour(1), "Varies by station", GeoDataAccess.CC_BY_4_0, "https://docs.openaq.org/", Dict("DataFrames" =&gt; "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"))</code></pre>
 </div>
 </div>
 <section id="setup" class="level2">
@@ -882,7 +882,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       &nbsp;
     </div>   
     <div class="nav-footer-center">
-<p>Built on 2026-03-09</p>
+<p>Built on 2026-03-10</p>
 </div>
     <div class="nav-footer-right">
       &nbsp;

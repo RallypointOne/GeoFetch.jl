@@ -358,7 +358,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="4" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">MetaData</span>(<span class="fu">OpenMeteoForecast</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="1">
-<pre><code>MetaData("", "10,000 calls/day (non-commercial)", :weather, Dict(:temperature_2m_mean =&gt; "Daily mean temperature at 2m (°C)", :wind_direction_10m_dominant =&gt; "Daily dominant wind direction (°)", :apparent_temperature_max =&gt; "Daily maximum apparent temperature (°C)", :surface_pressure =&gt; "Surface pressure (hPa)", :precipitation_sum =&gt; "Daily total precipitation (mm)", :wind_gusts_10m_max =&gt; "Daily maximum wind gusts at 10m (km/h)", :precipitation_hours =&gt; "Daily hours with precipitation", :temperature_2m =&gt; "Air temperature at 2m (°C)", :rain_sum =&gt; "Daily total rain (mm)", :wind_direction_10m =&gt; "Wind direction at 10m (°)"…), :raster, "9 km", "Global", :forecast, Hour(1), "16-day forecast", "CC BY 4.0", "https://open-meteo.com/en/docs", Dict("DataFrames" =&gt; "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"))</code></pre>
+<pre><code>MetaData("", "10,000 calls/day (non-commercial)", GeoDataAccess.Weather, Dict(:temperature_2m_mean =&gt; "Daily mean temperature at 2m (°C)", :wind_direction_10m_dominant =&gt; "Daily dominant wind direction (°)", :apparent_temperature_max =&gt; "Daily maximum apparent temperature (°C)", :surface_pressure =&gt; "Surface pressure (hPa)", :precipitation_sum =&gt; "Daily total precipitation (mm)", :wind_gusts_10m_max =&gt; "Daily maximum wind gusts at 10m (km/h)", :precipitation_hours =&gt; "Daily hours with precipitation", :temperature_2m =&gt; "Air temperature at 2m (°C)", :rain_sum =&gt; "Daily total rain (mm)", :wind_direction_10m =&gt; "Wind direction at 10m (°)"…), GeoDataAccess.Raster, "9 km", "Global", :forecast, Hour(1), "16-day forecast", GeoDataAccess.CC_BY_4_0, "https://open-meteo.com/en/docs", Dict("DataFrames" =&gt; "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"))</code></pre>
 </div>
 </div>
 <section id="example" class="level2">
@@ -372,14 +372,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell-output cell-output-display" data-execution_count="1">
 <pre><code>DataAccessPlan for openmeteoforecast
   Extent:    Point(40.7, -74.0)
-  Time:      2026-03-09 to 2026-03-11 (3 days)
+  Time:      2026-03-10 to 2026-03-12 (3 days)
   Variables: temperature_2m, precipitation
   frequency: hourly
   timezone: GMT
   API calls: 1
   Est. size: 1.125 KiB
 
-  Request 1: GET 1 point(s), hourly 3 days → openmeteoforecast/878df6e1b4f7d15f.json</code></pre>
+  Request 1: GET 1 point(s), hourly 3 days → openmeteoforecast/27265d46c63608c1.json</code></pre>
 </div>
 </div>
 </section>
@@ -810,7 +810,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       &nbsp;
     </div>   
     <div class="nav-footer-center">
-<p>Built on 2026-03-09</p>
+<p>Built on 2026-03-10</p>
 </div>
     <div class="nav-footer-right">
       &nbsp;

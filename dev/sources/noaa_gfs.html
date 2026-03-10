@@ -363,7 +363,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="4" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">MetaData</span>(<span class="fu">NOAAGFS</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="1">
-<pre><code>MetaData("", "~10 sec between requests", :weather, Dict(:ABSV =&gt; "Absolute vorticity (1/s)", :APCP =&gt; "Total precipitation (kg/m²)", :PRATE =&gt; "Precipitation rate (kg/m²/s)", :CIN =&gt; "Convective Inhibition (J/kg)", :PWAT =&gt; "Precipitable water (kg/m²)", :VGRD =&gt; "V-component of wind (m/s)", :TCDC =&gt; "Total cloud cover (%)", :RH =&gt; "Relative humidity (%)", :PRMSL =&gt; "Pressure reduced to MSL (Pa)", :TMP =&gt; "Temperature (K)"…), :raster, "0.25° (~25 km)", "Global", :forecast, nothing, "Forecast (4 cycles/day, 0–240 h)", "Public Domain", "https://nomads.ncep.noaa.gov/", Dict("Rasters" =&gt; "a3a2b9e3-a471-40c9-b274-f788e487c689"))</code></pre>
+<pre><code>MetaData("", "~10 sec between requests", GeoDataAccess.Weather, Dict(:ABSV =&gt; "Absolute vorticity (1/s)", :APCP =&gt; "Total precipitation (kg/m²)", :PRATE =&gt; "Precipitation rate (kg/m²/s)", :CIN =&gt; "Convective Inhibition (J/kg)", :PWAT =&gt; "Precipitable water (kg/m²)", :VGRD =&gt; "V-component of wind (m/s)", :TCDC =&gt; "Total cloud cover (%)", :RH =&gt; "Relative humidity (%)", :PRMSL =&gt; "Pressure reduced to MSL (Pa)", :TMP =&gt; "Temperature (K)"…), GeoDataAccess.Raster, "0.25° (~25 km)", "Global", :forecast, nothing, "Forecast (4 cycles/day, 0–240 h)", GeoDataAccess.PublicDomain, "https://nomads.ncep.noaa.gov/", Dict("Rasters" =&gt; "a3a2b9e3-a471-40c9-b274-f788e487c689"))</code></pre>
 </div>
 </div>
 <section id="basic-usage" class="level2">
@@ -977,7 +977,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       &nbsp;
     </div>   
     <div class="nav-footer-center">
-<p>Built on 2026-03-09</p>
+<p>Built on 2026-03-10</p>
 </div>
     <div class="nav-footer-right">
       &nbsp;

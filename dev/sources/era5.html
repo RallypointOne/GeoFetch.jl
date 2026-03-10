@@ -362,7 +362,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="4" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">MetaData</span>(<span class="fu">ERA5</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="1">
-<pre><code>MetaData("CDSAPI_KEY", "1 concurrent job", :weather, Dict(:u_wind_10m =&gt; "10m u-component of wind (m/s)", :total_cloud_cover =&gt; "Total cloud cover (0–1)", :volumetric_soil_water_1 =&gt; "Volumetric soil water layer 1 (m³/m³)", :dewpoint_temperature_2m =&gt; "2m dewpoint temperature (K)", :surface_pressure =&gt; "Surface pressure (Pa)", :skin_temperature =&gt; "Skin temperature (K)", :snowfall =&gt; "Snowfall (m of water equivalent)", :evaporation =&gt; "Total evaporation (m of water equivalent)", :temperature_2m =&gt; "2m temperature (K)", :v_wind_10m =&gt; "10m v-component of wind (m/s)"…), :raster, "0.25° (~25 km)", "Global", :timeseries, Hour(1), "1940–present", "CC BY 4.0", "https://cds.climate.copernicus.eu/", Dict("Rasters" =&gt; "a3a2b9e3-a471-40c9-b274-f788e487c689"))</code></pre>
+<pre><code>MetaData("CDSAPI_KEY", "1 concurrent job", GeoDataAccess.Weather, Dict(:u_wind_10m =&gt; "10m u-component of wind (m/s)", :total_cloud_cover =&gt; "Total cloud cover (0–1)", :volumetric_soil_water_1 =&gt; "Volumetric soil water layer 1 (m³/m³)", :dewpoint_temperature_2m =&gt; "2m dewpoint temperature (K)", :surface_pressure =&gt; "Surface pressure (Pa)", :skin_temperature =&gt; "Skin temperature (K)", :snowfall =&gt; "Snowfall (m of water equivalent)", :evaporation =&gt; "Total evaporation (m of water equivalent)", :temperature_2m =&gt; "2m temperature (K)", :v_wind_10m =&gt; "10m v-component of wind (m/s)"…), GeoDataAccess.Raster, "0.25° (~25 km)", "Global", :timeseries, Hour(1), "1940–present", GeoDataAccess.CC_BY_4_0, "https://cds.climate.copernicus.eu/", Dict("Rasters" =&gt; "a3a2b9e3-a471-40c9-b274-f788e487c689"))</code></pre>
 </div>
 </div>
 <section id="setup" class="level2">
@@ -1001,7 +1001,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       &nbsp;
     </div>   
     <div class="nav-footer-center">
-<p>Built on 2026-03-09</p>
+<p>Built on 2026-03-10</p>
 </div>
     <div class="nav-footer-right">
       &nbsp;

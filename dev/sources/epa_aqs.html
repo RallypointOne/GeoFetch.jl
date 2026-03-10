@@ -361,7 +361,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="4" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">MetaData</span>(<span class="fu">EPAAQS</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="1">
-<pre><code>MetaData("EPA_AQS_KEY", "10 req/min", :air_quality, Dict(Symbol("14129") =&gt; "Lead TSP (µg/m³)", Symbol("44201") =&gt; "Ozone (ppm)", Symbol("42101") =&gt; "Carbon Monoxide (ppm)", Symbol("42602") =&gt; "Nitrogen Dioxide (ppb)", Symbol("88101") =&gt; "PM2.5 - Local Conditions (µg/m³)", Symbol("81102") =&gt; "PM10 (µg/m³)", Symbol("42401") =&gt; "Sulfur Dioxide (ppb)", Symbol("88502") =&gt; "PM2.5 - Non-FRM (µg/m³)"), :point, "Station-based", "US", :timeseries, Day(1), "Varies by station (decades)", "Public Domain", "https://aqs.epa.gov/aqsweb/documents/data_api.html", Dict("DataFrames" =&gt; "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"))</code></pre>
+<pre><code>MetaData("EPA_AQS_KEY", "10 req/min", GeoDataAccess.AirQuality, Dict(Symbol("14129") =&gt; "Lead TSP (µg/m³)", Symbol("44201") =&gt; "Ozone (ppm)", Symbol("42101") =&gt; "Carbon Monoxide (ppm)", Symbol("42602") =&gt; "Nitrogen Dioxide (ppb)", Symbol("88101") =&gt; "PM2.5 - Local Conditions (µg/m³)", Symbol("81102") =&gt; "PM10 (µg/m³)", Symbol("42401") =&gt; "Sulfur Dioxide (ppb)", Symbol("88502") =&gt; "PM2.5 - Non-FRM (µg/m³)"), GeoDataAccess.Point, "Station-based", "US", :timeseries, Day(1), "Varies by station (decades)", GeoDataAccess.PublicDomain, "https://aqs.epa.gov/aqsweb/documents/data_api.html", Dict("DataFrames" =&gt; "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"))</code></pre>
 </div>
 </div>
 <section id="setup" class="level2">
@@ -915,7 +915,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       &nbsp;
     </div>   
     <div class="nav-footer-center">
-<p>Built on 2026-03-09</p>
+<p>Built on 2026-03-10</p>
 </div>
     <div class="nav-footer-right">
       &nbsp;
