@@ -1,66 +1,17 @@
-"""
-    GeoFetch
-
-Fetch geospatial data from multiple sources (NOMADS, CDS, etc.) into a unified project directory.
-
-The main workflow is:
-
-1. Create a [`Project`](@ref) with a spatial extent, time range, and list of datasets.
-2. Call `fetch(project)` to download all data, skipping files that already exist.
-
-### Examples
-
-```julia
-using GeoFetch, Dates, Extents
-
-gfs = NOMADS.GFS_025
-gfs.parameters = ["TMP"]
-gfs.levels = ["2_m_above_ground"]
-
-p = Project(
-    geometry = Extent(X=(-90.0, -80.0), Y=(30.0, 40.0)),
-    datetimes = (DateTime(2026, 4, 1), DateTime(2026, 4, 1)),
-    datasets = [gfs],
-)
-
-fetch(p)
-```
-"""
 module GeoFetch
 
-using Dates, Downloads, Extents
+using Dates, Downloads, Extents, JSON
 import GeoInterface as GI
 import GeoFormatTypes as GFT
 
-export Region, Project, AbstractDataSource, help, All, NOMADS, CDS
+export Project, Source, Dataset, Chunk, All
+export NOMADS, CDS, FIRMS, ETOPO, SRTM, GOES, HRRRArchive, NASAPower, USGSWater, NCEI, OISST
+export NomadsDataset, CDSDataset, FIRMSDataset, ETOPODataset, SRTMDataset, GOESDataset, HRRRArchiveDataset, NASAPowerDataset, USGSWaterDataset, NCEIDataset, OISSTDataset
+export datasets, help, nchunks, region, regions
 
 #------------------------------------------------------------------------------# Project
 const EARTH = Extent(X=(-180.0, 180.0), Y=(-90.0, 90.0))
 
-"""
-    Project(; geometry=EARTH, extent, datetimes, crs, path, datasets)
-
-A geospatial project that defines what data to fetch and where to store it.
-
-# Fields
-- `geometry` — Area of interest.  Defaults to `EARTH` (global).
-- `extent` — Bounding box derived from `geometry`.
-- `datetimes` — `(start, stop)` time range, or `nothing` for all available data.
-- `crs` — Coordinate reference system.  Defaults to EPSG:4326.
-- `path` — Output directory.  Defaults to a temporary directory.
-- `datasets` — Vector of [`Dataset`](@ref) subtypes to fetch.
-
-### Examples
-
-```julia
-using Dates, Extents
-p = Project(
-    geometry = Extent(X=(-90.0, -80.0), Y=(30.0, 40.0)),
-    datetimes = (DateTime(2023, 1, 1), DateTime(2023, 1, 31)),
-    datasets = [NOMADS.GFS_025],
-)
-```
-"""
 @kwdef struct Project{G, E, C}
     geometry::G = EARTH
     extent::E = GI.extent(geometry)
@@ -82,114 +33,100 @@ function Base.show(io::IO, p::Project)
     end
 end
 
-"""
-    fetch(project::Project; verbose=true)
-
-Download all data for the project's datasets, skipping files that already exist on disk.
-Returns the path to the `data/` directory inside the project.
-"""
 function fetch(proj::Project; verbose=true)
     for ds in proj.datasets
-        verbose && println(io, "Fetching dataset: ", summary(ds))
+        verbose && println("Fetching dataset: ", summary(ds))
         for chunk in chunks(proj, ds)
-            verbose && println(io, "    - ", summary(chunk))
-            file = joinpath(proj.path, "data", filename(chunk))
+            verbose && println("    - ", summary(chunk))
+            dir = joinpath(proj.path, "data")
+            mkpath(dir)
+            file = joinpath(dir, filename(chunk))
             isfile(file) || fetch(chunk, file)
         end
     end
     return joinpath(proj.path, "data")
 end
 
-#------------------------------------------------------------------------------# Dataset
-"""
-    Dataset
-
-Abstract type for all data sources.  Each subtype must implement:
-
-- `help(ds::Dataset)::String` — return a documentation URL.
-- `chunks(project::Project, ds::Dataset)::Vector{<:Chunk}` — return the list of downloadable items.
-"""
-abstract type Dataset end
-
-"""
-    help(ds::Dataset) -> String
-
-Return the documentation URL for a dataset.
-"""
+#------------------------------------------------------------------------------# Source
+abstract type Source end
+function datasets end
 function help end
 
-"""
-    chunks(project::Project, ds::Dataset) -> Vector{<:Chunk}
-
-Return the list of [`Chunk`](@ref)s needed to cover the project's spatiotemporal extent.
-"""
+#------------------------------------------------------------------------------# Dataset
+abstract type Dataset end
 function chunks end
 
 #------------------------------------------------------------------------------# Chunk
-"""
-    Chunk
-
-Abstract type for a single downloadable item from a [`Dataset`](@ref).
-
-Each subtype must implement:
-
-- `prefix(chunk)::Symbol` — identifier used in the local filename.
-- `extension(chunk)::String` — file extension (e.g. `"grib2"`, `"nc"`).
-- `fetch(chunk, file::String)` — download the chunk to `file`.
-
-The local filename is generated automatically as `"\$prefix-\$hash.\$ext"`.
-"""
 abstract type Chunk end
-
-"""
-    prefix(chunk::Chunk) -> Symbol
-
-Return the prefix used in the auto-generated filename for this chunk.
-"""
 function prefix end
-
-"""
-    extension(chunk::Chunk) -> String
-
-Return the file extension (without dot) for this chunk.
-"""
 function extension end
-
-"""
-    filename(chunk::Chunk) -> String
-
-Return the auto-generated filename: `"\$prefix-\$hash.\$ext"`.
-"""
 filename(data::Chunk) = string(prefix(data), "-", hash(data), ".", extension(data))
+Base.filesize(::Chunk) = nothing
 
+nchunks(p::Project, d::Dataset) = length(chunks(p, d))
 
-#------------------------------------------------------------------------------# StaticURL
-"""
-    StaticURL(url::String)
-
-A [`Dataset`](@ref) that downloads a single file from a fixed URL.
-"""
-struct StaticURL <: Dataset
-    url::String
+function _head_content_length(url::AbstractString; headers=Pair{String,String}[])::Union{Nothing, Int}
+    resp_headers = Ref{Vector{Pair{String,String}}}()
+    try
+        Downloads.request(url; method="HEAD", headers, output=devnull, response_headers=resp_headers)
+    catch
+        return nothing
+    end
+    for (k, v) in resp_headers[]
+        lowercase(k) == "content-length" && return parse(Int, v)
+    end
+    nothing
 end
-struct StaticChunk <: Chunk
-    url::String
-end
-chunks(::Project, o::StaticURL) = StaticChunk(o.url)
-prefix(::StaticChunk) = :static_url
-extension(o::StaticChunk) = basename(o)
-fetch(o::StaticChunk, file::String) = download(o.url, file)
 
-"""
-    All()
-
-Sentinel value meaning "all available".  Used as the default for dataset parameters
-and levels (e.g. `NOMADS.Dataset` uses `All()` for `parameters` and `levels`).
-"""
+#------------------------------------------------------------------------------# All
 struct All end
 
+#------------------------------------------------------------------------------# Sources
+"""NOAA Operational Model Archive and Distribution System — real-time weather model output."""
+struct NOMADS <: Source end
+
+"""Copernicus Climate Data Store — ERA5 reanalysis and other climate datasets."""
+struct CDS <: Source end
+
+"""NASA Fire Information for Resource Management System — active fire/hotspot data."""
+struct FIRMS <: Source end
+
+"""NOAA ETOPO Global Relief Model — combined topography and bathymetry."""
+struct ETOPO <: Source end
+
+"""NASA Shuttle Radar Topography Mission — global elevation data at 1\" and 3\" resolution."""
+struct SRTM <: Source end
+
+"""NOAA Geostationary Operational Environmental Satellites — real-time imagery and products."""
+struct GOES <: Source end
+
+"""NOAA High-Resolution Rapid Refresh archive — hourly 3km weather forecasts (S3)."""
+struct HRRRArchive <: Source end
+
+"""NASA Prediction of Worldwide Energy Resources — global daily meteorological and solar data."""
+struct NASAPower <: Source end
+
+"""USGS Water Data — streamflow, gage height, water quality, and other hydrological observations."""
+struct USGSWater <: Source end
+
+"""NOAA National Centers for Environmental Information — historical weather and climate observations."""
+struct NCEI <: Source end
+
+"""NOAA Optimum Interpolation SST — daily global sea surface temperature on a 0.25° grid."""
+struct OISST <: Source end
+
 #------------------------------------------------------------------------------# includes
-include("NOMADS.jl")    # NOAA NOMADS
-include("CDS.jl")       # Copernicus Climate Data Store
+include("regions.jl")
+include("sources/NOMADS.jl")
+include("sources/CDS.jl")
+include("sources/FIRMS.jl")
+include("sources/ETOPO.jl")
+include("sources/SRTM.jl")
+include("sources/GOES.jl")
+include("sources/HRRRArchive.jl")
+include("sources/NASAPower.jl")
+include("sources/USGSWater.jl")
+include("sources/NCEI.jl")
+include("sources/OISST.jl")
 
 end # module GeoFetch
