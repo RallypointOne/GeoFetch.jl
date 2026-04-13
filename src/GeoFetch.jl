@@ -69,6 +69,7 @@ function help end
 #------------------------------------------------------------------------------# Dataset
 abstract type Dataset end
 function chunks end
+GI.crs(::Dataset) = GFT.EPSG(4326)
 
 #------------------------------------------------------------------------------# Chunk
 abstract type Chunk end

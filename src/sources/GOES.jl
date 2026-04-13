@@ -20,6 +20,7 @@ end
 
 help(::GOES) = "https://www.goes.noaa.gov"
 help(::GOESDataset) = "https://registry.opendata.aws/noaa-goes/"
+GI.crs(::GOESDataset) = nothing
 
 #--------------------------------------------------------------------------------# GOESChunk
 struct GOESChunk <: Chunk

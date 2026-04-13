@@ -15,6 +15,7 @@ end
 
 help(::HRRRArchive) = "https://mesowest.utah.edu/html/hrrr/"
 help(::HRRRArchiveDataset) = "https://registry.opendata.aws/noaa-hrrr-pds/"
+GI.crs(::HRRRArchiveDataset) = nothing
 
 #--------------------------------------------------------------------------------# HRRRArchiveChunk
 struct HRRRArchiveChunk <: Chunk

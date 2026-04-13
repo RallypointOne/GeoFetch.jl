@@ -1,6 +1,6 @@
 # GeoFetch
 
-Fetch geospatial data from multiple sources into a unified project directory.
+Fetch spatio-temporal data in a specific region of interest from multiple sources.
 
 ## Quick Start
 
