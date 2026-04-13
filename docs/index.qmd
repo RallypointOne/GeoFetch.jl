@@ -3,16 +3,89 @@ title: "GeoFetch.jl"
 engine: julia
 ---
 
-Welcome to the documentation for **GeoFetch.jl**.
+```{julia}
+#| echo: false
+#| output: false
+using GeoFetch, CairoMakie, Dates, Extents
+```
+
+Welcome to the documentation for **GeoFetch.jl** — a unified interface for fetching geospatial data from multiple providers.
 
 ## Overview
 
-GeoFetch.jl fetches geospatial data from multiple sources into a unified project directory.
+GeoFetch organizes geospatial data access around four core types:
+
+```
+Source → Dataset → Chunk → File
+```
+
+- **`Source`** — A data provider (e.g. `NOMADS()`, `CDS()`, `Landfire()`).
+    - `datasets(source)` lists available datasets.
+    - `help(source)` returns a documentation URL.
+- **`Dataset`** — A configurable remote dataset (e.g. `LandfireDataset(product="FBFM40")`).
+    - `chunks(project, dataset)` resolves it into downloadable pieces.
+- **`Chunk`** — A single downloadable file with a URL and metadata.
+    - `fetch(chunk, filepath)` downloads the data to disk.
+- **`Project`** — Ties everything together: a spatial/temporal region of interest, an output directory, and a list of datasets to fetch.
 
 ## Quickstart
 
-```{julia}
-using GeoFetch
+Create a `Project` with a geometry and datasets, then `fetch` it:
 
-datasets(NOMADS())
+```{julia}
+#| eval: false
+using GeoFetch, Dates, Extents
+
+p = Project(
+    geometry = Extent(X=(-106.0, -105.0), Y=(39.0, 40.0)),
+    datasets = [LandfireDataset(product="FBFM40")],
+)
+
+fetch(p)
+```
+
+## Available Sources
+
+```{julia}
+#| echo: false
+#| output: asis
+sources = [
+    (NOMADS,      "NOAA weather models (GFS, HRRR, NAM, ...)",  "None"),
+    (CDS,         "Copernicus Climate Data Store (ERA5, ...)",   "API key"),
+    (FIRMS,       "NASA active fire data (VIIRS, MODIS)",        "API key"),
+    (ETOPO,       "NOAA global relief model",                    "None"),
+    (SRTM,        "NASA Shuttle Radar Topography Mission",       "API key"),
+    (GOES,        "NOAA GOES satellite imagery (S3)",            "None"),
+    (HRRRArchive, "HRRR model archive (S3)",                     "None"),
+    (NASAPower,   "NASA daily meteorological/solar data",        "None"),
+    (USGSWater,   "USGS streamflow and water quality",           "None"),
+    (NCEI,        "NOAA historical weather observations",        "None"),
+    (OISST,       "NOAA daily sea surface temperature",          "None"),
+    (Landfire,    "USGS wildland fire and vegetation (WCS)",     "None"),
+]
+
+println("| Source | Description | Auth |")
+println("|--------|-------------|------|")
+for (S, desc, auth) in sources
+    println("| `$(nameof(S))` | $desc | $auth |")
+end
+```
+
+## Makie Extension
+
+Loading `Makie` (or `CairoMakie`) alongside `GeoFetch` enables the `projectplot` recipe for visualizing a project's extent:
+
+```{julia}
+using CairoMakie
+const GFM = Base.get_extension(GeoFetch, :GeoFetchMakie)
+
+p = Project(
+    geometry = Extent(X=(-109.05, -102.05), Y=(37.0, 41.0)),
+    datetimes = (DateTime(2024, 7, 1), DateTime(2024, 7, 1)),
+)
+
+fig = Figure(size=(600, 400))
+ax = Axis(fig[1, 1], xlabel="Longitude", ylabel="Latitude", title="Colorado")
+GFM.projectplot!(ax, p)
+fig
 ```
