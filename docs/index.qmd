@@ -1,0 +1,18 @@
+---
+title: "GeoFetch.jl"
+engine: julia
+---
+
+Welcome to the documentation for **GeoFetch.jl**.
+
+## Overview
+
+GeoFetch.jl fetches geospatial data from multiple sources into a unified project directory.
+
+## Quickstart
+
+```{julia}
+using GeoFetch
+
+datasets(NOMADS())
+```
