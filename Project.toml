@@ -12,11 +12,9 @@ GeoInterface = "cf35fbd7-0cd7-5166-be24-54bfbe79505f"
 JSON = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
 
 [weakdeps]
-Landfire = "16f38fd6-0379-4569-89bb-2d3d56e50de8"
 Makie = "ee78f7c6-11fb-53f2-987a-cfe4a2b5a57a"
 
 [extensions]
-GeoFetchLandfire = "Landfire"
 GeoFetchMakie = "Makie"
 
 [compat]
@@ -26,5 +24,4 @@ Extents = "0.1.6"
 GeoFormatTypes = "0.4.5"
 GeoInterface = "1.6.1"
 JSON = "1.5.0"
-Landfire = "0.1"
 julia = "1"

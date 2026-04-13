@@ -1,4 +1,7 @@
 [deps]
+Dates = "ade2ca70-3891-5945-98fb-dc099432e06a"
+Downloads = "f43a241f-c20a-4ad4-852c-f6b1247861c6"
+Extents = "411431e0-e8b7-467b-b5e0-f676ba4f2910"
 GeoFetch = "c6403d6d-7f13-4b8b-8cd8-129f29a0fba1"
-Landfire = "16f38fd6-0379-4569-89bb-2d3d56e50de8"
+JSON = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"

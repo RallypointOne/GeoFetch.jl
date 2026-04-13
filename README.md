@@ -27,7 +27,6 @@ fetch(p)
   - `help(source)` -- documentation URL
 - **`Dataset`** -- a configurable remote dataset
   - `chunks(project, dataset)` -- resolve into downloadable chunks
-  - `nchunks(project, dataset)` -- number of chunks
 - **`Chunk`** -- a single downloadable file
   - `fetch(chunk, filepath)` -- download to disk
   - `filesize(chunk)` -- remote file size in bytes (via HEAD request), or `nothing`
@@ -44,7 +43,11 @@ fetch(p)
 | `SRTM` | NASA Shuttle Radar Topography Mission (30m/90m elevation) | `EARTHDATA_TOKEN` env var |
 | `GOES` | NOAA GOES-16/17/18 satellite imagery via AWS S3 | None |
 | `HRRRArchive` | HRRR model archive via AWS S3 | None |
-| `GeoFetchLandfire` | LANDFIRE fuels, vegetation, disturbance, and topography via optional extension | `LANDFIRE_EMAIL` |
+| `NASAPower` | NASA global daily meteorological and solar data | None |
+| `USGSWater` | USGS streamflow, gage height, and water quality observations | None |
+| `NCEI` | NOAA historical weather and climate observations | None |
+| `OISST` | NOAA daily global sea surface temperature (0.25° grid) | None |
+| `Landfire` | USGS LANDFIRE wildland fire, vegetation, and fuel data via WCS | None |
 
 ## Project
 
@@ -59,22 +62,3 @@ Project(;
 
 - `fetch(project)` downloads all chunks, skipping files that already exist.
 - Data is written to `<project.path>/data/`.
-
-## Optional Extensions
-
-`Landfire.jl` integration is shipped as a package extension. Load both packages, grab the
-extension module, and create a `LandfireDataset` from `Landfire.Product` values:
-
-```julia
-using GeoFetch, Landfire
-
-ext = Base.get_extension(GeoFetch, :GeoFetchLandfire)
-prods = Landfire.products(layer="FBFM40", conus=true)
-
-p = Project(
-    geometry = region("Colorado"),
-    datasets = [ext.LandfireDataset(products=prods)],
-)
-
-fetch(p)
-```

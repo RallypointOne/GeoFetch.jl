@@ -4,10 +4,24 @@ using Dates, Downloads, Extents, JSON
 import GeoInterface as GI
 import GeoFormatTypes as GFT
 
-export Project, Source, Dataset, Chunk, All
-export NOMADS, CDS, FIRMS, ETOPO, SRTM, GOES, HRRRArchive, NASAPower, USGSWater, NCEI, OISST
-export NomadsDataset, CDSDataset, FIRMSDataset, ETOPODataset, SRTMDataset, GOESDataset, HRRRArchiveDataset, NASAPowerDataset, USGSWaterDataset, NCEIDataset, OISSTDataset
-export datasets, help, nchunks, region, regions
+export Project, Source, Dataset, Chunk, All, Latest
+export NOMADS, CDS, FIRMS, ETOPO, SRTM, GOES, HRRRArchive, NASAPower, USGSWater, NCEI, OISST, Landfire
+export NomadsDataset, CDSDataset, FIRMSDataset, ETOPODataset, SRTMDataset, GOESDataset, HRRRArchiveDataset, NASAPowerDataset, USGSWaterDataset, NCEIDataset, OISSTDataset, LandfireDataset
+export datasets, help, region, regions
+
+#------------------------------------------------------------------------------# utils
+function get_json(url::AbstractString; headers=Pair{String,String}[])
+    io = IOBuffer()
+    Downloads.download(url, io; headers)
+    JSON.parse(String(take!(io)))
+end
+
+function post_json(url::AbstractString, body::AbstractString; headers=Pair{String,String}[])
+    all_headers = [headers; "Content-Type" => "application/json"]
+    io = IOBuffer()
+    Downloads.request(url; method="POST", headers=all_headers, input=IOBuffer(body), output=io)
+    JSON.parse(String(take!(io)))
+end
 
 #------------------------------------------------------------------------------# Project
 const EARTH = Extent(X=(-180.0, 180.0), Y=(-90.0, 90.0))
@@ -63,8 +77,6 @@ function extension end
 filename(data::Chunk) = string(prefix(data), "-", hash(data), ".", extension(data))
 Base.filesize(::Chunk) = nothing
 
-nchunks(p::Project, d::Dataset) = length(chunks(p, d))
-
 function _head_content_length(url::AbstractString; headers=Pair{String,String}[])::Union{Nothing, Int}
     resp_headers = Ref{Vector{Pair{String,String}}}()
     try
@@ -80,6 +92,10 @@ end
 
 #------------------------------------------------------------------------------# All
 struct All end
+
+#------------------------------------------------------------------------------# Latest
+"""Sentinel type for versioned datasets — resolves to the most recent available version."""
+struct Latest end
 
 #------------------------------------------------------------------------------# Sources
 """NOAA Operational Model Archive and Distribution System — real-time weather model output."""
@@ -115,6 +131,9 @@ struct NCEI <: Source end
 """NOAA Optimum Interpolation SST — daily global sea surface temperature on a 0.25° grid."""
 struct OISST <: Source end
 
+"""USGS LANDFIRE — wildland fire, vegetation, and fuel geospatial data via WCS."""
+struct Landfire <: Source end
+
 #------------------------------------------------------------------------------# includes
 include("regions.jl")
 include("sources/NOMADS.jl")
@@ -124,6 +143,7 @@ include("sources/ETOPO.jl")
 include("sources/SRTM.jl")
 include("sources/GOES.jl")
 include("sources/HRRRArchive.jl")
+include("sources/Landfire.jl")
 include("sources/NASAPower.jl")
 include("sources/USGSWater.jl")
 include("sources/NCEI.jl")

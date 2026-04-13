@@ -13,7 +13,4 @@ include("test_nasapower.jl")
 include("test_usgswater.jl")
 include("test_ncei.jl")
 include("test_oisst.jl")
-
-if Base.find_package("Landfire") !== nothing
-    include("test_landfire.jl")
-end
+include("test_landfire.jl")

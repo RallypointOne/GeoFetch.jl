@@ -18,18 +18,8 @@ function _cds_auth_headers()::Vector{Pair{String,String}}
     ["PRIVATE-TOKEN" => _cds_api_key()]
 end
 
-function _cds_post_json(url::AbstractString, body::AbstractString)
-    headers = [_cds_auth_headers(); "Content-Type" => "application/json"]
-    io = IOBuffer()
-    Downloads.request(url; method="POST", headers, input=IOBuffer(body), output=io)
-    JSON.parse(String(take!(io)))
-end
-
-function _cds_get_json(url::AbstractString)
-    io = IOBuffer()
-    Downloads.download(url, io; headers=_cds_auth_headers())
-    JSON.parse(String(take!(io)))
-end
+_cds_post_json(url::AbstractString, body::AbstractString) = post_json(url, body; headers=_cds_auth_headers())
+_cds_get_json(url::AbstractString) = get_json(url; headers=_cds_auth_headers())
 
 #------------------------------------------------------------------------------# CDSDataset
 """CDS dataset configured by dataset ID, variables, times, and output format. Requires API key."""
