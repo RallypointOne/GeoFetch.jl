@@ -1,0 +1,4 @@
+[deps]
+GeoFetch = "c6403d6d-7f13-4b8b-8cd8-129f29a0fba1"
+Landfire = "16f38fd6-0379-4569-89bb-2d3d56e50de8"
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
