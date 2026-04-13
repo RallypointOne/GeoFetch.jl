@@ -61,7 +61,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="site_libs/quarto-nav/headroom.min.js"></script>
 <script src="site_libs/clipboard/clipboard.min.js"></script>
 <script src="site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -103,6 +103,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 <link rel="stylesheet" href="assets/styles.css">
@@ -234,6 +237,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
   <li><a href="#quickstart" id="toc-quickstart" class="nav-link" data-scroll-target="#quickstart">Quickstart</a></li>
+  <li><a href="#available-sources" id="toc-available-sources" class="nav-link" data-scroll-target="#available-sources">Available Sources</a></li>
+  <li><a href="#makie-extension" id="toc-makie-extension" class="nav-link" data-scroll-target="#makie-extension">Makie Extension</a></li>
   </ul>
 </nav>
     </div>
@@ -259,47 +264,134 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>Welcome to the documentation for <strong>GeoFetch.jl</strong>.</p>
+<p>Welcome to the documentation for <strong>GeoFetch.jl</strong> — a unified interface for fetching geospatial data from multiple providers.</p>
 <section id="overview" class="level2">
 <h2 class="anchored" data-anchor-id="overview">Overview</h2>
-<p>GeoFetch.jl fetches geospatial data from multiple sources into a unified project directory.</p>
+<p>GeoFetch organizes geospatial data access around four core types:</p>
+<pre><code>Source → Dataset → Chunk → File</code></pre>
+<ul>
+<li><strong><code>Source</code></strong> — A data provider (e.g.&nbsp;<code>NOMADS()</code>, <code>CDS()</code>, <code>Landfire()</code>).
+<ul>
+<li><code>datasets(source)</code> lists available datasets.</li>
+<li><code>help(source)</code> returns a documentation URL.</li>
+</ul></li>
+<li><strong><code>Dataset</code></strong> — A configurable remote dataset (e.g.&nbsp;<code>LandfireDataset(product="FBFM40")</code>).
+<ul>
+<li><code>chunks(project, dataset)</code> resolves it into downloadable pieces.</li>
+</ul></li>
+<li><strong><code>Chunk</code></strong> — A single downloadable file with a URL and metadata.
+<ul>
+<li><code>fetch(chunk, filepath)</code> downloads the data to disk.</li>
+</ul></li>
+<li><strong><code>Project</code></strong> — Ties everything together: a spatial/temporal region of interest, an output directory, and a list of datasets to fetch.</li>
+</ul>
 </section>
 <section id="quickstart" class="level2">
 <h2 class="anchored" data-anchor-id="quickstart">Quickstart</h2>
-<div id="2" class="cell" data-execution_count="1">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">GeoFetch</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">datasets</span>(<span class="fu">NOMADS</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<div class="ansi-escaped-output">
-<pre><span class="ansi-green-fg ansi-bold">Precompiling</span> packages...
-   1143.1 ms<span class="ansi-green-fg">  ✓ </span>QuartoNotebookWorkerJSONExt<span class="ansi-bright-black-fg"> (serial)</span>
-  1 dependency successfully precompiled in 1 seconds
-</pre>
+<p>Create a <code>Project</code> with a geometry and datasets, then <code>fetch</code> it:</p>
+<div id="4" class="cell" data-execution_count="0">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">GeoFetch</span>, <span class="bu">Dates</span>, <span class="bu">Extents</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> <span class="fu">Project</span>(</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    geometry <span class="op">=</span> <span class="fu">Extent</span>(X<span class="op">=</span>(<span class="op">-</span><span class="fl">106.0</span>, <span class="op">-</span><span class="fl">105.0</span>), Y<span class="op">=</span>(<span class="fl">39.0</span>, <span class="fl">40.0</span>)),</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    datasets <span class="op">=</span> [<span class="fu">LandfireDataset</span>(product<span class="op">=</span><span class="st">"FBFM40"</span>)],</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">fetch</span>(p)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-</div>
+</section>
+<section id="available-sources" class="level2">
+<h2 class="anchored" data-anchor-id="available-sources">Available Sources</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Source</th>
+<th>Description</th>
+<th>Auth</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>NOMADS</code></td>
+<td>NOAA weather models (GFS, HRRR, NAM, …)</td>
+<td>None</td>
+</tr>
+<tr class="even">
+<td><code>CDS</code></td>
+<td>Copernicus Climate Data Store (ERA5, …)</td>
+<td>API key</td>
+</tr>
+<tr class="odd">
+<td><code>FIRMS</code></td>
+<td>NASA active fire data (VIIRS, MODIS)</td>
+<td>API key</td>
+</tr>
+<tr class="even">
+<td><code>ETOPO</code></td>
+<td>NOAA global relief model</td>
+<td>None</td>
+</tr>
+<tr class="odd">
+<td><code>SRTM</code></td>
+<td>NASA Shuttle Radar Topography Mission</td>
+<td>API key</td>
+</tr>
+<tr class="even">
+<td><code>GOES</code></td>
+<td>NOAA GOES satellite imagery (S3)</td>
+<td>None</td>
+</tr>
+<tr class="odd">
+<td><code>HRRRArchive</code></td>
+<td>HRRR model archive (S3)</td>
+<td>None</td>
+</tr>
+<tr class="even">
+<td><code>NASAPower</code></td>
+<td>NASA daily meteorological/solar data</td>
+<td>None</td>
+</tr>
+<tr class="odd">
+<td><code>USGSWater</code></td>
+<td>USGS streamflow and water quality</td>
+<td>None</td>
+</tr>
+<tr class="even">
+<td><code>NCEI</code></td>
+<td>NOAA historical weather observations</td>
+<td>None</td>
+</tr>
+<tr class="odd">
+<td><code>OISST</code></td>
+<td>NOAA daily sea surface temperature</td>
+<td>None</td>
+</tr>
+<tr class="even">
+<td><code>Landfire</code></td>
+<td>USGS wildland fire and vegetation (WCS)</td>
+<td>None</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="makie-extension" class="level2">
+<h2 class="anchored" data-anchor-id="makie-extension">Makie Extension</h2>
+<p>Loading <code>Makie</code> (or <code>CairoMakie</code>) alongside <code>GeoFetch</code> enables the <code>projectplot</code> recipe for visualizing a project’s extent:</p>
+<div id="8" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">CairoMakie</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> GFM <span class="op">=</span> <span class="bu">Base</span>.<span class="fu">get_extension</span>(GeoFetch, <span class="op">:</span>GeoFetchMakie)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> <span class="fu">Project</span>(</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    geometry <span class="op">=</span> <span class="fu">Extent</span>(X<span class="op">=</span>(<span class="op">-</span><span class="fl">109.05</span>, <span class="op">-</span><span class="fl">102.05</span>), Y<span class="op">=</span>(<span class="fl">37.0</span>, <span class="fl">41.0</span>)),</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    datetimes <span class="op">=</span> (<span class="fu">DateTime</span>(<span class="fl">2024</span>, <span class="fl">7</span>, <span class="fl">1</span>), <span class="fu">DateTime</span>(<span class="fl">2024</span>, <span class="fl">7</span>, <span class="fl">1</span>)),</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> <span class="fu">Figure</span>(size<span class="op">=</span>(<span class="fl">600</span>, <span class="fl">400</span>))</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> <span class="fu">Axis</span>(fig[<span class="fl">1</span>, <span class="fl">1</span>], xlabel<span class="op">=</span><span class="st">"Longitude"</span>, ylabel<span class="op">=</span><span class="st">"Latitude"</span>, title<span class="op">=</span><span class="st">"Colorado"</span>)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>GFM.<span class="fu">projectplot!</span>(ax, p)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>fig</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="1">
-<pre><code>109-element Vector{NomadsDataset}:
- NomadsDataset(GeoFetch.Global, "AIGFS", "", "", "aigfs/prod", All(), All())
- NomadsDataset(GeoFetch.Global, "AIGEFS", "", "", "aigefs/prod", All(), All())
- NomadsDataset(GeoFetch.Global, "GDAS", "", "fnl", "gfs/prod", All(), All())
- NomadsDataset(GeoFetch.Global, "GDAS 0.25", "", "gdas_0p25", "gfs/prod", All(), All())
- NomadsDataset(GeoFetch.Global, "GFS 0.25 Degree", "", "gfs_0p25", "gfs/prod", All(), All())
- NomadsDataset(GeoFetch.Global, "GFS 0.25 Degree Hourly", "", "gfs_0p25_1hr", "gfs/prod", All(), All())
- NomadsDataset(GeoFetch.Global, "GFS 0.25 Degree (Secondary Parms)", "", "gfs_0p25b", "gfs/prod", All(), All())
- NomadsDataset(GeoFetch.Global, "GFS 0.50 Degree", "", "gfs_0p50", "gfs/prod", All(), All())
- NomadsDataset(GeoFetch.Global, "GFS 1.00 Degree", "", "gfs_1p00", "gfs/prod", All(), All())
- NomadsDataset(GeoFetch.Global, "GFS sflux", "", "gfs_sflux", "gfs/prod", All(), All())
- ⋮
- NomadsDataset(GeoFetch.SpaceWeather, "WSA-Enlil", "", "", "wsa_enlil/prod", All(), All())
- NomadsDataset(GeoFetch.SpaceWeather, "SWMF-Geospace", "", "", "swmf/prod", All(), All())
- NomadsDataset(GeoFetch.SpaceWeather, "WFS (WAM-IPE Forecast System)", "", "", "wfs/prod", All(), All())
- NomadsDataset(GeoFetch.External, "CMC Ensemble", "", "cmcens", "naefs/prod", All(), All())
- NomadsDataset(GeoFetch.External, "FNMOC Ensemble and Bias Corrected", "", "fens", "naefs/prod", All(), All())
- NomadsDataset(GeoFetch.External, "NAVGEM", "", "", "fnmoc/prod", All(), All())
- NomadsDataset(GeoFetch.External, "NCOM", "", "", "ncom/prod", All(), All())
- NomadsDataset(GeoFetch.External, "HYCOM", "", "", "navo/prod", All(), All())
- NomadsDataset(GeoFetch.External, "557ww Ensemble", "", "557ww", "557ww/prod", All(), All())</code></pre>
+<img width="600" height="400" style="object-fit: contain; height: auto;" src="data:image/png;base64, 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Q3V1ddx8883U1dXR0IgRI8jLy0P6Oq+99hpvvfUWl156KQ1VV1dzzz33sGzZMtq3b8+IESPIzc0loa6ujptvvpm6ujoaGjFiBHl5eXyZJ554gieffJLc3FxKSko4+OCDkf5Z48aN47rrriMvL4+GnnjiCZ588klyc3MpKSnh4IMPpl5tbS0PPfQQL730Eunp6fTr149TTz2VL1NXV8fNN99MXV0dDY0YMYK8vDx+6AJSI7J27Vquu+46pk6dynHHHUe9119/nZNOOonBgwfTokULzjzzTO666y5KSkpYv349Tz31FA1VVVWxZMkSevfuTdu2bWlo/fr1TJgwgV69etHQeeedR15eHtJXqaio4Prrr6eoqIg9nXfeebz99tsMGTKExx9/nEceeYRXX32VJk2asH79eiZMmECvXr1o6LzzziMvL4893X777UycOJGRI0fy8ccfc/TRR/PSSy/RuXNnpK/zzDPPMGPGDK644gry8vKod/vttzNx4kRGjhzJxx9/zNFHH81LL71E586dSRgxYgQLFy5k5MiRbN++ncGDBzNu3DhuuOEG9rR+/XomTJhAr169aOi8884jLy+PH7qA1AiUlZVx0kkn8fbbb1NVVcWepkyZwuDBg7nnnntI2G+//Zg8eTIlJSX06dOHPn360NCUKVM49NBD6dmzJ3v68MMPadWqFYsXL0b6V5x//vnMnz+fsrIyfvrTn9LQO++8w7x581i1ahVFRUVcddVVdOjQgXnz5lFSUsKHH35Iq1atWLx4MV+nqqqKyZMnM3v2bEpKSkgoLi5mxowZ3HPPPUj/yN/+9jdGjBjB+++/z56qqqqYPHkys2fPpqSkhITi4mJmzJjBPffcw2effcacOXN4+eWXOeqoo0jo3r07559/PhMmTCAjI4OGPvzwQ1q1asXixYtpjAJSI9C0aVPuvvtuEk477TQaqqurY+HChTz22GPUO+eccxg7diwffPABHTt2pKFVq1Yxd+5cXn75Zb7MypUr6dixI59++imrVq2iQ4cO5OfnI32d66+/nnHjxvGLX/yCPT3xxBP8+Mc/pqioiITMzExOO+00FixYQElJCStXrqRjx458+umnrFq1ig4dOpCfn8+XWbp0KZs2beLMM8+k3jnnnMO4ceOQvkqXLl149NFHWb9+Pf369aOhpUuXsmnTJs4880zqnXPOOYwbN46EDRs20KtXL4488kjqHXjggezevZtNmzbRunVrGlq5ciUdO3bk008/ZdWqVXTo0IH8/Hwai4DUCKSmptKtWzcS0tPTaWjz5s3s2rWLwsJC6rVu3ZoQAhs2bKBjx440NHLkSCZPnkyTJk34Mh999BHvvfcenTt3Ji8vj7Vr1zJmzBhuueUWpK/SsWNHEvLy8tjThg0bKCwspKHCwkKee+45Ej766CPee+89OnfuTF5eHmvXrmXMmDHccsst7GnDhg3k5uaSlZVFvcLCQjZu3EhNTQ2pqalIXyY7O5tu3bqRk5PDnjZs2EBubi5ZWVnUKywsZOPGjdTU1HDYYYexaNEi6lVXVzN9+nR+9KMf0bp1a/b00Ucf8d5779G5c2fy8vJYu3YtY8aM4ZZbbqExCEiNXFlZGQlNmzaloaZNm7JlyxYa+j//5/+wY8cOzjjjDP6RZs2aMWjQIGbMmEE8HmfJkiX07t2bY489luLiYqR/R1lZGU2bNqWhrKwstmzZQkKzZs0YNGgQM2bMIB6Ps2TJEnr37s2xxx5LcXExDZWVldG0aVMaysrKora2lrKyMnJzc5H+VWVlZTRt2pSGsrKyqK2tpaysjNzcXOq99dZbjB07lo8//pinn36aL9OsWTMGDRrEjBkziMfjLFmyhN69e3PsscdSXFzMD11A+gEYNWoUK1euZE8XXXQRgwYN4qu0aNGChLKyMurV1tayfft2WrZsSUNTpkzh2muv5atMnDiRho4++mhOO+00nnvuOYqLi9He6ZVXXmHy5MnsKT09nfnz5/N1WrRowZo1a2ho69attGzZkoSJEyfS0NFHH81pp53Gc889R3FxMQ21aNGCsrIyGtq6dSshBLKzs9Hea9SoUaxcuZI9XXTRRQwaNIiv0qJFC8rKymho69athBDIzs4moaqqiokTJ3LHHXcwevRoFixYQLNmzfgyEydOpKGjjz6a0047jeeee47i4mJ+6ALSD8Dw4cMpLy9nT23atOHrNG/enJycHD788EO6dOlCwurVq6mtraWwsJB6S5YsYd26dZx55pl8lYULF9K9e3fy8/Opl5WVRWpqKtp7dezYkeuvv549xWIx/hlFRUU8++yzNLRy5UoKCwtJWLhwId27dyc/P596WVlZpKamsqeioiK2bt1KaWkpLVu2JGHlypXsv//+xGIxtPcaPnw45eXl7KlNmzZ8naKiIrZu3UppaSktW7YkYeXKley///7EYjEShg4dyocffsg777zDgQceyFdZuHAh3bt3Jz8/n3pZWVmkpqbSGASkH4Bu3brxTQwcOJAHH3yQs88+m4QHH3yQI444gqKiIuo98sgj9O3bl4yMDBqqra3lzTffpKioiFatWjFt2jRycnKYN28eCRs3buTpp5/mzjvvRHuvvLw8jj32WP5dZ599NuPGjeOtt97isMMOY9OmTSxcuJAHH3yQhGnTppGTk8O8efNI2LhxI08//TR33nknCZ988gmbNm2ia9eudO3alQ4dOvDQQw/xs5/9jLq6Oh5++GEGDRqE9m7dunXj39W1a1c6dOjAQw89xM9+9jPq6up4+OGHGTRoEAlvvvkmf/rTn/joo48oKipiT7W1tbz55psUFRXRqlUrpk2bRk5ODvPmzSNh48aNPP3009x55500BgFpL3DdddfRu3dv+vbtS05ODs899xyPP/44DS1cuJCrrrqKPVVUVNCjRw9mzZrF6NGjmT59Or169aJdu3Z06dKFF198kTPOOIPi4mKkf9f+++/PDTfcwCmnnEK/fv146aWXOOmkk/jJT35CwvTp0+nVqxft2rWjS5cuvPjii5xxxhkUFxeTcOutt3L//fdTWlpKwsyZMxk0aBBLly5l3bp1bNq0iSuvvBLpm5g5cyaDBg1i6dKlrFu3jk2bNnHllVeS8Le//Y2amho6d+7Mnj7++GMyMjLo0aMHs2bNYvTo0UyfPp1evXrRrl07unTpwosvvsgZZ5xBcXExjUFAamT++Mc/0rZtWxoqKirijTfe4Nlnn6WiooLp06dzwAEHUK+2tpZ7772Xbt26sacmTZqwaNEi2rdvT0K3bt1YtWoVCxYsoLy8nPHjx9OzZ0+kf9aECRNISUlhTz//+c855ZRTWLZsGUOGDKF3797EYjESunXrxqpVq1iwYAHl5eWMHz+enj17Uu+yyy7jrLPOol7fvn156623WLRoETk5OZx88sk0b94c6Z+x7777smjRIlq1akVDffv25a233mLRokXk5ORw8skn07x5cxL69+9P165d+TLNmzcnFouxaNEi2rdvT0K3bt1YtWoVCxYsoLy8nPHjx9OzZ08ai4DUyBx55JF8mdzcXAYNGsSXicVinHDCCXyZ1NRUTjjhBBpq0aIFF1xwAdK/o1OnTvwjPXr0oEePHnyZFi1acMEFF/BlDjroIA466CAaatu2LW3btkX6V8XjcU444QS+TNu2bWnbti17atu2LW3btuWrnHDCCTTUokULLrjgAhqjgCRJkiIVkCRJUqQCkiRJilRAkiRJkQpIkiQpUgFJkiRFKiBJkqRIBSQpiUyfPp2qqiomTJjAd+3555+nvLycAQMGEIUBAwYwa9YsCgsLkbR3CUhSEnnrrbeorKzk+3DHHXewZs0aBgwYwPPPP8/06dN58skn+XctWLCAG2+8EUl7n4Ak/QDV1tYSi8X4KjU1NaSmprKnuro6ElJSUmjogQceoLa2loTt27ezatUq/lW1tbXEYjH+kdraWlJSUkhJSUFS4xWQpB+Q999/n0svvZRXX32V5s2bc+655/Lb3/6WeDzOyy+/zKxZszjzzDO57rrrWLt2Lb1792bu3LlkZ2dTXV3Ntddey5w5c4jFYvzsZz9jzZo1nH322Zxyyin8/ve/5/PPP6dPnz6MHTuWzz77jEMPPZSlS5cybdo00tPTGT9+PPWOO+44brnlFnr06MG6deu4+OKL+etf/0p+fj6/+tWvaGjDhg1cdtllPPfcc9TV1XHeeedxxx13EEJAUuMTkKQfiN27d3PKKafQp08fHn74YdavX09JSQkZGRncfPPNbN++naeeeoq0tDRef/111qxZQ9++fbnzzjsZP348v/3tb3nsscd46qmnyM/PZ+zYsSxcuJCTTjqJhM8++4xPPvmEI488kuuuu47f/va3PPHEE8TjcT799FPi8TgNrVixgh07dlBXV8dZZ51FXl4e77zzDhUVFQwdOpSamhoS6urqOOOMM+jQoQMrVqxgy5YtXHTRRYwbN47bbrsNSY1PQJJ+IBYuXMj27duZNWsW8Xic/fbbjylTpjBs2DBuvvlmEsrKypg5cya5ubm0aNGC008/nQ0bNpBw++23c8stt9CjRw8S7rzzTlq3bs2eMjMz2WeffUhLS6NNmzZ8nTfeeIP//u//Zt26dRQUFJAwa9Ysjj/+eBJeeukl/v73v/PSSy8Rj8c54IADuP322znmmGOYMmUKmZmZSGpcApL0A/HRRx9xyCGHEI/Hqde9e3fKysr44osvSMjPzyc3N5d6TZo0IWH79u2sX7+eww47jHr5+fkUFBTwTX300UcccMABFBQUUK9Hjx7Ue//996mpqeGEE06gXnV1NdXV1WzYsIGDDjoISY1LQJJ+IDIzM9m5cycN7dy5k4R4PE5CamoqXyYtLY1YLMbOnTtpaNeuXfw76urqqKioICErK4uKigoa2rlzJ/UyMjJo3bo199xzD3vaf//9kdT4BCTpB6Jbt268++67fPLJJ+y///4kLFiwgIMOOohmzZrxVeLxOIcccggLFy6ka9euJLz55puUlpbyz4jFYnz66afUW7ZsGTt37iSha9eubNq0iSVLlnD00UeT8Pjjj1Ove/furFu3jubNm1NYWEjCggULePTRR3nooYeQ1PgEJCnJLF26lJKSEho67LDDGDduHD/5yU84+eSTGTlyJJ9++ikzZ87kgQce4J9x4403MnjwYLZt20Z+fj73338/RUVFpKens6fc3FzWrl3LzTffzBVXXMHhhx/OqFGjmDRpEvvvvz/33XcfBQUFJBxwwAFccsklDBgwgCuuuIJdu3bxyCOPkJeXR8Khhx7KoEGDOPnkkxk1ahSlpaXccccdXHfddUhqnAKSlESKi4tp164deyooKCDhz3/+M7fffjuvvPIK2dnZPP300xx//PEktGvXjiuvvJKGTj/9dEIIJPTv358FCxbw4IMPUl5ezh//+EfOPfdc9t13XxJOPvlkysrKSDj++OO56aabWL16NXV1dVx00UVUVlayaNEiysvLefDBB3nmmWdo06YNCbNnz6Zr164sXryY/Px8nnrqKRYsWMA+++xDwv3338+9997L4sWLCSEwZ84c+vfvj6TGKSBJSaS4uJji4mL+kRACY8aMYcyYMeypXbt2XHnllTR0+umnU2/SpEl07NiR++67j4QNGzawatUqOnToQMLJJ59MvZSUFMaMGUNDo0aNYtSoUdS79NJLqZeSksKIESMYMWIE9caMGUO9WCzG8OHDGT58OJIav4Ak7SWKioq45JJLeO2112jZsiUPPPAAw4YNo2XLlkhSlAKStJcYNmwYhxxyCE8//TTV1dXccsstnH766UhS1AKStBfp2bMnPXv2RJK+TQFJkiRFKiBJkqRIBSRJkhSpgCRJkiIVkCRJUqQCkiRJilRAkiRJkQpIkiQpUgFJkiRFKiBJkqRIBSRJkhSpgCRJkiIVkCRJUqQCkiRJitT/BQ3nBkaPprt/AAAAAElFTkSuQmCC">
 </div>
 </div>
 
