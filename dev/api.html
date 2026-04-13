@@ -2,13 +2,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.27">
+<meta name="generator" content="quarto-1.9.37">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>API – GeoDataAccess.jl</title>
+<title>API – GeoFetch.jl</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -31,18 +34,17 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="./resources/changelog.html" rel="next">
-<link href="./sources/copernicus_dem.html" rel="prev">
+<link href="./index.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-c35b4686a6fabbef78126217f9bf200b.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-3db6c18bb69885e7f25697a9383847b5.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-e9512225fbbb2050a673b742e2d1457e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-426f41d558ea4d560124c4548de7cb69.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -69,7 +71,7 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="assets/styles.css">
 </head>
 
 <body class="nav-sidebar floating nav-fixed quarto-light">
@@ -84,7 +86,7 @@ ul.task-list li input[type="checkbox"] {
     <img src="https://github.com/user-attachments/assets/f7216152-0d6e-4459-8e65-b9ed59421638" alt="" class="navbar-logo dark-content">
     </a>
     <a class="navbar-brand" href="https://rallypoint1.com">
-    <span class="navbar-title">GeoDataAccess.jl</span>
+    <span class="navbar-title">GeoFetch.jl</span>
     </a>
   </div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
@@ -93,12 +95,12 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="https://github.com/RallypointOne/GeoDataAccess.jl/stargazers"> <i class="bi bi-star" role="img">
+    <a class="nav-link" href="https://github.com/RallypointOne/GeoFetch.jl/stargazers"> <i class="bi bi-star" role="img">
 </i> 
 <span class="menu-text">Star</span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/RallypointOne/GeoDataAccess.jl"> <i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/RallypointOne/GeoFetch.jl"> <i class="bi bi-github" role="img">
 </i> 
 <span class="menu-text"></span></a>
   </li>  
@@ -135,125 +137,29 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
  <span class="menu-text">Docs</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">GeoDataAccess.jl</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./getting-started.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Getting Started</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./caching.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Caching</span></a>
+  <a href="./index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">GeoFetch.jl</span></a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
- <span class="menu-text">Data Sources</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./sources/open_meteo_archive.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Open-Meteo Archive</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./sources/open_meteo_forecast.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Open-Meteo Forecast</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./sources/noaa_ncei.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">NOAA NCEI</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./sources/nasa_power.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">NASA POWER</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./sources/tomorrow_io.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Tomorrow.io</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./sources/visual_crossing.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Visual Crossing</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./sources/usgs_earthquake.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">USGS Earthquake</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./sources/usgs_waterservices.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">USGS Water Services</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./sources/openaq.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">OpenAQ</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./sources/nasa_firms.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">NASA FIRMS</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./sources/epa_aqs.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">EPA AQS</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./sources/landfire.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">LANDFIRE</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./sources/noaa_gfs.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">NOAA GFS</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./sources/era5.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">ERA5</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./sources/copernicus_dem.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Copernicus DEM</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
  <span class="menu-text">API</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./api.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">API</span></a>
@@ -263,13 +169,13 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
  <span class="menu-text">Resources</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./resources/changelog.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Changelog</span></a>
@@ -287,8 +193,15 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#types" id="toc-types" class="nav-link active" data-scroll-target="#types">Types</a></li>
+  <li><a href="#functions" id="toc-functions" class="nav-link" data-scroll-target="#functions">Functions</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -312,8 +225,420 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<section id="types" class="level2">
+<h2 class="anchored" data-anchor-id="types">Types</h2>
+<div class="card mb-3">
+<section id="all" class="level4 card-header api-item-header">
+<h4 class="anchored" data-anchor-id="all"><code>All</code></h4>
+</section>
+<div class="card-body">
+<p>No documentation found for public binding <code>GeoFetch.All</code>.</p>
+<section id="summary" class="level1">
+<h1>Summary</h1>
+<pre><code>struct GeoFetch.All</code></pre>
+</section>
+</div>
+</div>
+<div class="card mb-3">
+<section id="cds" class="level4 card-header api-item-header">
+<h4 class="anchored" data-anchor-id="cds"><code>CDS</code></h4>
+</section>
+<div class="card-body">
+<p>Copernicus Climate Data Store — ERA5 reanalysis and other climate datasets.</p>
+</div>
+</div>
+<div class="card mb-3">
+<section id="cdsdataset" class="level4 card-header api-item-header">
+<h4 class="anchored" data-anchor-id="cdsdataset"><code>CDSDataset</code></h4>
+</section>
+<div class="card-body">
+<p>CDS dataset configured by dataset ID, variables, times, and output format. Requires API key.</p>
+</div>
+</div>
+<div class="card mb-3">
+<section id="chunk" class="level4 card-header api-item-header">
+<h4 class="anchored" data-anchor-id="chunk"><code>Chunk</code></h4>
+</section>
+<div class="card-body">
+<p>No documentation found for public binding <code>GeoFetch.Chunk</code>.</p>
+<section id="summary-1" class="level1">
+<h1>Summary</h1>
+<pre><code>abstract type GeoFetch.Chunk</code></pre>
+</section>
+<section id="subtypes" class="level1">
+<h1>Subtypes</h1>
+<pre><code>GeoFetch.CDSChunk
+GeoFetch.ETOPOChunk
+GeoFetch.FireChunk
+GeoFetch.GOESChunk
+GeoFetch.GribChunk
+GeoFetch.HRRRArchiveChunk
+GeoFetch.LandfireChunk
+GeoFetch.NASAPowerChunk
+GeoFetch.NCEIChunk
+GeoFetch.OISSTChunk
+GeoFetch.SRTMChunk
+GeoFetch.USGSWaterChunk</code></pre>
+</section>
+</div>
+</div>
+<div class="card mb-3">
+<section id="dataset" class="level4 card-header api-item-header">
+<h4 class="anchored" data-anchor-id="dataset"><code>Dataset</code></h4>
+</section>
+<div class="card-body">
+<p>No documentation found for public binding <code>GeoFetch.Dataset</code>.</p>
+<section id="summary-2" class="level1">
+<h1>Summary</h1>
+<pre><code>abstract type GeoFetch.Dataset</code></pre>
+</section>
+<section id="subtypes-1" class="level1">
+<h1>Subtypes</h1>
+<pre><code>GeoFetch.CDSDataset
+GeoFetch.ETOPODataset
+GeoFetch.FIRMSDataset
+GeoFetch.GOESDataset
+GeoFetch.HRRRArchiveDataset
+GeoFetch.LandfireDataset
+GeoFetch.NASAPowerDataset
+GeoFetch.NCEIDataset
+GeoFetch.NomadsDataset
+GeoFetch.OISSTDataset
+GeoFetch.SRTMDataset
+GeoFetch.USGSWaterDataset</code></pre>
+</section>
+</div>
+</div>
+<div class="card mb-3">
+<section id="etopo" class="level4 card-header api-item-header">
+<h4 class="anchored" data-anchor-id="etopo"><code>ETOPO</code></h4>
+</section>
+<div class="card-body">
+<p>NOAA ETOPO Global Relief Model — combined topography and bathymetry.</p>
+</div>
+</div>
+<div class="card mb-3">
+<section id="etopodataset" class="level4 card-header api-item-header">
+<h4 class="anchored" data-anchor-id="etopodataset"><code>ETOPODataset</code></h4>
+</section>
+<div class="card-body">
+<p>ETOPO 2022 global relief at 60”, 30”, or 15” resolution (surface or bedrock).</p>
+</div>
+</div>
+<div class="card mb-3">
+<section id="firms" class="level4 card-header api-item-header">
+<h4 class="anchored" data-anchor-id="firms"><code>FIRMS</code></h4>
+</section>
+<div class="card-body">
+<p>NASA Fire Information for Resource Management System — active fire/hotspot data.</p>
+</div>
+</div>
+<div class="card mb-3">
+<section id="firmsdataset" class="level4 card-header api-item-header">
+<h4 class="anchored" data-anchor-id="firmsdataset"><code>FIRMSDataset</code></h4>
+</section>
+<div class="card-body">
+<p>FIRMS active fire dataset by satellite source (VIIRS, MODIS, LANDSAT). Requires MAP_KEY.</p>
+</div>
+</div>
+<div class="card mb-3">
+<section id="goes" class="level4 card-header api-item-header">
+<h4 class="anchored" data-anchor-id="goes"><code>GOES</code></h4>
+</section>
+<div class="card-body">
+<p>NOAA Geostationary Operational Environmental Satellites — real-time imagery and products.</p>
+</div>
+</div>
+<div class="card mb-3">
+<section id="goesdataset" class="level4 card-header api-item-header">
+<h4 class="anchored" data-anchor-id="goesdataset"><code>GOESDataset</code></h4>
+</section>
+<div class="card-body">
+<p>GOES satellite imagery dataset by satellite (16/17/18), product, and optional band.</p>
+</div>
+</div>
+<div class="card mb-3">
+<section id="hrrrarchive" class="level4 card-header api-item-header">
+<h4 class="anchored" data-anchor-id="hrrrarchive"><code>HRRRArchive</code></h4>
+</section>
+<div class="card-body">
+<p>NOAA High-Resolution Rapid Refresh archive — hourly 3km weather forecasts (S3).</p>
+</div>
+</div>
+<div class="card mb-3">
+<section id="hrrrarchivedataset" class="level4 card-header api-item-header">
+<h4 class="anchored" data-anchor-id="hrrrarchivedataset"><code>HRRRArchiveDataset</code></h4>
+</section>
+<div class="card-body">
+<p>HRRR archived GRIB2 files by product (sfc/prs/nat), domain, forecast hours, and cycles.</p>
+</div>
+</div>
+<div class="card mb-3">
+<section id="landfire" class="level4 card-header api-item-header">
+<h4 class="anchored" data-anchor-id="landfire"><code>Landfire</code></h4>
+</section>
+<div class="card-body">
+<p>USGS LANDFIRE — wildland fire, vegetation, and fuel geospatial data via WCS.</p>
+</div>
+</div>
+<div class="card mb-3">
+<section id="landfiredataset" class="level4 card-header api-item-header">
+<h4 class="anchored" data-anchor-id="landfiredataset"><code>LandfireDataset</code></h4>
+</section>
+<div class="card-body">
+<p>LANDFIRE raster product accessed via WCS (30m resolution, GeoTIFF output).</p>
+</div>
+</div>
+<div class="card mb-3">
+<section id="latest" class="level4 card-header api-item-header">
+<h4 class="anchored" data-anchor-id="latest"><code>Latest</code></h4>
+</section>
+<div class="card-body">
+<p>Sentinel type for versioned datasets — resolves to the most recent available version.</p>
+</div>
+</div>
+<div class="card mb-3">
+<section id="nasapower" class="level4 card-header api-item-header">
+<h4 class="anchored" data-anchor-id="nasapower"><code>NASAPower</code></h4>
+</section>
+<div class="card-body">
+<p>NASA Prediction of Worldwide Energy Resources — global daily meteorological and solar data.</p>
+</div>
+</div>
+<div class="card mb-3">
+<section id="nasapowerdataset" class="level4 card-header api-item-header">
+<h4 class="anchored" data-anchor-id="nasapowerdataset"><code>NASAPowerDataset</code></h4>
+</section>
+<div class="card-body">
+<p>NASA POWER daily data by variables, community (AG/RE/SB), and query type (point/regional).</p>
+</div>
+</div>
+<div class="card mb-3">
+<section id="ncei" class="level4 card-header api-item-header">
+<h4 class="anchored" data-anchor-id="ncei"><code>NCEI</code></h4>
+</section>
+<div class="card-body">
+<p>NOAA National Centers for Environmental Information — historical weather and climate observations.</p>
+</div>
+</div>
+<div class="card mb-3">
+<section id="nceidataset" class="level4 card-header api-item-header">
+<h4 class="anchored" data-anchor-id="nceidataset"><code>NCEIDataset</code></h4>
+</section>
+<div class="card-body">
+<p>NCEI Data Access Service by dataset, data types, and stations or bbox. No API key required.</p>
+</div>
+</div>
+<div class="card mb-3">
+<section id="nomads" class="level4 card-header api-item-header">
+<h4 class="anchored" data-anchor-id="nomads"><code>NOMADS</code></h4>
+</section>
+<div class="card-body">
+<p>NOAA Operational Model Archive and Distribution System — real-time weather model output.</p>
+</div>
+</div>
+<div class="card mb-3">
+<section id="nomadsdataset" class="level4 card-header api-item-header">
+<h4 class="anchored" data-anchor-id="nomadsdataset"><code>NomadsDataset</code></h4>
+</section>
+<div class="card-body">
+<p>NOMADS forecast dataset identified by category, name, and GRIB filter URL.</p>
+</div>
+</div>
+<div class="card mb-3">
+<section id="oisst" class="level4 card-header api-item-header">
+<h4 class="anchored" data-anchor-id="oisst"><code>OISST</code></h4>
+</section>
+<div class="card-body">
+<p>NOAA Optimum Interpolation SST — daily global sea surface temperature on a 0.25° grid.</p>
+</div>
+</div>
+<div class="card mb-3">
+<section id="oisstdataset" class="level4 card-header api-item-header">
+<h4 class="anchored" data-anchor-id="oisstdataset"><code>OISSTDataset</code></h4>
+</section>
+<div class="card-body">
+<p>NOAA OISST v2.1 daily global SST on a 0.25° grid. One NetCDF file per day, 1981–present.</p>
+</div>
+</div>
+<div class="card mb-3">
+<section id="project" class="level4 card-header api-item-header">
+<h4 class="anchored" data-anchor-id="project"><code>Project</code></h4>
+</section>
+<div class="card-body">
+<p>No documentation found for public binding <code>GeoFetch.Project</code>.</p>
+<section id="summary-3" class="level1">
+<h1>Summary</h1>
+<pre><code>struct GeoFetch.Project{G, E, C}</code></pre>
+</section>
+<section id="fields" class="level1">
+<h1>Fields</h1>
+<pre><code>geometry  :: G
+extent    :: E
+datetimes :: Union{Nothing, Tuple{Dates.DateTime, Dates.DateTime}}
+crs       :: C
+path      :: String
+datasets  :: Vector</code></pre>
+</section>
+</div>
+</div>
+<div class="card mb-3">
+<section id="srtm" class="level4 card-header api-item-header">
+<h4 class="anchored" data-anchor-id="srtm"><code>SRTM</code></h4>
+</section>
+<div class="card-body">
+<p>NASA Shuttle Radar Topography Mission — global elevation data at 1” and 3” resolution.</p>
+</div>
+</div>
+<div class="card mb-3">
+<section id="srtmdataset" class="level4 card-header api-item-header">
+<h4 class="anchored" data-anchor-id="srtmdataset"><code>SRTMDataset</code></h4>
+</section>
+<div class="card-body">
+<p>SRTM elevation tiles (SRTMGL1 at 1” or SRTMGL3 at 3”). Requires Earthdata login.</p>
+</div>
+</div>
+<div class="card mb-3">
+<section id="source" class="level4 card-header api-item-header">
+<h4 class="anchored" data-anchor-id="source"><code>Source</code></h4>
+</section>
+<div class="card-body">
+<p>No documentation found for public binding <code>GeoFetch.Source</code>.</p>
+<section id="summary-4" class="level1">
+<h1>Summary</h1>
+<pre><code>abstract type GeoFetch.Source</code></pre>
+</section>
+<section id="subtypes-2" class="level1">
+<h1>Subtypes</h1>
+<pre><code>GeoFetch.CDS
+GeoFetch.ETOPO
+GeoFetch.FIRMS
+GeoFetch.GOES
+GeoFetch.HRRRArchive
+GeoFetch.Landfire
+GeoFetch.NASAPower
+GeoFetch.NCEI
+GeoFetch.NOMADS
+GeoFetch.OISST
+GeoFetch.SRTM
+GeoFetch.USGSWater</code></pre>
+</section>
+</div>
+</div>
+<div class="card mb-3">
+<section id="usgswater" class="level4 card-header api-item-header">
+<h4 class="anchored" data-anchor-id="usgswater"><code>USGSWater</code></h4>
+</section>
+<div class="card-body">
+<p>USGS Water Data — streamflow, gage height, water quality, and other hydrological observations.</p>
+</div>
+</div>
+<div class="card mb-3">
+<section id="usgswaterdataset" class="level4 card-header api-item-header">
+<h4 class="anchored" data-anchor-id="usgswaterdataset"><code>USGSWaterDataset</code></h4>
+</section>
+<div class="card-body">
+<p>USGS water observations by parameter codes, collection (daily/continuous), and site IDs or bbox.</p>
+</div>
+</div>
+</section>
+<section id="functions" class="level2">
+<h2 class="anchored" data-anchor-id="functions">Functions</h2>
+<div class="card mb-3">
+<section id="datasets" class="level4 card-header api-item-header">
+<h4 class="anchored" data-anchor-id="datasets"><code>datasets</code></h4>
+</section>
+<div class="card-body">
+<p>No documentation found for public binding <code>GeoFetch.datasets</code>.</p>
+<p><code>GeoFetch.datasets</code> is a <code>Function</code>.</p>
+<pre><code># 12 methods for generic function "datasets" from GeoFetch:
+  [1] datasets(::GeoFetch.OISST)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/OISST.jl:42
+  [2] datasets(::GeoFetch.NCEI; dataset)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/NCEI.jl:99
+  [3] datasets(::GeoFetch.NASAPower; community)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/NASAPower.jl:79
+  [4] datasets(::GeoFetch.FIRMS)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/FIRMS.jl:82
+  [5] datasets(::GeoFetch.HRRRArchive; product, domain)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/HRRRArchive.jl:74
+  [6] datasets(::GeoFetch.Landfire; product, region)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/Landfire.jl:85
+  [7] datasets(::GeoFetch.SRTM; product)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/SRTM.jl:81
+  [8] datasets(::GeoFetch.GOES; satellite, product)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/GOES.jl:119
+  [9] datasets(::GeoFetch.ETOPO; resolution, surface_type)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/ETOPO.jl:58
+ [10] datasets(::GeoFetch.CDS; dataset_id, product_type)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/CDS.jl:145
+ [11] datasets(::GeoFetch.NOMADS; category, name, freq)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/NOMADS.jl:259
+ [12] datasets(::GeoFetch.USGSWater; collection, parameter_code)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/USGSWater.jl:108</code></pre>
+</div>
+</div>
+<div class="card mb-3">
+<section id="help" class="level4 card-header api-item-header">
+<h4 class="anchored" data-anchor-id="help"><code>help</code></h4>
+</section>
+<div class="card-body">
+<p>No documentation found for public binding <code>GeoFetch.help</code>.</p>
+<p><code>GeoFetch.help</code> is a <code>Function</code>.</p>
+<pre><code># 24 methods for generic function "help" from GeoFetch:
+  [1] help(::GeoFetch.SRTM)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/SRTM.jl:11
+  [2] help(::GeoFetch.NCEI)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/NCEI.jl:25
+  [3] help(::GeoFetch.NASAPower)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/NASAPower.jl:21
+  [4] help(::GeoFetch.Landfire)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/Landfire.jl:39
+  [5] help(d::GeoFetch.CDSDataset)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/CDS.jl:36
+  [6] help(::GeoFetch.HRRRArchive)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/HRRRArchive.jl:16
+  [7] help(::GeoFetch.ETOPODataset)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/ETOPO.jl:15
+  [8] help(::GeoFetch.OISSTDataset)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/OISST.jl:8
+  [9] help(::GeoFetch.USGSWaterDataset)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/USGSWater.jl:34
+ [10] help(::GeoFetch.FIRMSDataset)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/FIRMS.jl:31
+ [11] help(::GeoFetch.GOESDataset)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/GOES.jl:22
+ [12] help(::GeoFetch.NCEIDataset)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/NCEI.jl:26
+ [13] help(::GeoFetch.CDS)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/CDS.jl:35
+ [14] help(::GeoFetch.NOMADS)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/NOMADS.jl:16
+ [15] help(::GeoFetch.HRRRArchiveDataset)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/HRRRArchive.jl:17
+ [16] help(::GeoFetch.OISST)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/OISST.jl:7
+ [17] help(::GeoFetch.FIRMS)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/FIRMS.jl:30
+ [18] help(::GeoFetch.NomadsDataset)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/NOMADS.jl:17
+ [19] help(::GeoFetch.NASAPowerDataset)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/NASAPower.jl:22
+ [20] help(::GeoFetch.LandfireDataset)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/Landfire.jl:40
+ [21] help(::GeoFetch.GOES)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/GOES.jl:21
+ [22] help(::GeoFetch.ETOPO)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/ETOPO.jl:14
+ [23] help(::GeoFetch.SRTMDataset)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/SRTM.jl:12
+ [24] help(::GeoFetch.USGSWater)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/USGSWater.jl:33</code></pre>
+</div>
+</div>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -718,8 +1043,8 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./sources/copernicus_dem.html" class="pagination-link" aria-label="Copernicus DEM">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Copernicus DEM</span></span>
+      <a href="./index.html" class="pagination-link" aria-label="GeoFetch.jl">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">GeoFetch.jl</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
@@ -735,13 +1060,119 @@ ul.task-list li input[type="checkbox"] {
       &nbsp;
     </div>   
     <div class="nav-footer-center">
-<p>Built on 2026-03-10</p>
+<p>Built on 2026-04-13</p>
 </div>
     <div class="nav-footer-right">
       &nbsp;
     </div>
   </div>
 </footer>
+<script>
+(function() {
+    // Detect repo name and current version from URL path
+    // Deployed: /{repoName}/{version}/...
+    // Local preview: /page.html (no repo/version segments)
+    var pathParts = window.location.pathname.split('/').filter(Boolean);
+    var isLocal = pathParts.length < 2 || !pathParts[0].includes('.');
+    var currentVersion, basePath;
+
+    if (pathParts.length >= 2 && pathParts[1].match(/^(dev|stable|v\d)/)) {
+        currentVersion = pathParts[1];
+        basePath = '/' + pathParts[0] + '/';
+    } else {
+        currentVersion = 'dev';
+        basePath = '/';
+    }
+
+    // Build dropdown HTML
+    function buildDropdown(versions) {
+        var navbar = document.querySelector('.navbar-nav.navbar-nav-scroll.ms-auto');
+        if (!navbar) return;
+
+        var li = document.createElement('li');
+        li.className = 'nav-item dropdown';
+        li.innerHTML =
+            '<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">' +
+                currentVersion +
+            '</a>' +
+            '<ul class="dropdown-menu dropdown-menu-end"></ul>';
+
+        var menu = li.querySelector('.dropdown-menu');
+
+        // Always add dev and stable
+        var fixed = ['stable', 'dev'];
+        fixed.forEach(function(v) {
+            var a = document.createElement('a');
+            a.className = 'dropdown-item' + (v === currentVersion ? ' active' : '');
+            a.href = basePath + v + '/';
+            a.textContent = v;
+            var item = document.createElement('li');
+            item.appendChild(a);
+            menu.appendChild(item);
+        });
+
+        // Add release versions from versions.json
+        if (versions && versions.length > 0) {
+            var divider = document.createElement('li');
+            divider.innerHTML = '<hr class="dropdown-divider">';
+            menu.appendChild(divider);
+
+            versions.forEach(function(v) {
+                var a = document.createElement('a');
+                a.className = 'dropdown-item' + (v === currentVersion ? ' active' : '');
+                a.href = basePath + v + '/';
+                a.textContent = v;
+                var item = document.createElement('li');
+                item.appendChild(a);
+                menu.appendChild(item);
+            });
+        }
+
+        navbar.prepend(li);
+
+        // Show outdated version banner
+        if (versions && versions.length > 0 && currentVersion !== 'stable' && currentVersion !== 'dev') {
+            var latest = versions[0]; // versions.json is sorted descending
+            if (currentVersion !== latest) {
+                var banner = document.createElement('div');
+                banner.className = 'alert alert-warning text-center mb-0 rounded-0';
+                banner.setAttribute('role', 'alert');
+                banner.innerHTML = 'You are viewing docs for <strong>' + currentVersion + '</strong>. ' +
+                    'The latest stable release is <a href="' + basePath + 'stable/" class="alert-link">' + latest + '</a>.';
+                document.body.prepend(banner);
+            }
+        }
+    }
+
+    // Fetch versions.json, then build dropdown
+    fetch(basePath + 'versions.json')
+        .then(function(res) { return res.ok ? res.json() : []; })
+        .catch(function() { return []; })
+        .then(buildDropdown);
+
+    // Fix navbar-brand title link to point to docs home (logo stays external)
+    var titleLink = document.querySelector('a.navbar-brand:not(.navbar-brand-logo)');
+    if (titleLink) {
+        titleLink.href = basePath + currentVersion + '/';
+    }
+
+    // Fetch star count from GitHub API
+    var starLink = document.querySelector('a.nav-link[href*="/stargazers"]');
+    if (starLink) {
+        var match = starLink.href.match(/github\.com\/([^/]+\/[^/]+)\/stargazers/);
+        if (match) {
+            fetch('https://api.github.com/repos/' + match[1])
+                .then(function(res) { return res.ok ? res.json() : null; })
+                .then(function(data) {
+                    if (!data) return;
+                    var text = starLink.querySelector('.menu-text');
+                    if (text) text.textContent = data.stargazers_count;
+                })
+                .catch(function() {});
+        }
+    }
+})();
+</script>
 
 
 
