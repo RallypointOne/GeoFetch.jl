@@ -37,35 +37,18 @@ _landfire_year(::Latest, region::String) = _landfire_latest_year(region)
 end
 
 help(::Landfire) = "https://landfire.gov"
-help(d::LandfireDataset) = "https://landfire.gov/data/lf_wcs_wms"
+help(::LandfireDataset) = "https://landfire.gov/data/lf_wcs_wms"
 
 #------------------------------------------------------------------------------# LandfireChunk
 struct LandfireChunk <: Chunk
+    dataset::LandfireDataset
     url::String
-    product::String
 end
 
-prefix(c::LandfireChunk)::Symbol = Symbol("landfire_", c.product)
+prefix(c::LandfireChunk)::Symbol = Symbol("landfire_", c.dataset.product)
 extension(::LandfireChunk)::String = "tif"
-fetch(c::LandfireChunk, file::String) = Downloads.download(c.url, file)
 
-#------------------------------------------------------------------------------# URL
-function _landfire_build_url(product::String, region::String, year::Int, extent)::String
-    ws = "$(lowercase(region))_$(year)"
-    cov = "landfire_wcs__LF$(year)_$(product)_$(region)"
-    base = "$(_LANDFIRE_WCS_BASE)/$(ws)/wcs"
-    params = join([
-        "service=WCS",
-        "version=2.0.1",
-        "request=GetCoverage",
-        "CoverageId=$(cov)",
-        "format=image/tiff",
-        "subset=Long($(extent.X[1]),$(extent.X[2]))",
-        "subset=Lat($(extent.Y[1]),$(extent.Y[2]))",
-        "subsettingCrs=http://www.opengis.net/def/crs/EPSG/0/4326",
-    ], "&")
-    "$base?$params"
-end
+fetch(c::LandfireChunk, file::String) = Downloads.download(c.url, file)
 
 #------------------------------------------------------------------------------# chunks
 function chunks(p::Project, d::LandfireDataset)::Vector{LandfireChunk}
@@ -73,8 +56,20 @@ function chunks(p::Project, d::LandfireDataset)::Vector{LandfireChunk}
     d.region in _LANDFIRE_REGIONS || error("Invalid LANDFIRE region: \"$(d.region)\". Must be one of: $(join(_LANDFIRE_REGIONS, ", "))")
     p.extent == EARTH && error("LANDFIRE requires a bounded extent. Set geometry or extent on the Project.")
     yr = _landfire_year(d.year, d.region)
-    url = _landfire_build_url(d.product, d.region, yr, p.extent)
-    [LandfireChunk(url, d.product)]
+    ws = "$(lowercase(d.region))_$(yr)"
+    cov = "landfire_wcs__LF$(yr)_$(d.product)_$(d.region)"
+    base = "$(_LANDFIRE_WCS_BASE)/$(ws)/wcs"
+    url = base * "?" * join([
+        "service=WCS",
+        "version=2.0.1",
+        "request=GetCoverage",
+        "CoverageId=$(cov)",
+        "format=image/tiff",
+        "subset=Long($(p.extent.X[1]),$(p.extent.X[2]))",
+        "subset=Lat($(p.extent.Y[1]),$(p.extent.Y[2]))",
+        "subsettingCrs=http://www.opengis.net/def/crs/EPSG/0/4326",
+    ], "&")
+    [LandfireChunk(d, url)]
 end
 
 #------------------------------------------------------------------------------# DATASETS

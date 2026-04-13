@@ -1,6 +1,6 @@
 using GeoFetch
 using GeoFetch: LandfireChunk, _LANDFIRE_DATASETS, _LANDFIRE_PRODUCTS, _LANDFIRE_REGIONS
-using GeoFetch: _landfire_build_url, _landfire_year
+using GeoFetch: _landfire_year
 using GeoFetch: LANDFIRE_FBFM40, LANDFIRE_FBFM13
 using Test
 using Extents: Extent
@@ -37,28 +37,11 @@ using Extents: Extent
         @test _landfire_year(2023, "CONUS") == 2023
     end
 
-    @testset "URL construction" begin
-        ext = Extent(X=(-106.0, -105.0), Y=(39.0, 40.0))
-        url = _landfire_build_url("FBFM40", "CONUS", 2024, ext)
-        @test occursin("conus_2024/wcs", url)
-        @test occursin("CoverageId=landfire_wcs__LF2024_FBFM40_CONUS", url)
-        @test occursin("subset=Long(-106.0,-105.0)", url)
-        @test occursin("subset=Lat(39.0,40.0)", url)
-        @test occursin("version=2.0.1", url)
-        @test occursin("format=image/tiff", url)
-        @test occursin("subsettingCrs=", url)
-    end
-
-    @testset "URL with different year" begin
-        ext = Extent(X=(-106.0, -105.0), Y=(39.0, 40.0))
-        url = _landfire_build_url("FBFM40", "CONUS", 2025, ext)
-        @test occursin("conus_2025/wcs", url)
-        @test occursin("LF2025_FBFM40_CONUS", url)
-    end
-
     @testset "LandfireChunk" begin
-        c = LandfireChunk("https://example.com/landfire.tif", "FBFM40")
+        d = LandfireDataset(year=2024)
+        c = LandfireChunk(d, "https://example.com/landfire.tif")
         @test c isa Chunk
+        @test c.dataset === d
         @test GeoFetch.prefix(c) == :landfire_FBFM40
         @test GeoFetch.extension(c) == "tif"
     end
@@ -69,7 +52,14 @@ using Extents: Extent
         cs = GeoFetch.chunks(p, d)
         @test length(cs) == 1
         @test cs[1] isa LandfireChunk
-        @test occursin("2024", cs[1].url)
+        @test cs[1].dataset === d
+        @test occursin("conus_2024/wcs", cs[1].url)
+        @test occursin("CoverageId=landfire_wcs__LF2024_FBFM40_CONUS", cs[1].url)
+        @test occursin("subset=Long(-106.0,-105.0)", cs[1].url)
+        @test occursin("subset=Lat(39.0,40.0)", cs[1].url)
+        @test occursin("version=2.0.1", cs[1].url)
+        @test occursin("format=image/tiff", cs[1].url)
+        @test occursin("subsettingCrs=", cs[1].url)
     end
 
     @testset "chunks requires bounded extent" begin
