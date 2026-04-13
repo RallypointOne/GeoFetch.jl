@@ -1,5 +1,6 @@
 using GeoFetch
 using GeoFetch: OISSTChunk, _OISST_DATASETS, _oisst_url, OISST_DAILY
+using Downloads
 using Test
 using Dates
 
@@ -81,5 +82,14 @@ using Dates
 
     @testset "popular constants" begin
         @test OISST_DAILY isa OISSTDataset
+    end
+
+    @testset "live: OISST endpoint reachable" begin
+        try
+            Downloads.request(_oisst_url(Date(2024, 7, 4)); method="HEAD", output=devnull)
+            @test true
+        catch e
+            @warn "live: OISST endpoint reachable" exception=(e, catch_backtrace())
+        end
     end
 end

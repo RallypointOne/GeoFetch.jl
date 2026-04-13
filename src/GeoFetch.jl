@@ -7,7 +7,7 @@ import GeoFormatTypes as GFT
 export Project, Source, Dataset, Chunk, All, Latest
 export NOMADS, CDS, FIRMS, ETOPO, SRTM, GOES, HRRRArchive, NASAPower, USGSWater, NCEI, OISST, Landfire
 export NomadsDataset, CDSDataset, FIRMSDataset, ETOPODataset, SRTMDataset, GOESDataset, HRRRArchiveDataset, NASAPowerDataset, USGSWaterDataset, NCEIDataset, OISSTDataset, LandfireDataset
-export datasets, help, region, regions
+export datasets, help
 
 #------------------------------------------------------------------------------# utils
 function get_json(url::AbstractString; headers=Pair{String,String}[])
@@ -135,7 +135,6 @@ struct OISST <: Source end
 struct Landfire <: Source end
 
 #------------------------------------------------------------------------------# includes
-include("regions.jl")
 include("sources/NOMADS.jl")
 include("sources/CDS.jl")
 include("sources/FIRMS.jl")

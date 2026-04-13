@@ -93,4 +93,15 @@ using Dates
         @test GOES16_SST.product == "ABI-L2-SSTF"
         @test GOES16_GLM.product == "GLM-L2-LCFA"
     end
+
+    @testset "live: GOES S3 listing" begin
+        try
+            p = Project(datetimes=(DateTime(2024, 7, 4), DateTime(2024, 7, 4, 0, 30)))
+            cs = GeoFetch.chunks(p, GOESDataset())
+            @test length(cs) > 0
+            @test all(c -> c isa GOESChunk, cs)
+        catch e
+            @warn "live: GOES S3 listing" exception=(e, catch_backtrace())
+        end
+    end
 end

@@ -61,4 +61,4 @@ Project(;
 ```
 
 - `fetch(project)` downloads all chunks, skipping files that already exist.
-- Data is written to `<project.path>/data/`.
+- Data is written to `"$(project.path)/data/"`.

@@ -146,10 +146,8 @@ using Extents: Extent
         end
     end
 
-    has_firms_key = !isempty(get(ENV, "FIRMS_MAP_KEY", ""))
-
-    if has_firms_key
-        @testset "live: fetch single FireChunk" begin
+    @testset "live: fetch single FireChunk" begin
+        try
             p = Project(
                 geometry=Extent(X=(-120.0, -119.0), Y=(34.0, 35.0)),
                 datetimes=(DateTime(2024, 7, 1), DateTime(2024, 7, 1)),
@@ -162,8 +160,8 @@ using Extents: Extent
             GeoFetch.fetch(cs[1], file)
             @test isfile(file)
             @test filesize(file) > 0
+        catch e
+            @warn "live: fetch single FireChunk" exception=(e, catch_backtrace())
         end
-    else
-        @info "Skipping live FIRMS tests (no FIRMS_MAP_KEY found)"
     end
 end

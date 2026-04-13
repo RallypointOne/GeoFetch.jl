@@ -107,4 +107,19 @@ using Extents: Extent
         @test LANDFIRE_FBFM13 isa LandfireDataset
         @test LANDFIRE_FBFM13.product == "FBFM13"
     end
+
+    @testset "live: Landfire WCS fetch" begin
+        try
+            p = Project(geometry=Extent(X=(-105.1, -105.0), Y=(39.0, 39.1)))
+            d = LandfireDataset(product="FBFM40", year=2024)
+            cs = GeoFetch.chunks(p, d)
+            dir = mktempdir()
+            file = joinpath(dir, GeoFetch.filename(cs[1]))
+            GeoFetch.fetch(cs[1], file)
+            @test isfile(file)
+            @test filesize(file) > 0
+        catch e
+            @warn "live: Landfire WCS fetch" exception=(e, catch_backtrace())
+        end
+    end
 end

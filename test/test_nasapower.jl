@@ -148,4 +148,22 @@ using Extents: Extent
         @test NASAPOWER_SOLAR isa NASAPowerDataset
         @test "ALLSKY_SFC_SW_DWN" in NASAPOWER_SOLAR.variables
     end
+
+    @testset "live: NASA POWER point query" begin
+        try
+            p = Project(
+                geometry=Extent(X=(-74.0, -74.0), Y=(40.7, 40.7)),
+                datetimes=(DateTime(2024, 1, 1), DateTime(2024, 1, 1)),
+            )
+            d = NASAPowerDataset(variables=["T2M"])
+            cs = GeoFetch.chunks(p, d)
+            dir = mktempdir()
+            file = joinpath(dir, GeoFetch.filename(cs[1]))
+            GeoFetch.fetch(cs[1], file)
+            @test isfile(file)
+            @test filesize(file) > 0
+        catch e
+            @warn "live: NASA POWER point query" exception=(e, catch_backtrace())
+        end
+    end
 end

@@ -1,7 +1,6 @@
 using GeoFetch
 using Test
 
-include("test_regions.jl")
 include("test_nomads.jl")
 include("test_cds.jl")
 include("test_firms.jl")

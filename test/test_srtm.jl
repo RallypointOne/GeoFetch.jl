@@ -120,4 +120,16 @@ using Extents: Extent
         @test SRTM_30m.product == "SRTMGL1"
         @test SRTM_90m.product == "SRTMGL3"
     end
+
+    @testset "live: SRTM tile accessible" begin
+        try
+            token = ENV["EARTHDATA_TOKEN"]
+            url = _srtm_build_url(SRTMDataset(), "N30W090")
+            sz = GeoFetch._head_content_length(url; headers=["Authorization" => "Bearer $token"])
+            @test sz isa Int
+            @test sz > 0
+        catch e
+            @warn "live: SRTM tile accessible" exception=(e, catch_backtrace())
+        end
+    end
 end

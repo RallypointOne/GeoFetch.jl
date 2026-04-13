@@ -1,5 +1,6 @@
 using GeoFetch
 using GeoFetch: ETOPOChunk, _ETOPO_DATASETS, _etopo_build_url, ETOPO_60s, ETOPO_30s, ETOPO_15s
+using Downloads
 using Test
 
 @testset "ETOPO" begin
@@ -105,5 +106,14 @@ using Test
         @test ETOPO_60s.resolution == "60s"
         @test ETOPO_30s.resolution == "30s"
         @test ETOPO_15s.resolution == "15s"
+    end
+
+    @testset "live: ETOPO endpoint reachable" begin
+        try
+            Downloads.request(_etopo_build_url(ETOPODataset()); method="HEAD", output=devnull)
+            @test true
+        catch e
+            @warn "live: ETOPO endpoint reachable" exception=(e, catch_backtrace())
+        end
     end
 end

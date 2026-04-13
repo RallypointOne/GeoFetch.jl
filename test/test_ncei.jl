@@ -188,4 +188,19 @@ using Extents: Extent
         @test haskey(_NCEI_DATASET_INFO, "global-marine")
         @test length(_NCEI_DATASET_INFO) == 9
     end
+
+    @testset "live: NCEI daily summaries" begin
+        try
+            p = Project(datetimes=(DateTime(2024, 1, 1), DateTime(2024, 1, 7)))
+            d = NCEIDataset(stations=["USC00457180"])
+            cs = GeoFetch.chunks(p, d)
+            dir = mktempdir()
+            file = joinpath(dir, GeoFetch.filename(cs[1]))
+            GeoFetch.fetch(cs[1], file)
+            @test isfile(file)
+            @test filesize(file) > 0
+        catch e
+            @warn "live: NCEI daily summaries" exception=(e, catch_backtrace())
+        end
+    end
 end

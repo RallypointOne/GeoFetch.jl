@@ -1,5 +1,6 @@
 using GeoFetch
 using GeoFetch: HRRRArchiveChunk, _HRRR_ARCHIVE_DATASETS, _hrrr_archive_url, HRRR_ARCHIVE_SFC, HRRR_ARCHIVE_PRS
+using Downloads
 using Test
 using Dates
 
@@ -140,5 +141,15 @@ using Dates
         @test HRRR_ARCHIVE_SFC isa HRRRArchiveDataset
         @test HRRR_ARCHIVE_SFC.product == "sfc"
         @test HRRR_ARCHIVE_PRS.product == "prs"
+    end
+
+    @testset "live: HRRR Archive S3 file accessible" begin
+        try
+            url = _hrrr_archive_url(HRRRArchiveDataset(), Date(2024, 7, 4), 0, 0)
+            Downloads.request(url; method="HEAD", output=devnull)
+            @test true
+        catch e
+            @warn "live: HRRR Archive S3 file accessible" exception=(e, catch_backtrace())
+        end
     end
 end

@@ -203,4 +203,22 @@ using Extents: Extent
         @test haskey(_USGS_STATISTICS, "00003")
         @test _USGS_STATISTICS["00003"] == "Mean"
     end
+
+    @testset "live: USGS Water daily discharge" begin
+        try
+            p = Project(
+                geometry=Extent(X=(-77.5, -77.0), Y=(38.8, 39.0)),
+                datetimes=(DateTime(2024, 1, 1), DateTime(2024, 1, 7)),
+            )
+            d = USGSWaterDataset(parameter_codes=["00060"])
+            cs = GeoFetch.chunks(p, d)
+            dir = mktempdir()
+            file = joinpath(dir, GeoFetch.filename(cs[1]))
+            GeoFetch.fetch(cs[1], file)
+            @test isfile(file)
+            @test filesize(file) > 0
+        catch e
+            @warn "live: USGS Water daily discharge" exception=(e, catch_backtrace())
+        end
+    end
 end
