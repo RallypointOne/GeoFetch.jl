@@ -86,5 +86,16 @@
       "Resources",
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Changelog</span>"
     ]
+  },
+  {
+    "objectID": "resources/changelog.html#v0.1.0---2026-04-13",
+    "href": "resources/changelog.html#v0.1.0---2026-04-13",
+    "title": "Changelog",
+    "section": "v0.1.0 - 2026-04-13",
+    "text": "v0.1.0 - 2026-04-13\n\nFeatures\n\nInitial release of GeoFetch, a Julia package for fetching geospatial data from multiple providers\nNOMADS sources: GOES satellite imagery, HRRR archive\nCDS sources: ERA5 reanalysis via Copernicus Climate Data Store\nFIRMS active fire data (NASA)\nETOPO global relief/bathymetry data\nSRTM elevation data\nNASAPower meteorological and solar data\nUSGSWater streamflow and water quality data\nNCEI climate data\nOISST sea surface temperature data\nLandfire WCS source with Latest() year resolution\nGeoInterface.crs integration for all Dataset types\nLive integration tests for all sources",
+    "crumbs": [
+      "Resources",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Changelog</span>"
+    ]
   }
 ]

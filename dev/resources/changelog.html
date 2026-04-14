@@ -199,6 +199,10 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#unreleased" id="toc-unreleased" class="nav-link active" data-scroll-target="#unreleased">Unreleased</a></li>
+  <li><a href="#v0.1.0---2026-04-13" id="toc-v0.1.0---2026-04-13" class="nav-link" data-scroll-target="#v0.1.0---2026-04-13">v0.1.0 - 2026-04-13</a>
+  <ul class="collapse">
+  <li><a href="#features" id="toc-features" class="nav-link" data-scroll-target="#features">Features</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -224,23 +228,31 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>No releases yet
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>This package has not published a release yet.</p>
-</div>
-</div>
 <section id="unreleased" class="level2">
 <h2 class="anchored" data-anchor-id="unreleased">Unreleased</h2>
+</section>
+<section id="v0.1.0---2026-04-13" class="level2">
+<h2 class="anchored" data-anchor-id="v0.1.0---2026-04-13">v0.1.0 - 2026-04-13</h2>
+<section id="features" class="level3">
+<h3 class="anchored" data-anchor-id="features">Features</h3>
+<ul>
+<li>Initial release of GeoFetch, a Julia package for fetching geospatial data from multiple providers</li>
+<li>NOMADS sources: GOES satellite imagery, HRRR archive</li>
+<li>CDS sources: ERA5 reanalysis via Copernicus Climate Data Store</li>
+<li>FIRMS active fire data (NASA)</li>
+<li>ETOPO global relief/bathymetry data</li>
+<li>SRTM elevation data</li>
+<li>NASAPower meteorological and solar data</li>
+<li>USGSWater streamflow and water quality data</li>
+<li>NCEI climate data</li>
+<li>OISST sea surface temperature data</li>
+<li>Landfire WCS source with Latest() year resolution</li>
+<li>GeoInterface.crs integration for all Dataset types</li>
+<li>Live integration tests for all sources</li>
+</ul>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
