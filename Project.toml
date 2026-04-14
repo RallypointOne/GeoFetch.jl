@@ -11,12 +11,6 @@ GeoFormatTypes = "68eda718-8dee-11e9-39e7-89f7f65f511f"
 GeoInterface = "cf35fbd7-0cd7-5166-be24-54bfbe79505f"
 JSON = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
 
-[weakdeps]
-Makie = "ee78f7c6-11fb-53f2-987a-cfe4a2b5a57a"
-
-[extensions]
-GeoFetchMakie = "Makie"
-
 [compat]
 Dates = "1.11.0"
 Downloads = "1.7.0"

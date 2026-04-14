@@ -6,7 +6,7 @@ engine: julia
 ```{julia}
 #| echo: false
 #| output: false
-using GeoFetch, CairoMakie, Dates, Extents
+using GeoFetch, Dates, Extents
 ```
 
 Welcome to the documentation for **GeoFetch.jl** — a unified interface for fetching geospatial data from multiple providers.
@@ -69,23 +69,4 @@ println("|--------|-------------|------|")
 for (S, desc, auth) in sources
     println("| `$(nameof(S))` | $desc | $auth |")
 end
-```
-
-## Makie Extension
-
-Loading `Makie` (or `CairoMakie`) alongside `GeoFetch` enables the `projectplot` recipe for visualizing a project's extent:
-
-```{julia}
-using CairoMakie
-const GFM = Base.get_extension(GeoFetch, :GeoFetchMakie)
-
-p = Project(
-    geometry = Extent(X=(-109.05, -102.05), Y=(37.0, 41.0)),
-    datetimes = (DateTime(2024, 7, 1), DateTime(2024, 7, 1)),
-)
-
-fig = Figure(size=(600, 400))
-ax = Axis(fig[1, 1], xlabel="Longitude", ylabel="Latitude", title="Colorado")
-GFM.projectplot!(ax, p)
-fig
 ```
