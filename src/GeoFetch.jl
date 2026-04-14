@@ -47,7 +47,7 @@ function Base.show(io::IO, p::Project)
     end
 end
 
-function fetch(proj::Project; verbose=true)
+function Base.fetch(proj::Project; verbose=true)
     for ds in proj.datasets
         verbose && println("Fetching dataset: ", summary(ds))
         for chunk in chunks(proj, ds)

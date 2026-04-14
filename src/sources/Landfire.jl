@@ -16,7 +16,7 @@ function _landfire_latest_year(region::String)::Int
         for y in year(today()):-1:2010
             url = "$(_LANDFIRE_WCS_BASE)/$(lowercase(region))_$(y)/wcs?service=WCS&version=2.0.1&request=GetCapabilities"
             try
-                Downloads.request(url; method="HEAD", output=devnull)
+                Downloads.download(url, devnull)
                 return y
             catch
             end
