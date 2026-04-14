@@ -277,6 +277,7 @@ GeoFetch.LandfireChunk
 GeoFetch.NASAPowerChunk
 GeoFetch.NCEIChunk
 GeoFetch.NDBCChunk
+GeoFetch.NominatimChunk
 GeoFetch.OISSTChunk
 GeoFetch.SRTMChunk
 GeoFetch.USGSWaterChunk</code></pre>
@@ -305,6 +306,7 @@ GeoFetch.NASAPowerDataset
 GeoFetch.NCEIDataset
 GeoFetch.NDBCDataset
 GeoFetch.NomadsDataset
+GeoFetch.NominatimDataset
 GeoFetch.OISSTDataset
 GeoFetch.SRTMDataset
 GeoFetch.USGSWaterDataset</code></pre>
@@ -464,6 +466,48 @@ GeoFetch.USGSWaterDataset</code></pre>
 </div>
 </div>
 <div class="card mb-3">
+<section id="nominatim" class="level4 card-header api-item-header">
+<h4 class="anchored" data-anchor-id="nominatim"><code>Nominatim</code></h4>
+</section>
+<div class="card-body">
+<p>OpenStreetMap Nominatim — geocoding, reverse geocoding, and OSM object lookup.</p>
+</div>
+</div>
+<div class="card mb-3">
+<section id="nominatimdataset" class="level4 card-header api-item-header">
+<h4 class="anchored" data-anchor-id="nominatimdataset"><code>NominatimDataset</code></h4>
+</section>
+<div class="card-body">
+<p>No documentation found for public binding <code>GeoFetch.NominatimDataset</code>.</p>
+<section id="summary-3" class="level1">
+<h1>Summary</h1>
+<pre><code>struct GeoFetch.NominatimDataset</code></pre>
+</section>
+<section id="fields" class="level1">
+<h1>Fields</h1>
+<pre><code>endpoint        :: String
+q               :: String
+osm_ids         :: Vector{String}
+format          :: String
+addressdetails  :: Bool
+extratags       :: Bool
+namedetails     :: Bool
+limit           :: Int64
+zoom            :: Int64
+polygon_geojson :: Bool
+countrycodes    :: Vector{String}
+layer           :: Vector{String}
+accept_language :: String
+email           :: String
+base_url        :: String</code></pre>
+</section>
+<section id="supertype-hierarchy" class="level1">
+<h1>Supertype Hierarchy</h1>
+<pre><code>GeoFetch.NominatimDataset &lt;: GeoFetch.Dataset &lt;: Any</code></pre>
+</section>
+</div>
+</div>
+<div class="card mb-3">
 <section id="oisst" class="level4 card-header api-item-header">
 <h4 class="anchored" data-anchor-id="oisst"><code>OISST</code></h4>
 </section>
@@ -485,11 +529,11 @@ GeoFetch.USGSWaterDataset</code></pre>
 </section>
 <div class="card-body">
 <p>No documentation found for public binding <code>GeoFetch.Project</code>.</p>
-<section id="summary-3" class="level1">
+<section id="summary-4" class="level1">
 <h1>Summary</h1>
 <pre><code>struct GeoFetch.Project{G, E, C}</code></pre>
 </section>
-<section id="fields" class="level1">
+<section id="fields-1" class="level1">
 <h1>Fields</h1>
 <pre><code>geometry  :: G
 extent    :: E
@@ -522,7 +566,7 @@ datasets  :: Vector</code></pre>
 </section>
 <div class="card-body">
 <p>No documentation found for public binding <code>GeoFetch.Source</code>.</p>
-<section id="summary-4" class="level1">
+<section id="summary-5" class="level1">
 <h1>Summary</h1>
 <pre><code>abstract type GeoFetch.Source</code></pre>
 </section>
@@ -538,6 +582,7 @@ GeoFetch.NASAPower
 GeoFetch.NCEI
 GeoFetch.NDBC
 GeoFetch.NOMADS
+GeoFetch.Nominatim
 GeoFetch.OISST
 GeoFetch.SRTM
 GeoFetch.USGSWater</code></pre>
@@ -570,33 +615,35 @@ GeoFetch.USGSWater</code></pre>
 <div class="card-body">
 <p>No documentation found for public binding <code>GeoFetch.datasets</code>.</p>
 <p><code>GeoFetch.datasets</code> is a <code>Function</code>.</p>
-<pre><code># 13 methods for generic function "datasets" from GeoFetch:
-  [1] datasets(::GeoFetch.OISST)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/OISST.jl:42
-  [2] datasets(::GeoFetch.NCEI; dataset)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/NCEI.jl:99
-  [3] datasets(::GeoFetch.NASAPower; community)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/NASAPower.jl:79
-  [4] datasets(::GeoFetch.CDS; dataset_id, product_type)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/CDS.jl:145
-  [5] datasets(::GeoFetch.HRRRArchive; product, domain)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/HRRRArchive.jl:75
-  [6] datasets(::GeoFetch.USGSWater; collection, parameter_code)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/USGSWater.jl:108
-  [7] datasets(::GeoFetch.ETOPO; resolution, surface_type)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/ETOPO.jl:58
-  [8] datasets(::GeoFetch.Landfire; product, region)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/Landfire.jl:85
-  [9] datasets(::GeoFetch.NDBC; datatype)
+<pre><code># 14 methods for generic function "datasets" from GeoFetch:
+  [1] datasets(::GeoFetch.NDBC; datatype)
      @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/NDBC.jl:123
- [10] datasets(::GeoFetch.NOMADS; category, name, freq)
+  [2] datasets(::GeoFetch.OISST)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/OISST.jl:42
+  [3] datasets(::GeoFetch.Landfire; product, region)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/Landfire.jl:85
+  [4] datasets(::GeoFetch.SRTM; product)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/SRTM.jl:81
+  [5] datasets(::GeoFetch.NOMADS; category, name, freq)
      @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/NOMADS.jl:259
- [11] datasets(::GeoFetch.GOES; satellite, product)
+  [6] datasets(::GeoFetch.GOES; satellite, product)
      @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/GOES.jl:120
- [12] datasets(::GeoFetch.FIRMS)
+  [7] datasets(::GeoFetch.FIRMS)
      @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/FIRMS.jl:82
- [13] datasets(::GeoFetch.SRTM; product)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/SRTM.jl:81</code></pre>
+  [8] datasets(::GeoFetch.HRRRArchive; product, domain)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/HRRRArchive.jl:75
+  [9] datasets(::GeoFetch.CDS; dataset_id, product_type)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/CDS.jl:145
+ [10] datasets(::GeoFetch.ETOPO; resolution, surface_type)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/ETOPO.jl:58
+ [11] datasets(::GeoFetch.Nominatim; endpoint)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/Nominatim.jl:119
+ [12] datasets(::GeoFetch.NASAPower; community)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/NASAPower.jl:79
+ [13] datasets(::GeoFetch.USGSWater; collection, parameter_code)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/USGSWater.jl:108
+ [14] datasets(::GeoFetch.NCEI; dataset)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/NCEI.jl:99</code></pre>
 </div>
 </div>
 <div class="card mb-3">
@@ -606,59 +653,63 @@ GeoFetch.USGSWater</code></pre>
 <div class="card-body">
 <p>No documentation found for public binding <code>GeoFetch.help</code>.</p>
 <p><code>GeoFetch.help</code> is a <code>Function</code>.</p>
-<pre><code># 26 methods for generic function "help" from GeoFetch:
-  [1] help(::GeoFetch.NASAPowerDataset)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/NASAPower.jl:22
-  [2] help(::GeoFetch.LandfireDataset)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/Landfire.jl:40
-  [3] help(::GeoFetch.HRRRArchive)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/HRRRArchive.jl:16
-  [4] help(::GeoFetch.ETOPO)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/ETOPO.jl:14
-  [5] help(::GeoFetch.ETOPODataset)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/ETOPO.jl:15
-  [6] help(::GeoFetch.Landfire)
+<pre><code># 28 methods for generic function "help" from GeoFetch:
+  [1] help(::GeoFetch.NomadsDataset)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/NOMADS.jl:17
+  [2] help(::GeoFetch.OISST)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/OISST.jl:7
+  [3] help(::GeoFetch.HRRRArchiveDataset)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/HRRRArchive.jl:17
+  [4] help(::GeoFetch.Landfire)
      @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/Landfire.jl:39
-  [7] help(::GeoFetch.NOMADS)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/NOMADS.jl:16
-  [8] help(::GeoFetch.FIRMS)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/FIRMS.jl:30
-  [9] help(::GeoFetch.GOESDataset)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/GOES.jl:22
+  [5] help(d::GeoFetch.CDSDataset)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/CDS.jl:36
+  [6] help(::GeoFetch.GOES)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/GOES.jl:21
+  [7] help(::GeoFetch.NASAPowerDataset)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/NASAPower.jl:22
+  [8] help(::GeoFetch.LandfireDataset)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/Landfire.jl:40
+  [9] help(::GeoFetch.CDS)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/CDS.jl:35
  [10] help(::GeoFetch.USGSWater)
      @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/USGSWater.jl:33
- [11] help(::GeoFetch.USGSWaterDataset)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/USGSWater.jl:34
- [12] help(::GeoFetch.NCEI)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/NCEI.jl:25
- [13] help(::GeoFetch.OISST)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/OISST.jl:7
- [14] help(::GeoFetch.SRTMDataset)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/SRTM.jl:12
- [15] help(::GeoFetch.NomadsDataset)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/NOMADS.jl:17
- [16] help(::GeoFetch.CDS)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/CDS.jl:35
- [17] help(::GeoFetch.OISSTDataset)
+ [11] help(::GeoFetch.NCEIDataset)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/NCEI.jl:26
+ [12] help(::GeoFetch.OISSTDataset)
      @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/OISST.jl:8
- [18] help(::GeoFetch.NDBC)
+ [13] help(::GeoFetch.NDBC)
      @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/NDBC.jl:43
- [19] help(::GeoFetch.NDBCDataset)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/NDBC.jl:44
- [20] help(::GeoFetch.HRRRArchiveDataset)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/HRRRArchive.jl:17
+ [14] help(::GeoFetch.Nominatim)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/Nominatim.jl:25
+ [15] help(::GeoFetch.NominatimDataset)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/Nominatim.jl:26
+ [16] help(::GeoFetch.GOESDataset)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/GOES.jl:22
+ [17] help(::GeoFetch.NASAPower)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/NASAPower.jl:21
+ [18] help(::GeoFetch.SRTM)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/SRTM.jl:11
+ [19] help(::GeoFetch.NOMADS)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/NOMADS.jl:16
+ [20] help(::GeoFetch.FIRMS)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/FIRMS.jl:30
  [21] help(::GeoFetch.FIRMSDataset)
      @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/FIRMS.jl:31
- [22] help(d::GeoFetch.CDSDataset)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/CDS.jl:36
- [23] help(::GeoFetch.NCEIDataset)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/NCEI.jl:26
- [24] help(::GeoFetch.GOES)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/GOES.jl:21
- [25] help(::GeoFetch.SRTM)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/SRTM.jl:11
- [26] help(::GeoFetch.NASAPower)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/NASAPower.jl:21</code></pre>
+ [22] help(::GeoFetch.ETOPO)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/ETOPO.jl:14
+ [23] help(::GeoFetch.HRRRArchive)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/HRRRArchive.jl:16
+ [24] help(::GeoFetch.ETOPODataset)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/ETOPO.jl:15
+ [25] help(::GeoFetch.USGSWaterDataset)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/USGSWater.jl:34
+ [26] help(::GeoFetch.SRTMDataset)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/SRTM.jl:12
+ [27] help(::GeoFetch.NCEI)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/NCEI.jl:25
+ [28] help(::GeoFetch.NDBCDataset)
+     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/NDBC.jl:44</code></pre>
 </div>
 </div>
 
