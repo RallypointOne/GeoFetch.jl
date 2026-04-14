@@ -44,17 +44,6 @@
     ]
   },
   {
-    "objectID": "index.html#makie-extension",
-    "href": "index.html#makie-extension",
-    "title": "GeoFetch.jl",
-    "section": "Makie Extension",
-    "text": "Makie Extension\nLoading Makie (or CairoMakie) alongside GeoFetch enables the projectplot recipe for visualizing a project’s extent:\n\nusing CairoMakie\nconst GFM = Base.get_extension(GeoFetch, :GeoFetchMakie)\n\np = Project(\n    geometry = Extent(X=(-109.05, -102.05), Y=(37.0, 41.0)),\n    datetimes = (DateTime(2024, 7, 1), DateTime(2024, 7, 1)),\n)\n\nfig = Figure(size=(600, 400))\nax = Axis(fig[1, 1], xlabel=\"Longitude\", ylabel=\"Latitude\", title=\"Colorado\")\nGFM.projectplot!(ax, p)\nfig",
-    "crumbs": [
-      "Docs",
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>GeoFetch.jl</span>"
-    ]
-  },
-  {
     "objectID": "api.html",
     "href": "api.html",
     "title": "API",
