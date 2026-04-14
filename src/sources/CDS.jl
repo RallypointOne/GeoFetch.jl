@@ -59,9 +59,9 @@ function fetch(c::CDSChunk, file::String)
     end
     results = _cds_get_json("$status_url/results")
     result_list = get(results, "asset", get(results, "results", nothing))
-    download_url = if result_list isa Dict
+    download_url = if result_list isa AbstractDict
         result_list["value"]["href"]
-    elseif result_list isa Vector
+    elseif result_list isa AbstractVector
         result_list[1]["href"]
     else
         error("Unexpected CDS results format: $(JSON.json(results))")
