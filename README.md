@@ -48,6 +48,7 @@ fetch(p)
 | `NCEI` | NOAA historical weather and climate observations | None |
 | `OISST` | NOAA daily global sea surface temperature (0.25° grid) | None |
 | `Landfire` | USGS LANDFIRE wildland fire, vegetation, and fuel data via WCS | None |
+| `NDBC` | NOAA National Data Buoy Center ocean/meteorological observations | None |
 
 ## Project
 

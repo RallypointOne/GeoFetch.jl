@@ -5,8 +5,8 @@ import GeoInterface as GI
 import GeoFormatTypes as GFT
 
 export Project, Source, Dataset, Chunk, All, Latest
-export NOMADS, CDS, FIRMS, ETOPO, SRTM, GOES, HRRRArchive, NASAPower, USGSWater, NCEI, OISST, Landfire
-export NomadsDataset, CDSDataset, FIRMSDataset, ETOPODataset, SRTMDataset, GOESDataset, HRRRArchiveDataset, NASAPowerDataset, USGSWaterDataset, NCEIDataset, OISSTDataset, LandfireDataset
+export NOMADS, CDS, FIRMS, ETOPO, SRTM, GOES, HRRRArchive, NASAPower, USGSWater, NCEI, OISST, Landfire, NDBC
+export NomadsDataset, CDSDataset, FIRMSDataset, ETOPODataset, SRTMDataset, GOESDataset, HRRRArchiveDataset, NASAPowerDataset, USGSWaterDataset, NCEIDataset, OISSTDataset, LandfireDataset, NDBCDataset
 export datasets, help
 
 #------------------------------------------------------------------------------# utils
@@ -135,6 +135,9 @@ struct OISST <: Source end
 """USGS LANDFIRE — wildland fire, vegetation, and fuel geospatial data via WCS."""
 struct Landfire <: Source end
 
+"""NOAA National Data Buoy Center — ocean and meteorological observations from moored and drifting buoys."""
+struct NDBC <: Source end
+
 #------------------------------------------------------------------------------# includes
 include("sources/NOMADS.jl")
 include("sources/CDS.jl")
@@ -148,5 +151,6 @@ include("sources/NASAPower.jl")
 include("sources/USGSWater.jl")
 include("sources/NCEI.jl")
 include("sources/OISST.jl")
+include("sources/NDBC.jl")
 
 end # module GeoFetch
