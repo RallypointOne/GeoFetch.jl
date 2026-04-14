@@ -5,8 +5,8 @@ import GeoInterface as GI
 import GeoFormatTypes as GFT
 
 export Project, Source, Dataset, Chunk, All, Latest
-export NOMADS, CDS, FIRMS, ETOPO, SRTM, GOES, HRRRArchive, NASAPower, USGSWater, NCEI, OISST, Landfire, NDBC
-export NomadsDataset, CDSDataset, FIRMSDataset, ETOPODataset, SRTMDataset, GOESDataset, HRRRArchiveDataset, NASAPowerDataset, USGSWaterDataset, NCEIDataset, OISSTDataset, LandfireDataset, NDBCDataset
+export NOMADS, CDS, FIRMS, ETOPO, SRTM, GOES, HRRRArchive, NASAPower, USGSWater, NCEI, OISST, Landfire, NDBC, Nominatim
+export NomadsDataset, CDSDataset, FIRMSDataset, ETOPODataset, SRTMDataset, GOESDataset, HRRRArchiveDataset, NASAPowerDataset, USGSWaterDataset, NCEIDataset, OISSTDataset, LandfireDataset, NDBCDataset, NominatimDataset
 export datasets, help
 
 #------------------------------------------------------------------------------# utils
@@ -59,6 +59,17 @@ function Base.fetch(proj::Project; verbose=true)
         end
     end
     return joinpath(proj.path, "data")
+end
+
+chunks(proj::Project) = reduce(vcat, (chunks(proj, ds) for ds in proj.datasets); init=Chunk[])
+
+function Base.filesize(proj::Project)
+    total = 0
+    for chunk in chunks(proj)
+        s = filesize(chunk)
+        isnothing(s) || (total += s)
+    end
+    total
 end
 
 #------------------------------------------------------------------------------# Source
@@ -138,6 +149,9 @@ struct Landfire <: Source end
 """NOAA National Data Buoy Center — ocean and meteorological observations from moored and drifting buoys."""
 struct NDBC <: Source end
 
+"""OpenStreetMap Nominatim — geocoding, reverse geocoding, and OSM object lookup."""
+struct Nominatim <: Source end
+
 #------------------------------------------------------------------------------# includes
 include("sources/NOMADS.jl")
 include("sources/CDS.jl")
@@ -152,5 +166,6 @@ include("sources/USGSWater.jl")
 include("sources/NCEI.jl")
 include("sources/OISST.jl")
 include("sources/NDBC.jl")
+include("sources/Nominatim.jl")
 
 end # module GeoFetch
