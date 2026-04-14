@@ -189,6 +189,17 @@ using Extents: Extent
         @test length(_NCEI_DATASET_INFO) == 9
     end
 
+    @testset "metadata" begin
+        m = metadata(NCEIDataset())
+        @test m[:data_type] == "station"
+        @test haskey(m, :license)
+    end
+
+    @testset "filesize estimate returns nothing for station data" begin
+        p = Project(datetimes=(DateTime(2024, 1, 1), DateTime(2024, 1, 31)))
+        @test filesize(p, NCEIDataset()) === nothing
+    end
+
     @testset "live: NCEI daily summaries" begin
         try
             p = Project(datetimes=(DateTime(2024, 1, 1), DateTime(2024, 1, 7)))

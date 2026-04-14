@@ -108,6 +108,27 @@ using Test
         @test ETOPO_15s.resolution == "15s"
     end
 
+    @testset "metadata" begin
+        m = metadata(ETOPODataset())
+        @test m[:data_type] == "gridded"
+        @test m[:resolution] ≈ 1/60
+        @test haskey(m, :license)
+        m30 = metadata(ETOPODataset(resolution="30s"))
+        @test m30[:resolution] ≈ 1/120
+        m15 = metadata(ETOPODataset(resolution="15s"))
+        @test m15[:resolution] ≈ 1/240
+    end
+
+    @testset "filesize estimate" begin
+        ext = Extent(X=(-10.0, 10.0), Y=(40.0, 50.0))
+        p = Project(extent=ext)
+        s = filesize(p, ETOPODataset())
+        @test s isa Int
+        @test s > 0
+        s_big = filesize(p, ETOPODataset(resolution="15s"))
+        @test s_big > s
+    end
+
     @testset "live: ETOPO endpoint reachable" begin
         try
             Downloads.request(_etopo_build_url(ETOPODataset()); method="HEAD", output=devnull)

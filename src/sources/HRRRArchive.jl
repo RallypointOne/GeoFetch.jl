@@ -17,6 +17,10 @@ help(::HRRRArchive) = "https://mesowest.utah.edu/html/hrrr/"
 help(::HRRRArchiveDataset) = "https://registry.opendata.aws/noaa-hrrr-pds/"
 GI.crs(::HRRRArchiveDataset) = nothing
 
+function metadata(::HRRRArchiveDataset)
+    Dict{Symbol,Any}(:data_type => "gridded", :license => "NOAA public domain")
+end
+
 #--------------------------------------------------------------------------------# HRRRArchiveChunk
 struct HRRRArchiveChunk <: Chunk
     url::String

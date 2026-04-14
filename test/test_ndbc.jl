@@ -141,6 +141,17 @@ using Extents: Extent
         @test NDBC_OCEAN.datatype == "ocean"
     end
 
+    @testset "metadata" begin
+        m = metadata(NDBCDataset())
+        @test m[:data_type] == "station"
+        @test haskey(m, :license)
+    end
+
+    @testset "filesize estimate returns nothing for station data" begin
+        p = Project(datetimes=(DateTime(2024, 1, 1), DateTime(2024, 1, 31)))
+        @test filesize(p, NDBCDataset()) === nothing
+    end
+
     @testset "live: NDBC historical stdmet download" begin
         try
             p = Project(datetimes=(DateTime(2023, 1, 1), DateTime(2023, 12, 31)))

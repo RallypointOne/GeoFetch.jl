@@ -33,6 +33,10 @@ end
 help(::USGSWater) = "https://waterdata.usgs.gov"
 help(::USGSWaterDataset) = "https://api.waterdata.usgs.gov"
 
+function metadata(::USGSWaterDataset)
+    Dict{Symbol,Any}(:data_type => "station", :license => "USGS public domain")
+end
+
 #--------------------------------------------------------------------------------# USGSWaterChunk
 struct USGSWaterChunk <: Chunk
     url::String

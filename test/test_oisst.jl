@@ -84,6 +84,22 @@ using Dates
         @test OISST_DAILY isa OISSTDataset
     end
 
+    @testset "metadata" begin
+        m = metadata(OISSTDataset())
+        @test m[:data_type] == "gridded"
+        @test m[:resolution] == 0.25
+        @test m[:times_per_day] == 1.0
+        @test haskey(m, :license)
+    end
+
+    @testset "filesize estimate" begin
+        ext = Extent(X=(-10.0, 10.0), Y=(40.0, 50.0))
+        p = Project(extent=ext, datetimes=(DateTime(2024, 1, 1), DateTime(2024, 1, 31)))
+        s = filesize(p, OISSTDataset())
+        @test s isa Int
+        @test s > 0
+    end
+
     @testset "live: OISST endpoint reachable" begin
         try
             Downloads.request(_oisst_url(Date(2024, 7, 4)); method="HEAD", output=devnull)

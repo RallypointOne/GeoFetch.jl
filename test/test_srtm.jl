@@ -121,6 +121,26 @@ using Extents: Extent
         @test SRTM_90m.product == "SRTMGL3"
     end
 
+    @testset "metadata" begin
+        m = metadata(SRTMDataset())
+        @test m[:data_type] == "gridded"
+        @test m[:resolution] ≈ 1/3600
+        @test m[:bytes_per_value] == 2
+        @test m[:requires_auth] == true
+        m3 = metadata(SRTMDataset(product="SRTMGL3"))
+        @test m3[:resolution] ≈ 1/1200
+    end
+
+    @testset "filesize estimate" begin
+        ext = Extent(X=(-80.0, -79.0), Y=(35.0, 36.0))
+        p = Project(extent=ext)
+        s = filesize(p, SRTMDataset())
+        @test s isa Int
+        @test s > 0
+        s3 = filesize(p, SRTMDataset(product="SRTMGL3"))
+        @test s > s3
+    end
+
     @testset "live: SRTM tile accessible" begin
         try
             token = ENV["EARTHDATA_TOKEN"]

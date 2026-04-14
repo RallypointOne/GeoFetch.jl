@@ -149,6 +149,29 @@ using Extents: Extent
         @test "ALLSKY_SFC_SW_DWN" in NASAPOWER_SOLAR.variables
     end
 
+    @testset "metadata point" begin
+        m = metadata(NASAPowerDataset())
+        @test m[:data_type] == "point"
+        @test m[:n_variables] == 2
+        @test !haskey(m, :resolution)
+    end
+
+    @testset "metadata regional" begin
+        m = metadata(NASAPowerDataset(query_type="regional"))
+        @test m[:data_type] == "gridded"
+        @test m[:resolution] == 0.5
+        @test m[:times_per_day] == 1.0
+    end
+
+    @testset "filesize estimate" begin
+        ext = Extent(X=(-10.0, 10.0), Y=(40.0, 50.0))
+        p = Project(extent=ext, datetimes=(DateTime(2024, 1, 1), DateTime(2024, 1, 31)))
+        s = filesize(p, NASAPowerDataset(query_type="regional"))
+        @test s isa Int
+        @test s > 0
+        @test filesize(p, NASAPowerDataset()) === nothing
+    end
+
     @testset "live: NASA POWER point query" begin
         try
             p = Project(

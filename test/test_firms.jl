@@ -146,6 +146,18 @@ using Extents: Extent
         end
     end
 
+    @testset "metadata" begin
+        m = metadata(FIRMSDataset())
+        @test m[:data_type] == "point"
+        @test m[:requires_auth] == true
+        @test haskey(m, :license)
+    end
+
+    @testset "filesize estimate returns nothing for point data" begin
+        p = Project(datetimes=(DateTime(2024, 1, 1), DateTime(2024, 1, 5)))
+        @test filesize(p, FIRMSDataset()) === nothing
+    end
+
     @testset "live: fetch single FireChunk" begin
         try
             p = Project(

@@ -25,6 +25,10 @@ end
 help(::Nominatim) = "https://nominatim.org/release-docs/develop/api/Overview/"
 help(::NominatimDataset) = "https://nominatim.org/release-docs/develop/api/Overview/"
 
+function metadata(::NominatimDataset)
+    Dict{Symbol,Any}(:data_type => "geocoding", :license => "OpenStreetMap/ODbL")
+end
+
 #-----------------------------------------------------------------------------# NominatimChunk
 struct NominatimChunk <: Chunk
     url::String

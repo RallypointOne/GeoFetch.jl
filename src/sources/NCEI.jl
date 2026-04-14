@@ -25,6 +25,10 @@ end
 help(::NCEI) = "https://www.ncei.noaa.gov"
 help(::NCEIDataset) = "https://www.ncei.noaa.gov/support/access-data-service-api-user-documentation"
 
+function metadata(::NCEIDataset)
+    Dict{Symbol,Any}(:data_type => "station", :license => "NOAA/NCEI public domain")
+end
+
 #--------------------------------------------------------------------------------# NCEIChunk
 struct NCEIChunk <: Chunk
     url::String

@@ -108,6 +108,19 @@ using Extents: Extent
         @test LANDFIRE_FBFM13.product == "FBFM13"
     end
 
+    @testset "metadata" begin
+        m = metadata(LandfireDataset())
+        @test m[:data_type] == "gridded"
+        @test haskey(m, :license)
+        @test !haskey(m, :resolution)
+    end
+
+    @testset "filesize estimate returns nothing without resolution" begin
+        ext = Extent(X=(-106.0, -105.0), Y=(39.0, 40.0))
+        p = Project(extent=ext)
+        @test filesize(p, LandfireDataset()) === nothing
+    end
+
     @testset "live: Landfire WCS fetch" begin
         try
             p = Project(geometry=Extent(X=(-105.1, -105.0), Y=(39.0, 39.1)))

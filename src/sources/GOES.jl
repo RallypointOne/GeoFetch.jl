@@ -22,6 +22,10 @@ help(::GOES) = "https://www.goes.noaa.gov"
 help(::GOESDataset) = "https://registry.opendata.aws/noaa-goes/"
 GI.crs(::GOESDataset) = nothing
 
+function metadata(::GOESDataset)
+    Dict{Symbol,Any}(:data_type => "gridded", :license => "NOAA public domain")
+end
+
 #--------------------------------------------------------------------------------# GOESChunk
 struct GOESChunk <: Chunk
     url::String

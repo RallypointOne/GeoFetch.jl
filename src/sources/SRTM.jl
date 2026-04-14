@@ -11,6 +11,11 @@ end
 help(::SRTM) = "https://www.earthdata.nasa.gov/sensors/srtm"
 help(::SRTMDataset) = "https://www.earthdata.nasa.gov/sensors/srtm"
 
+function metadata(d::SRTMDataset)
+    res = d.product == "SRTMGL1" ? 1/3600 : 1/1200
+    Dict{Symbol,Any}(:data_type => "gridded", :resolution => res, :bytes_per_value => 2, :license => "NASA/USGS public domain", :requires_auth => true)
+end
+
 #--------------------------------------------------------------------------------# SRTMChunk
 struct SRTMChunk <: Chunk
     url::String

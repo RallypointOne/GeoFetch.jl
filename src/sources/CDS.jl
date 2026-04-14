@@ -35,6 +35,27 @@ end
 help(::CDS) = "https://cds.climate.copernicus.eu"
 help(d::CDSDataset) = "https://cds.climate.copernicus.eu/datasets/$(d.dataset_id)"
 
+const _CDS_RESOLUTIONS = Dict(
+    "reanalysis-era5-single-levels" => 0.25,
+    "reanalysis-era5-pressure-levels" => 0.25,
+    "reanalysis-era5-single-levels-monthly-means" => 0.25,
+    "reanalysis-era5-pressure-levels-monthly-means" => 0.25,
+    "reanalysis-era5-land" => 0.1,
+    "reanalysis-era5-land-monthly-means" => 0.1,
+    "reanalysis-era5-single-levels-preliminary-back-extension" => 0.25,
+    "reanalysis-era5-pressure-levels-preliminary-back-extension" => 0.25,
+)
+
+function metadata(d::CDSDataset)
+    m = Dict{Symbol,Any}(:data_type => "gridded", :license => "Copernicus/ECMWF", :requires_auth => true)
+    res = get(_CDS_RESOLUTIONS, d.dataset_id, nothing)
+    isnothing(res) || (m[:resolution] = res)
+    isempty(d.variables) || (m[:n_variables] = length(d.variables))
+    isempty(d.times) || (m[:times_per_day] = Float64(length(d.times)))
+    isempty(d.pressure_levels) || (m[:n_levels] = length(d.pressure_levels))
+    m
+end
+
 #------------------------------------------------------------------------------# CDSChunk
 struct CDSChunk <: Chunk
     dataset_id::String

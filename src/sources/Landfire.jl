@@ -39,6 +39,10 @@ end
 help(::Landfire) = "https://landfire.gov"
 help(::LandfireDataset) = "https://landfire.gov/data/lf_wcs_wms"
 
+function metadata(::LandfireDataset)
+    Dict{Symbol,Any}(:data_type => "gridded", :license => "USGS public domain")
+end
+
 #------------------------------------------------------------------------------# LandfireChunk
 struct LandfireChunk <: Chunk
     dataset::LandfireDataset

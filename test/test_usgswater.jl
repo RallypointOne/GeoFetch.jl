@@ -204,6 +204,17 @@ using Extents: Extent
         @test _USGS_STATISTICS["00003"] == "Mean"
     end
 
+    @testset "metadata" begin
+        m = metadata(USGSWaterDataset())
+        @test m[:data_type] == "station"
+        @test haskey(m, :license)
+    end
+
+    @testset "filesize estimate returns nothing for station data" begin
+        p = Project(datetimes=(DateTime(2024, 1, 1), DateTime(2024, 1, 31)))
+        @test filesize(p, USGSWaterDataset()) === nothing
+    end
+
     @testset "live: USGS Water daily discharge" begin
         try
             p = Project(

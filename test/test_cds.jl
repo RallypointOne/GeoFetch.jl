@@ -149,6 +149,39 @@ using Extents: Extent
         @test isempty(empty_result)
     end
 
+    @testset "metadata" begin
+        d = CDSDataset(dataset_id="reanalysis-era5-single-levels", variables=["2m_temperature", "total_precipitation"], times=["00:00", "06:00", "12:00", "18:00"])
+        m = metadata(d)
+        @test m[:data_type] == "gridded"
+        @test m[:resolution] == 0.25
+        @test m[:n_variables] == 2
+        @test m[:times_per_day] == 4.0
+        @test m[:requires_auth] == true
+        m_land = metadata(CDSDataset(dataset_id="reanalysis-era5-land"))
+        @test m_land[:resolution] == 0.1
+        m_unknown = metadata(CDSDataset(dataset_id="some-unknown-dataset"))
+        @test !haskey(m_unknown, :resolution)
+    end
+
+    @testset "metadata pressure levels" begin
+        d = CDSDataset(dataset_id="reanalysis-era5-pressure-levels", pressure_levels=["500", "700", "850"])
+        m = metadata(d)
+        @test m[:n_levels] == 3
+    end
+
+    @testset "filesize estimate" begin
+        ext = Extent(X=(-10.0, 10.0), Y=(40.0, 50.0))
+        p = Project(extent=ext, datetimes=(DateTime(2024, 1, 1), DateTime(2024, 1, 31)))
+        d = CDSDataset(dataset_id="reanalysis-era5-single-levels", variables=["2m_temperature"])
+        s = filesize(p, d)
+        @test s isa Int
+        @test s > 0
+        d2 = CDSDataset(dataset_id="reanalysis-era5-single-levels", variables=["2m_temperature", "total_precipitation"])
+        @test filesize(p, d2) > s
+        d_unknown = CDSDataset(dataset_id="some-unknown-dataset")
+        @test filesize(p, d_unknown) === nothing
+    end
+
     @testset "live: CDS API responds" begin
         try
             d = CDSDataset(

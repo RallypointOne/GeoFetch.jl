@@ -14,6 +14,12 @@ end
 help(::ETOPO) = "https://www.ncei.noaa.gov/products/etopo-global-relief-model"
 help(::ETOPODataset) = "https://www.ncei.noaa.gov/products/etopo-global-relief-model"
 
+const _ETOPO_RESOLUTION_DEG = Dict("60s" => 1/60, "30s" => 1/120, "15s" => 1/240)
+
+function metadata(d::ETOPODataset)
+    Dict{Symbol,Any}(:data_type => "gridded", :resolution => _ETOPO_RESOLUTION_DEG[d.resolution], :license => "NOAA/NCEI public domain")
+end
+
 #--------------------------------------------------------------------------------# ETOPOChunk
 struct ETOPOChunk <: Chunk
     url::String

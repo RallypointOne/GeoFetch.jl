@@ -135,6 +135,20 @@ using Extents: Extent
         @test isempty(empty_result)
     end
 
+    @testset "metadata" begin
+        d = NomadsDataset(category=GeoFetch.Global, name="GFS", freq="6-hourly", grib_filter="filter_gfs_0p25.pl", https="gfs.{date}/{cycle}/atmos")
+        m = metadata(d)
+        @test m[:data_type] == "gridded"
+        @test haskey(m, :license)
+        @test !haskey(m, :resolution)
+    end
+
+    @testset "filesize estimate returns nothing without resolution" begin
+        d = NomadsDataset(category=GeoFetch.Global, name="GFS", freq="6-hourly", grib_filter="filter_gfs_0p25.pl", https="gfs.{date}/{cycle}/atmos")
+        p = Project(datetimes=(DateTime(2024, 1, 1), DateTime(2024, 1, 1)))
+        @test filesize(p, d) === nothing
+    end
+
     @testset "live: _nomads_discover GFS" begin
         try
             base = _nomads_filter_base(GFS_025)

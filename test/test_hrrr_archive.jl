@@ -143,6 +143,18 @@ using Dates
         @test HRRR_ARCHIVE_PRS.product == "prs"
     end
 
+    @testset "metadata" begin
+        m = metadata(HRRRArchiveDataset())
+        @test m[:data_type] == "gridded"
+        @test haskey(m, :license)
+        @test !haskey(m, :resolution)
+    end
+
+    @testset "filesize estimate returns nothing without resolution" begin
+        p = Project(datetimes=(DateTime(2024, 1, 1), DateTime(2024, 1, 1)))
+        @test filesize(p, HRRRArchiveDataset()) === nothing
+    end
+
     @testset "live: HRRR Archive S3 file accessible" begin
         try
             url = _hrrr_archive_url(HRRRArchiveDataset(), Date(2024, 7, 4), 0, 0)

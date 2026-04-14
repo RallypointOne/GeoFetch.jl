@@ -7,6 +7,10 @@ const _OISST_BASE_URL = "https://www.ncei.noaa.gov/thredds/fileServer/OisstBase/
 help(::OISST) = "https://www.ncei.noaa.gov/products/optimum-interpolation-sst"
 help(::OISSTDataset) = "https://www.ncei.noaa.gov/products/optimum-interpolation-sst"
 
+function metadata(::OISSTDataset)
+    Dict{Symbol,Any}(:data_type => "gridded", :resolution => 0.25, :times_per_day => 1.0, :license => "NOAA/NCEI public domain")
+end
+
 #--------------------------------------------------------------------------------# OISSTChunk
 struct OISSTChunk <: Chunk
     url::String

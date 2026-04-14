@@ -16,6 +16,10 @@ end
 help(::NOMADS) = "https://nomads.ncep.noaa.gov"
 help(::NomadsDataset) = "https://nomads.ncep.noaa.gov"
 
+function metadata(::NomadsDataset)
+    Dict{Symbol,Any}(:data_type => "gridded", :license => "NOAA public domain")
+end
+
 struct GribChunk <: Chunk
     url::String
     remote_filename::String

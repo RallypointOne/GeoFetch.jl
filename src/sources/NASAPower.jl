@@ -21,6 +21,12 @@ end
 help(::NASAPower) = "https://power.larc.nasa.gov"
 help(::NASAPowerDataset) = "https://power.larc.nasa.gov/docs/services/api/"
 
+function metadata(d::NASAPowerDataset)
+    m = Dict{Symbol,Any}(:data_type => d.query_type == "regional" ? "gridded" : "point", :n_variables => length(d.variables), :times_per_day => 1.0, :license => "NASA LARC public domain")
+    d.query_type == "regional" && (m[:resolution] = 0.5)
+    m
+end
+
 #--------------------------------------------------------------------------------# NASAPowerChunk
 struct NASAPowerChunk <: Chunk
     url::String

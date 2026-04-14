@@ -43,6 +43,10 @@ end
 help(::NDBC) = "https://www.ndbc.noaa.gov"
 help(::NDBCDataset) = "https://www.ndbc.noaa.gov/docs/ndbc_web_data_guide.pdf"
 
+function metadata(::NDBCDataset)
+    Dict{Symbol,Any}(:data_type => "station", :license => "NOAA public domain")
+end
+
 #------------------------------------------------------------------------------# NDBCChunk
 struct NDBCChunk <: Chunk
     url::String

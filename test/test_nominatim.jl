@@ -162,6 +162,17 @@ using Extents: Extent
         @test occursin("layer=poi,address", url)
     end
 
+    @testset "metadata" begin
+        m = metadata(NominatimDataset())
+        @test m[:data_type] == "geocoding"
+        @test haskey(m, :license)
+    end
+
+    @testset "filesize estimate returns nothing for geocoding" begin
+        p = Project()
+        @test filesize(p, NominatimDataset()) === nothing
+    end
+
     @testset "live: Nominatim search" begin
         try
             p = Project()

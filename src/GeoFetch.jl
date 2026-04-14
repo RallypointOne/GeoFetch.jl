@@ -7,7 +7,7 @@ import GeoFormatTypes as GFT
 export Project, Source, Dataset, Chunk, All, Latest
 export NOMADS, CDS, FIRMS, ETOPO, SRTM, GOES, HRRRArchive, NASAPower, USGSWater, NCEI, OISST, Landfire, NDBC, Nominatim
 export NomadsDataset, CDSDataset, FIRMSDataset, ETOPODataset, SRTMDataset, GOESDataset, HRRRArchiveDataset, NASAPowerDataset, USGSWaterDataset, NCEIDataset, OISSTDataset, LandfireDataset, NDBCDataset, NominatimDataset
-export datasets, help
+export datasets, help, metadata
 
 #------------------------------------------------------------------------------# utils
 function get_json(url::AbstractString; headers=Pair{String,String}[])
@@ -61,17 +61,6 @@ function Base.fetch(proj::Project; verbose=true)
     return joinpath(proj.path, "data")
 end
 
-chunks(proj::Project) = reduce(vcat, (chunks(proj, ds) for ds in proj.datasets); init=Chunk[])
-
-function Base.filesize(proj::Project)
-    total = 0
-    for chunk in chunks(proj)
-        s = filesize(chunk)
-        isnothing(s) || (total += s)
-    end
-    total
-end
-
 #------------------------------------------------------------------------------# Source
 abstract type Source end
 function datasets end
@@ -80,6 +69,8 @@ function help end
 #------------------------------------------------------------------------------# Dataset
 abstract type Dataset end
 function chunks end
+function metadata end
+metadata(::Dataset) = Dict{Symbol,Any}()
 GI.crs(::Dataset) = GFT.EPSG(4326)
 
 #------------------------------------------------------------------------------# Chunk
@@ -167,5 +158,45 @@ include("sources/NCEI.jl")
 include("sources/OISST.jl")
 include("sources/NDBC.jl")
 include("sources/Nominatim.jl")
+
+#------------------------------------------------------------------------------# Project methods (after types are defined)
+chunks(proj::Project) = reduce(vcat, (chunks(proj, ds) for ds in proj.datasets); init=Chunk[])
+
+function Base.filesize(p::Project, d::Dataset)
+    m = metadata(d)
+    get(m, :data_type, nothing) == "gridded" || return nothing
+    res = get(m, :resolution, nothing)
+    isnothing(res) && return nothing
+    ext = p.extent
+    n_lon = max(1, ceil(Int, (ext.X[2] - ext.X[1]) / res))
+    n_lat = max(1, ceil(Int, (ext.Y[2] - ext.Y[1]) / res))
+    n_vars = get(m, :n_variables, 1)
+    n_levels = get(m, :n_levels, 1)
+    bpv = get(m, :bytes_per_value, 4)
+    tpd = get(m, :times_per_day, 0.0)
+    if tpd > 0 && !isnothing(p.datetimes)
+        n_days = Dates.value(Date(last(p.datetimes)) - Date(first(p.datetimes))) + 1
+        n_times = max(1, ceil(Int, n_days * tpd))
+    else
+        n_times = 1
+    end
+    n_lon * n_lat * n_times * n_vars * n_levels * bpv
+end
+
+function Base.filesize(proj::Project)
+    total = 0
+    for ds in proj.datasets
+        s = filesize(proj, ds)
+        if !isnothing(s)
+            total += s
+        else
+            for chunk in chunks(proj, ds)
+                s = filesize(chunk)
+                isnothing(s) || (total += s)
+            end
+        end
+    end
+    total
+end
 
 end # module GeoFetch

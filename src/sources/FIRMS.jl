@@ -30,6 +30,10 @@ end
 help(::FIRMS) = "https://firms.modaps.eosdis.nasa.gov"
 help(::FIRMSDataset) = "https://firms.modaps.eosdis.nasa.gov"
 
+function metadata(::FIRMSDataset)
+    Dict{Symbol,Any}(:data_type => "point", :license => "NASA FIRMS", :requires_auth => true)
+end
+
 #------------------------------------------------------------------------------# FireChunk
 struct FireChunk <: Chunk
     url::String

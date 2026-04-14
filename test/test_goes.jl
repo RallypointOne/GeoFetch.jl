@@ -94,6 +94,18 @@ using Dates
         @test GOES16_GLM.product == "GLM-L2-LCFA"
     end
 
+    @testset "metadata" begin
+        m = metadata(GOESDataset())
+        @test m[:data_type] == "gridded"
+        @test haskey(m, :license)
+        @test !haskey(m, :resolution)
+    end
+
+    @testset "filesize estimate returns nothing without resolution" begin
+        p = Project(datetimes=(DateTime(2024, 1, 1), DateTime(2024, 1, 1)))
+        @test filesize(p, GOESDataset()) === nothing
+    end
+
     @testset "live: GOES S3 listing" begin
         try
             p = Project(datetimes=(DateTime(2024, 7, 4), DateTime(2024, 7, 4, 0, 30)))
