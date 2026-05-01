@@ -1,8 +1,3 @@
-# Package Setup
+# Goal
 
-- This package was generated from https://github.com/RallypointOne/JuliaPackageTemplate.jl
-
-# Docs
-
-- Build docs: `quarto render docs`
-- Quarto YAML reference: https://quarto.org/docs/reference/
+The goal of this package is to provide a DimensionData.jl-like interface for remote datasets.
