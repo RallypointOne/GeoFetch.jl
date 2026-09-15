@@ -17,9 +17,9 @@ Scratch = "6c6a2e73-6563-6170-7368-637461726353"
 Zarr = "0a941bbe-ad1d-11e8-39d9-ab76183a1d99"
 
 [compat]
-Dates = "1.11.0"
+Dates = "1.11.0, 1.10"
 DimensionalData = "0.29.4 - 0.30"
-Downloads = "1.7.0"
+Downloads = "1.7.0, 1.6"
 Extents = "0.1.6"
 GeoFormatTypes = "0.4.5"
 GeoInterface = "1.6.1"
