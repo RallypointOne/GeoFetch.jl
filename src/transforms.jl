@@ -6,10 +6,25 @@
 #-----------------------------------------------------------------------------# selector sentinels
 # `All()` means "keep everything" — used as a default or to make intent
 # explicit (`vars=All()`).
+"""
+    All()
+
+Selector that keeps everything along a dimension, or every variable, in a
+`Select`. Equivalent to not naming that dimension at all; useful for
+making intent explicit, as in `Select(vars=All())`.
+"""
 struct All end
 
 # `Between(lo, hi)` keeps any coordinate value in the closed interval
 # [lo, hi]. Works for whatever type supports `<=` (Dates, numbers, …).
+"""
+    Between(lo, hi)
+
+Selector for `Select` that keeps the coordinate values in the closed
+interval `[lo, hi]`. Works for anything ordered: numbers, `Date`s, `DateTime`s.
+`lo` and `hi` must have the same type, so write `Between(0.0, 20.5)` rather than
+`Between(0, 20.5)`.
+"""
 struct Between{T}
     lo::T
     hi::T
@@ -31,6 +46,30 @@ matches(s::Symbol, x::Symbol)         = s == x
 # `time=Date(2025):Day(1):Date(2025,2)` filters the `:time` dim) plus the
 # special key `vars=` for variable filtering. Anything not named in the
 # selectors dict passes through unchanged.
+"""
+    Select(; vars=..., dim=selector, ...)
+
+Transform that narrows a pipeline to part of the source. Each keyword names a
+dimension of the source (for example `lon`, `lat`, `time`, `level`), and `vars`
+picks variables. Anything not named is kept whole.
+
+A dimension selector is one of
+- `Between(lo, hi)`: values in a closed interval,
+- a range, such as `Date(2025, 1, 1):Day(1):Date(2025, 1, 5)`: values in the range,
+- a vector, such as `[850, 500]`: exactly those values,
+- `All()`: everything.
+
+`vars` takes a `Symbol`, a vector of `Symbol`s, or `All()`.
+
+Kept values stay in the source's order. The selection is applied before anything
+is downloaded: files, variables and levels that are not selected are never
+fetched.
+
+# Example
+```julia
+Select(vars=[:t2m, :t], level=[850, 500], lon=Between(0, 30), lat=Between(35, 60))
+```
+"""
 struct Select <: Transform
     selectors::Dict{Symbol, Any}
 end
@@ -50,6 +89,14 @@ _show_sel(v::AbstractVector) = string(v)
 # what gets fetched — only how the resulting data is sliced on disk. The
 # Source's native `DimSpec.chunk` is the default; Rechunk overrides it; a
 # `Store(chunks=...)` argument overrides Rechunk in turn.
+"""
+    Rechunk(; dim=n, ...)
+
+Transform that sets the chunk size of the output store along the named
+dimensions, for example `Rechunk(time=30)`. It changes only how the data is laid
+out on disk, not what is fetched. Dimensions that are not named keep the source's
+native chunk size, and `Store(path; chunks=...)` takes precedence over `Rechunk`.
+"""
 struct Rechunk <: Transform
     chunks::Dict{Symbol, Int}
 end
