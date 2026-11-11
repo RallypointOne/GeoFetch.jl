@@ -13,6 +13,16 @@
 #      right region of each Zarr array.
 
 #-----------------------------------------------------------------------------# execute — entry point
+"""
+    execute(pipeline)
+
+Run a `Pipeline`: apply its `Select`s, create the Zarr store
+described by its `Store`, then fetch each remaining unit from the source
+and write it into place. This is the only operation that downloads data or
+touches the disk. Returns the root group of the new store.
+
+Throws if the store already exists and was not created with `overwrite=true`.
+"""
 function execute(p::Pipeline)
     sch, us = _resolve_schema(p)
     chunks = _resolve_chunks(p, sch)
@@ -22,7 +32,7 @@ function execute(p::Pipeline)
     arrays = _create_zarr_arrays!(g, snk, sch, chunks)
     src = source(p)
     for u in us
-        data = fetch!(src, u)
+        data = fetch!(src, u, sch)
         _write_unit!(arrays, sch, u, data)
     end
     g
@@ -100,10 +110,11 @@ end
 function _create_zarr_arrays!(g, snk::Store, sch::SourceSchema, chunks::Dict{Symbol,Int})
     arrays = Dict{Symbol, Any}()
     for d in sch.dims
-        a = Zarr.zcreate(d.dtype, g, String(d.name), length(d);
+        (vals, T, attrs) = _cfencode(d)
+        a = Zarr.zcreate(T, g, String(d.name), length(d);
                          chunks = (chunks[d.name],),
-                         attrs = Dict{String,Any}(string(k) => v for (k, v) in d.attrs))
-        a[:] = collect(d.values)
+                         attrs = Dict{String,Any}(string(k) => v for (k, v) in attrs))
+        a[:] = collect(vals)
     end
     for v in sch.vars
         shape = Tuple(length(dim(sch, dn)) for dn in v.dims)
@@ -114,6 +125,27 @@ function _create_zarr_arrays!(g, snk::Store, sch::SourceSchema, chunks::Dict{Sym
         arrays[v.name] = a
     end
     arrays
+end
+
+#-----------------------------------------------------------------------------# CF time encoding
+# Zarr.jl can write `Date`/`DateTime` arrays but cannot reopen them, so time
+# coordinates are stored as Int64 offsets from the Unix epoch with CF
+# `units`/`calendar` attrs. Returns `(values, dtype, attrs)` for the
+# coordinate array; other dims pass through unchanged. The DimSpec's own
+# attrs dict is never mutated.
+_cfencode(d::DimSpec) = _cfencode(d, d.dtype)
+_cfencode(d::DimSpec, ::Type) = (d.values, d.dtype, d.attrs)
+function _cfencode(d::DimSpec, ::Type{<:Date})
+    vals = map(t -> Dates.value(t - Date(1970, 1, 1)), d.values)
+    (vals, Int64, _cfattrs(d, "days since 1970-01-01"))
+end
+function _cfencode(d::DimSpec, ::Type{<:DateTime})
+    vals = map(t -> Dates.value(t - DateTime(1970, 1, 1)) ÷ 1000, d.values)
+    (vals, Int64, _cfattrs(d, "seconds since 1970-01-01T00:00:00"))
+end
+
+function _cfattrs(d::DimSpec, units::AbstractString)
+    merge(d.attrs, Dict{Symbol,Any}(:units => units, :calendar => "proleptic_gregorian"))
 end
 
 #-----------------------------------------------------------------------------# write a fetched unit into the zarr arrays

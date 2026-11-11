@@ -6,9 +6,40 @@
 # Every node in a pipeline is a `Stage`. The three subkinds correspond to
 # the three roles a stage can play. A well-formed pipeline starts with one
 # Source, ends with one Sink, and has zero or more Transforms in between.
+"""
+    Stage
+
+Abstract supertype of everything that can appear in a `Pipeline`: a
+`Source`, a `Transform` or a `Sink`. Stages are combined
+with `|`, as in `source | transform | sink`.
+"""
 abstract type Stage end
+"""
+    Source <: Stage
+
+The first stage of a pipeline: an upstream dataset, described by a schema
+(dimensions and variables) and a list of fetch units (the pieces it is downloaded
+in, typically one remote file each).
+
+Sources are normally built by a preset such as `OISST` or `GFS`.
+A new source type provides `schema(src)` and `units(src)` (by default the fields
+of those names) and a method `fetch!(src, unit, schema)` returning the unit's
+variables as arrays shaped for the selected (narrowed) schema.
+"""
 abstract type Source <: Stage end
+"""
+    Transform <: Stage
+
+A middle stage of a pipeline. `Select` narrows dimensions and variables;
+`Rechunk` sets the chunk shape of the output.
+"""
 abstract type Transform <: Stage end
+"""
+    Sink <: Stage
+
+The last stage of a pipeline: where the data is written. The only sink is
+`Store`, a Zarr store on local disk.
+"""
 abstract type Sink <: Stage end
 
 # Source interface: every Source must expose its `SourceSchema` and a list
@@ -21,6 +52,22 @@ units(s::Source) = s.units
 #-----------------------------------------------------------------------------# Pipeline
 # A linear sequence of stages. We don't model branching DAGs yet — a
 # pipeline is one source feeding one chain of transforms feeding one sink.
+"""
+    Pipeline
+
+An ordered chain of stages: one `Source`, any number of
+`Transform`s, and one `Sink`. Pipelines are built with `|` and
+are plain values: building, printing or extending one does no I/O. Pass it to
+`execute` to download the data and write the store.
+
+# Example
+```julia
+pipeline = OISST(start=Date(2025, 1, 1), stop=Date(2025, 1, 3)) |
+    Select(vars=:sst) |
+    Store("oisst.zarr")
+execute(pipeline)
+```
+"""
 struct Pipeline
     stages::Vector{Stage}
 end

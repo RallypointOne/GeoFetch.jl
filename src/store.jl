@@ -12,6 +12,22 @@
 #                    to error.
 #   `attrs`        — extra group-level attributes to attach to the root
 #                    group, merged on top of the source schema's attrs.
+"""
+    Store(path; chunks=Dict(), zarr_version=3, overwrite=false, attrs=Dict())
+
+Sink that writes a Zarr store to the local directory `path`. Each dimension
+becomes a coordinate array of the same name and each variable a data array.
+`Date` and `DateTime` coordinates are stored as integers with CF `units` and
+`calendar` attributes.
+
+# Keyword arguments
+- `chunks`: chunk size per dimension, such as `Dict(:time => 30)`. Takes
+  precedence over `Rechunk` and over the source's native chunks.
+- `zarr_version`: `2` or `3`.
+- `overwrite`: replace an existing store at `path`. When `false`, an existing
+  store makes `execute` throw.
+- `attrs`: extra attributes for the root group, merged over the source's.
+"""
 struct Store <: Sink
     path::String
     chunks::Dict{Symbol, Int}

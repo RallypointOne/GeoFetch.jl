@@ -6,67 +6,132 @@ engine: julia
 ```{julia}
 #| echo: false
 #| output: false
-using GeoFetch, Dates, Extents
+using GeoFetch, Dates
 ```
 
-Welcome to the documentation for **GeoFetch.jl** — a unified interface for fetching geospatial data from multiple providers.
+**GeoFetch.jl** builds local [Zarr](https://zarr.dev) stores from remote weather and geoscience datasets. You describe what you want as a small pipeline, and GeoFetch downloads only the pieces it needs and writes them into a single store with labelled dimensions.
 
 ## Overview
 
-GeoFetch organizes geospatial data access around four core types:
+A pipeline is a chain of stages joined with `|`:
 
 ```
-Source → Dataset → Chunk → File
+Source | Select / Rechunk | Store
 ```
 
-- **`Source`** — A data provider (e.g. `NOMADS()`, `CDS()`, `Landfire()`).
-    - `datasets(source)` lists available datasets.
-    - `help(source)` returns a documentation URL.
-- **`Dataset`** — A configurable remote dataset (e.g. `LandfireDataset(product="FBFM40")`).
-    - `chunks(project, dataset)` resolves it into downloadable pieces.
-- **`Chunk`** — A single downloadable file with a URL and metadata.
-    - `fetch(chunk, filepath)` downloads the data to disk.
-- **`Project`** — Ties everything together: a spatial/temporal region of interest, an output directory, and a list of datasets to fetch.
+- **Source** — the upstream dataset and how it is split into fetchable pieces. Presets such as `OISST(...)` and `GFS(...)` build a source for a known dataset.
+- **Transform** — `Select` narrows dimensions and variables; `Rechunk` changes the chunk shape of the output.
+- **Sink** — `Store` is the Zarr store to write.
 
-## Quickstart
+Building a pipeline does no I/O, so it can be printed and inspected freely:
 
-Create a `Project` with a geometry and datasets, then `fetch` it:
+```{julia}
+pipeline = GFS(start=Date(2026, 11, 8), stop=Date(2026, 11, 8), cycles=[0], steps=[0, 6, 12]) |
+    Select(vars=[:t2m, :apcp, :t], level=[850, 500], lon=Between(0, 30), lat=Between(35, 60)) |
+    Store("gfs.zarr")
+```
+
+`execute` is the one call that downloads data and writes the store:
 
 ```{julia}
 #| eval: false
-using GeoFetch, Dates, Extents
-
-p = Project(
-    geometry = Extent(X=(-106.0, -105.0), Y=(39.0, 40.0)),
-    datasets = [LandfireDataset(product="FBFM40")],
-)
-
-fetch(p)
+execute(pipeline)
 ```
 
-## Available Sources
+## Installation
+
+```{julia}
+#| eval: false
+using Pkg
+Pkg.add(url="https://github.com/RallypointOne/GeoFetch.jl")
+```
+
+The registered v0.1.0 predates the pipeline API described here, so install from the repository for now.
+
+## Available sources
+
+| Preset  | Dataset | Access | Auth |
+|---------|---------|--------|------|
+| `OISST` | NOAA Optimum Interpolation SST v2.1, daily, 0.25° global | NetCDF files over HTTPS (NCEI) | none |
+| `GFS`   | NOAA Global Forecast System forecasts, 0.25° / 0.5° / 1° global | GRIB2 messages by byte range (AWS `noaa-gfs-bdp-pds`) | none |
+| `ERA5`  | ECMWF ERA5 reanalysis | not implemented yet | — |
+
+### OISST
+
+Daily sea surface temperature on a 0.25° global grid, one NetCDF file (about 1.6 MB) per day. Dimensions are `lon` (0 to 360), `lat`, `zlev` and `time`; variables are `sst`, `anom`, `err` and `ice`.
+
+```{julia}
+#| eval: false
+pipeline = OISST(start=Date(2025, 1, 1), stop=Date(2025, 1, 3)) |
+    Select(vars=:sst, lon=Between(280, 350), lat=Between(20, 60)) |
+    Rechunk(time=3) |
+    Store("oisst.zarr")
+
+execute(pipeline)
+```
+
+### GFS
+
+Global forecasts from the `pgrb2` files of the public AWS bucket, available from 2021-03-23. Dimensions are `lon` (0 to 360), `lat` (north first), `level` (hPa), `step` (lead time in hours) and `time` (forecast initialization).
+
+Each GFS file is about 540 MB at 0.25° and holds several hundred GRIB messages. GeoFetch reads the `.idx` file published next to each one and requests only the byte ranges of the selected variables and levels.
 
 ```{julia}
 #| echo: false
 #| output: asis
-sources = [
-    (NOMADS,      "NOAA weather models (GFS, HRRR, NAM, ...)",  "None"),
-    (CDS,         "Copernicus Climate Data Store (ERA5, ...)",   "API key"),
-    (FIRMS,       "NASA active fire data (VIIRS, MODIS)",        "API key"),
-    (ETOPO,       "NOAA global relief model",                    "None"),
-    (SRTM,        "NASA Shuttle Radar Topography Mission",       "API key"),
-    (GOES,        "NOAA GOES satellite imagery (S3)",            "None"),
-    (HRRRArchive, "HRRR model archive (S3)",                     "None"),
-    (NASAPower,   "NASA daily meteorological/solar data",        "None"),
-    (USGSWater,   "USGS streamflow and water quality",           "None"),
-    (NCEI,        "NOAA historical weather observations",        "None"),
-    (OISST,       "NOAA daily sea surface temperature",          "None"),
-    (Landfire,    "USGS wildland fire and vegetation (WCS)",     "None"),
-]
-
-println("| Source | Description | Auth |")
-println("|--------|-------------|------|")
-for (S, desc, auth) in sources
-    println("| `$(nameof(S))` | $desc | $auth |")
+println("| Variable | Level | Units | Description |")
+println("|----------|-------|-------|-------------|")
+foreach(GeoFetch._GFS_FIELDS) do f
+    lev = occursin("{}", f.level) ? "pressure levels" : f.level
+    println("| `", f.name, "` | ", lev, " | ", f.units, " | ", f.long_name, " |")
 end
+```
+
+Things to know:
+
+- Without a `Select(vars=...)` every variable on every level is fetched, which is about 245 requests and on the order of 1 GB in memory per file at 0.25°.
+- A message that a file does not contain is stored as `NaN`. For example `apcp` (precipitation accumulated since forecast start) has no value at step 0.
+- At 0.25° every hour up to 120 is available; beyond that, and at 0.5° and 1°, lead times are multiples of 3 up to 384.
+- `GFS(...; base=...)` reads from a mirror or a local directory with the same layout as the bucket.
+
+## Selecting and chunking
+
+`Select` takes one keyword per dimension, plus `vars`:
+
+```{julia}
+#| eval: false
+Select(vars=:sst)                           # one variable
+Select(vars=[:t2m, :u10, :v10])             # several
+Select(lat=Between(30, 60))                 # closed interval
+Select(level=[850, 500])                    # explicit values
+Select(time=Date(2025, 1, 1):Day(1):Date(2025, 1, 5))   # a range
+```
+
+Selections are applied before anything is downloaded: files outside the selected times are skipped, and unselected variables, levels and grid points are not read.
+
+`Rechunk(time=30)` sets the chunk size of the output store along a dimension. It does not change what is fetched. `Store(path; chunks=Dict(:time => 30))` does the same and takes precedence.
+
+## Reading a store
+
+Stores are plain Zarr and open with any Zarr reader. `Store` writes Zarr v3 by default; pass `zarr_version=2` for v2, and `overwrite=true` to replace an existing store.
+
+```{julia}
+#| eval: false
+using Zarr, Dates
+
+g = zopen("gfs.zarr")
+t2m = g["t2m"][:, :, :, :]                  # (lon, lat, step, time)
+lon = g["lon"][:]
+time = DateTime(1970) .+ Second.(g["time"][:])
+```
+
+Each dimension is stored as a coordinate array of the same name. Time coordinates are integers with CF `units` attributes: `seconds since 1970-01-01T00:00:00` for `DateTime` dimensions (GFS) and `days since 1970-01-01` for `Date` dimensions (OISST).
+
+## Examples
+
+The `examples/` directory of the repository has a runnable script per source. Each pulls a small dataset, then reopens the store and prints a summary:
+
+```
+julia --project=. examples/oisst.jl
+julia --project=. examples/gfs.jl
 ```
