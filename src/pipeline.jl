@@ -21,7 +21,7 @@ The first stage of a pipeline: an upstream dataset, described by a schema
 (dimensions and variables) and a list of fetch units (the pieces it is downloaded
 in, typically one remote file each).
 
-Sources are normally built by a preset such as `OISST` or `GFS`.
+Sources are normally built by a preset such as `OISST`, `GFS` or `IFS`.
 A new source type provides `schema(src)` and `units(src)` (by default the fields
 of those names) and a method `fetch!(src, unit, schema)` returning the unit's
 variables as arrays shaped for the selected (narrowed) schema.

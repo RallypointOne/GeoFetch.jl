@@ -103,8 +103,9 @@ function _create_zarr_group(snk::Store, sch::SourceSchema)
     Zarr.zgroup(store, "", snk.zarr_version; attrs = attrs)
 end
 
-# Create one coordinate array per dim (1D, populated immediately) and one
-# data array per variable (N-D, empty — to be filled by the per-unit writes).
+# Create one coordinate array per dim (1D, populated immediately), one array
+# per auxiliary coordinate (N-D, populated immediately) and one data array
+# per variable (N-D, empty — to be filled by the per-unit writes).
 # Returns a Dict{Symbol → ZArray} of just the data arrays, since coordinate
 # arrays don't need further writing.
 function _create_zarr_arrays!(g, snk::Store, sch::SourceSchema, chunks::Dict{Symbol,Int})
@@ -115,6 +116,12 @@ function _create_zarr_arrays!(g, snk::Store, sch::SourceSchema, chunks::Dict{Sym
                          chunks = (chunks[d.name],),
                          attrs = Dict{String,Any}(string(k) => v for (k, v) in attrs))
         a[:] = collect(vals)
+    end
+    foreach(sch.coords) do c
+        a = Zarr.zcreate(eltype(c.values), g, String(c.name), size(c.values)...;
+                         chunks = Tuple(map(dn -> chunks[dn], c.dims)),
+                         attrs = Dict{String,Any}(string(k) => v for (k, v) in c.attrs))
+        a[map(_ -> Colon(), c.dims)...] = c.values
     end
     for v in sch.vars
         shape = Tuple(length(dim(sch, dn)) for dn in v.dims)
