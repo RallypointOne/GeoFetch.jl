@@ -30,6 +30,9 @@ the repository for now.
 |---------|----------------------------------------------------------------|-----------------------------------------|------|
 | `OISST` | NOAA Optimum Interpolation SST v2.1, daily, 0.25° global       | NetCDF files over HTTPS (NCEI)          | none |
 | `GFS`   | NOAA Global Forecast System forecasts, 0.25° / 0.5° / 1° global | GRIB2 messages by byte range (AWS)      | none |
+| `IFS`   | ECMWF IFS deterministic forecasts, 0.25° / 0.1° global         | GRIB2 messages by byte range (ECMWF open data) | none |
+| `AIFS`  | ECMWF AIFS Single machine-learning forecasts, 0.25° global     | GRIB2 messages by byte range (ECMWF open data) | none |
+| `HRRR`  | NOAA High-Resolution Rapid Refresh forecasts, 3 km, contiguous US | GRIB2 messages by byte range (AWS)   | none |
 | `ERA5`  | ECMWF ERA5 reanalysis                                          | not implemented yet                     | —    |
 
 ## Examples
@@ -70,6 +73,51 @@ GFS data has dimensions `lon`, `lat`, `level` (hPa), `step` (lead time in hours)
 and `time` (forecast initialization). See the `GFS` docstring for the variable
 list. Without a `Select(vars=...)` every variable on every level is fetched.
 
+### Weather forecasts (IFS and AIFS)
+
+The same kind of pipeline for ECMWF's IFS model, read from the
+[ECMWF open data](https://www.ecmwf.int/en/forecasts/datasets/open-data)
+(CC-BY-4.0). Again only the selected GRIB messages are downloaded.
+
+```julia
+using GeoFetch, Dates
+
+pipeline = IFS(start=Date(2026, 11, 14), stop=Date(2026, 11, 14), cycles=[0], steps=[0, 6, 12]) |
+    Select(vars=[:t2m, :tp, :t], level=[850, 500], lon=Between(0, 30), lat=Between(35, 60)) |
+    Store("ifs.zarr")
+
+execute(pipeline)
+```
+
+`AIFS(...)` takes the same keywords and reads ECMWF's machine-learning forecast
+instead. Both have the same dimensions as GFS, but `lon` runs from -180 to 180
+rather than 0 to 360, there are 14 pressure levels, and some units differ
+between the two (`tp` is in m for IFS and kg m⁻² for AIFS). See the `IFS` and
+`AIFS` docstrings for the variable lists.
+
+### Weather forecasts on a projected grid (HRRR)
+
+NOAA's HRRR covers the contiguous United States on a 3 km grid that is regular
+in a Lambert conformal projection, so its horizontal dimensions are the
+projected coordinates `x` and `y` (in m). `lon` and `lat` are two-dimensional
+arrays on `(x, y)`. They can still be used in a `Select`, which keeps the
+smallest `x`/`y` rectangle that contains the requested box.
+
+```julia
+using GeoFetch, Dates
+
+pipeline = HRRR(start=Date(2026, 11, 14), stop=Date(2026, 11, 14), cycles=[0], steps=0:3) |
+    Select(vars=[:t2m, :apcp, :t], level=[850, 500], lon=Between(-110, -100), lat=Between(35, 42)) |
+    Store("hrrr.zarr")
+
+execute(pipeline)
+```
+
+The store holds `lon` and `lat` next to the variables, and the projection as a
+PROJ string in its `crs` attribute. Wind components are relative to the grid
+(`u` along `x`, `v` along `y`), not to east and north. See the `HRRR` docstring
+for the variable list.
+
 ### Reading a store back
 
 Stores are plain Zarr (v3 by default, `Store(path; zarr_version=2)` for v2) and
@@ -108,4 +156,6 @@ Runnable scripts for each source are in [`examples/`](examples/):
 ```
 julia --project=. examples/oisst.jl
 julia --project=. examples/gfs.jl
+julia --project=. examples/ifs.jl
+julia --project=. examples/hrrr.jl
 ```

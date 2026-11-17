@@ -9,4 +9,6 @@ using GeoFetch
     include("core.jl")
     include("grib.jl")
     include("gfs.jl")
+    include("ecmwf.jl")
+    include("hrrr.jl")
 end

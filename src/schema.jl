@@ -54,18 +54,46 @@ end
 
 Base.show(io::IO, v::VarSpec) = print(io, "VarSpec(:", v.name, ", $(v.dtype), dims=$(v.dims))")
 
+#-----------------------------------------------------------------------------# CoordSpec
+# An auxiliary coordinate: values that are known up front and are a function
+# of one or more dims, such as the 2D `lon`/`lat` of a projected grid whose
+# dims are `x`/`y`. `values` has one axis per entry of `dims`, in that order.
+#
+# Unlike a variable it is never fetched: it is cropped along with its dims by
+# `Select` and written to the store when the store is created. A `Select`
+# keyword that names an auxiliary coordinate narrows the dims it spans (see
+# `_coordselect`).
+struct CoordSpec
+    name::Symbol
+    dims::Vector{Symbol}
+    values::AbstractArray
+    attrs::Dict{Symbol, Any}
+end
+
+function CoordSpec(name, dims, values; attrs::AbstractDict=Dict{Symbol,Any}())
+    length(dims) == ndims(values) ||
+        throw(ArgumentError("CoordSpec :$name: $(ndims(values))-dimensional values for dims $dims"))
+    CoordSpec(Symbol(name), map(Symbol, collect(dims)), values, Dict{Symbol,Any}(pairs(attrs)))
+end
+
+Base.show(io::IO, c::CoordSpec) =
+    print(io, "CoordSpec(:", c.name, ", $(eltype(c.values)), dims=$(c.dims))")
+
 #-----------------------------------------------------------------------------# SourceSchema
 # The full description of what a Source can provide. Schemas flow through
 # the pipeline: each Transform produces a (possibly narrowed) schema, and
 # the final schema is what `execute` materializes into Zarr arrays.
+# `coords` are the auxiliary coordinates (`CoordSpec`), empty for sources on
+# a regular grid.
 struct SourceSchema
     dims::Vector{DimSpec}
     vars::Vector{VarSpec}
     attrs::Dict{Symbol, Any}
+    coords::Vector{CoordSpec}
 end
 
-function SourceSchema(dims, vars; attrs::AbstractDict = Dict{Symbol,Any}())
-    SourceSchema(collect(dims), collect(vars), Dict{Symbol,Any}(pairs(attrs)))
+function SourceSchema(dims, vars; attrs::AbstractDict = Dict{Symbol,Any}(), coords = CoordSpec[])
+    SourceSchema(collect(dims), collect(vars), Dict{Symbol,Any}(pairs(attrs)), collect(CoordSpec, coords))
 end
 
 # Convenience lookups. `dim`/`var` throw on missing names; `hasdim`/`hasvar`
@@ -73,6 +101,7 @@ end
 dim(s::SourceSchema, name::Symbol) = s.dims[findfirst(d -> d.name == name, s.dims)]
 hasdim(s::SourceSchema, name::Symbol) = any(d -> d.name == name, s.dims)
 var(s::SourceSchema, name::Symbol) = s.vars[findfirst(v -> v.name == name, s.vars)]
+coord(s::SourceSchema, name::Symbol) = s.coords[findfirst(c -> c.name == name, s.coords)]
 hasvar(s::SourceSchema, name::Symbol) = any(v -> v.name == name, s.vars)
 
 function Base.show(io::IO, ::MIME"text/plain", s::SourceSchema)
@@ -81,6 +110,8 @@ function Base.show(io::IO, ::MIME"text/plain", s::SourceSchema)
     for d in s.dims; println(io, "    ", d); end
     println(io, "  vars:")
     for v in s.vars; println(io, "    ", v); end
+    isempty(s.coords) || println(io, "  coords:")
+    foreach(c -> println(io, "    ", c), s.coords)
     isempty(s.attrs) || println(io, "  attrs: ", s.attrs)
 end
 

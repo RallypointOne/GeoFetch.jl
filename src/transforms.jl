@@ -61,6 +61,11 @@ A dimension selector is one of
 
 `vars` takes a `Symbol`, a vector of `Symbol`s, or `All()`.
 
+On a projected grid (such as `HRRR`, with dimensions `x` and `y`), `lon` and
+`lat` are two-dimensional auxiliary coordinates. They are selected the same way,
+and keep the smallest `x`/`y` rectangle that contains every grid point matching
+all of them, so some points just outside the requested box are kept as well.
+
 Kept values stay in the source's order. The selection is applied before anything
 is downloaded: files, variables and levels that are not selected are never
 fetched.
@@ -113,6 +118,7 @@ end
 # Walks every dim and applies its selector (if any), then filters the var
 # list, then drops/narrows units that no longer have anything to deliver.
 function apply_select(t::Select, sch::SourceSchema, us::Vector{FetchUnit})
+    t = _coordselect(t, sch)
     new_dims = map(sch.dims) do d
         sel = get(t.selectors, d.name, nothing)
         sel === nothing && return d
@@ -125,7 +131,9 @@ function apply_select(t::Select, sch::SourceSchema, us::Vector{FetchUnit})
     else
         filter(v -> _var_match(var_sel, v.name), sch.vars)
     end
-    new_sch = SourceSchema(new_dims, new_vars; attrs=sch.attrs)
+    narrowed = SourceSchema(new_dims, new_vars; attrs=sch.attrs)
+    new_coords = map(c -> _narrowcoord(c, sch, narrowed), sch.coords)
+    new_sch = SourceSchema(new_dims, new_vars; attrs=sch.attrs, coords=new_coords)
 
     var_keep = Set(v.name for v in new_vars)
     new_us = FetchUnit[]
@@ -134,6 +142,39 @@ function apply_select(t::Select, sch::SourceSchema, us::Vector{FetchUnit})
         n === nothing || push!(new_us, n)
     end
     new_sch, new_us
+end
+
+# Rewrite the selectors of `t` that name auxiliary coordinates of `sch` (such
+# as the 2D `lon`/`lat` of a projected grid) into selectors on the dims those
+# coordinates span. Coordinates that share their dims are selected jointly:
+# the grid points matching all of their selectors are found, and each dim
+# keeps the contiguous run of values from the first to the last one that has
+# a matching point, i.e. the bounding box of the matches in index space. A
+# selector the dim already has is applied on top.
+function _coordselect(t::Select, sch::SourceSchema)
+    cs = filter(c -> haskey(t.selectors, c.name), sch.coords)
+    isempty(cs) && return t
+    sel = filter(((k, _),) -> all(c -> c.name ≠ k, cs), t.selectors)
+    foreach(unique(map(c -> c.dims, cs))) do ds
+        g = filter(c -> c.dims == ds, cs)
+        mask = mapreduce(c -> map(x -> matches(t.selectors[c.name], x), c.values), (a, b) -> a .& b, g)
+        any(mask) ||
+            throw(ArgumentError("Select: no grid point matches the selection on $(join(map(c -> c.name, g), ", "))"))
+        foreach(enumerate(ds)) do (k, n)
+            hit = vec(any(mask; dims=Tuple(setdiff(1:ndims(mask), k))))
+            vals = dim(sch, n).values[findfirst(hit):findlast(hit)]
+            s = get(sel, n, All())
+            sel[n] = filter(x -> matches(s, x), vals)
+        end
+    end
+    Select(sel)
+end
+
+# Crop an auxiliary coordinate of the schema `full` to the dims of the
+# narrowed schema `sch`.
+function _narrowcoord(c::CoordSpec, full::SourceSchema, sch::SourceSchema)
+    idx = map(n -> _dimindex(full, sch, n), c.dims)
+    CoordSpec(c.name, c.dims, c.values[idx...]; attrs=c.attrs)
 end
 
 # Variable-selector matching: separate from `matches` so that `vars=:sst`

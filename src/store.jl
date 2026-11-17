@@ -17,6 +17,8 @@
 
 Sink that writes a Zarr store to the local directory `path`. Each dimension
 becomes a coordinate array of the same name and each variable a data array.
+Auxiliary coordinates (the two-dimensional `lon` and `lat` of a projected grid)
+are stored as arrays of their own.
 `Date` and `DateTime` coordinates are stored as integers with CF `units` and
 `calendar` attributes.
 

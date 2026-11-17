@@ -19,7 +19,8 @@
 #                        download). Currently a stub; will be filled in for
 #                        ERA5.
 #   `GRIBRangeSource` — read individual GRIB2 messages by byte range, located
-#                        through `.idx` sidecars (HTTP(S) URL or local path).
+#                        through index sidecars: wgrib2 `.idx` (NOAA) or
+#                        JSON-lines `.index` (ECMWF); HTTP(S) URL or local path.
 
 #-----------------------------------------------------------------------------# HTTPFileSource
 # Generic "download a file by URL, then decode" transport. Each FetchUnit's
@@ -146,17 +147,21 @@ end
 GRIBField(param, level) = GRIBField(param, level, nothing)
 
 # "Read single GRIB2 messages by byte range" transport. Each FetchUnit's
-# `payload` is the location (URL or local path) of a GRIB file; its index is
-# at `payload * ".idx"`. Only the messages of the requested variables and
-# levels are read.
+# `payload` is the location (URL or local path) of a GRIB file. Only the
+# messages of the requested variables and levels are read. `index` is the
+# format of the index sidecar (see `_readidx`): `:wgrib2` for the text index at
+# `payload * ".idx"`, `:ecmwf` for the JSON-lines index with `.index` in place
+# of the file's `.grib2` extension.
 struct GRIBRangeSource <: Source
     schema::SourceSchema
     units::Vector{FetchUnit}
     fields::Dict{Symbol, GRIBField}   # variable name => how to find its messages
+    index::Symbol
 end
 
-function GRIBRangeSource(; schema::SourceSchema, units, fields::AbstractDict)
-    GRIBRangeSource(schema, collect(units), Dict{Symbol, GRIBField}(pairs(fields)))
+function GRIBRangeSource(; schema::SourceSchema, units, fields::AbstractDict, index::Symbol=:wgrib2)
+    index ∈ (:wgrib2, :ecmwf) || throw(ArgumentError("GRIBRangeSource: index must be :wgrib2 or :ecmwf, got :$index"))
+    GRIBRangeSource(schema, collect(units), Dict{Symbol, GRIBField}(pairs(fields)), index)
 end
 
 Base.show(io::IO, s::GRIBRangeSource) =
@@ -210,6 +215,40 @@ function _parseidx(text::AbstractString)
     end
 end
 
+# Location of the ECMWF index of the GRIB file at `loc`: `.index` in place of
+# the `.grib2` extension.
+function _indexloc(loc::AbstractString)
+    endswith(loc, ".grib2") || error("expected a .grib2 file, got $loc")
+    chopsuffix(loc, ".grib2") * ".index"
+end
+
+# Parse an ECMWF `.index` sidecar: one JSON object per message with MARS keys
+# (`param`, `levtype`, `levelist`, ...) and its `_offset` and `_length` in
+# bytes. Returns entries of the same shape as `_parseidx`, so `_findmsg`
+# works on either. `level` is `"sfc"` for single-level fields and otherwise
+# `"<levelist> <levtype>"`, e.g. `"500 pl"` or `"1 sol"`; `forecast` is always
+# empty (the index does not distinguish instantaneous from accumulated
+# fields, the parameter name does). Lines that are not such objects are
+# skipped.
+function _parseindex(text::AbstractString)
+    rows = NamedTuple{(:start, :param, :level, :forecast, :stop), Tuple{Int, String, String, String, Int}}[]
+    for l ∈ eachline(IOBuffer(text))
+        startswith(l, '{') || continue
+        o = JSON.parse(l)
+        all(k -> haskey(o, k), ("param", "levtype", "_offset", "_length")) || continue
+        lt = String(o["levtype"])
+        level = lt == "sfc" ? lt : string(get(o, "levelist", ""), " ", lt)
+        a = Int(o["_offset"])
+        push!(rows, (start=a, param=String(o["param"]), level, forecast="", stop=a + Int(o["_length"]) - 1))
+    end
+    rows
+end
+
+# Index entries of the GRIB file at `loc`, read from its sidecar of the given
+# format.
+_readidx(::Val{:wgrib2}, loc::AbstractString) = _parseidx(_readtext(loc * ".idx"))
+_readidx(::Val{:ecmwf}, loc::AbstractString) = _parseindex(_readtext(_indexloc(loc)))
+
 # First idx entry for field `f` at level coordinate `lev` (`nothing` for
 # variables without a :level dim), or `nothing` if the file has no such
 # message. With `f.forecast === nothing` only instantaneous fields match,
@@ -248,12 +287,13 @@ end
 # or a dim the unit pins to a single coordinate. Messages that the file does
 # not have (a variable, or one of its levels) are left as NaN.
 #
-# Level coordinates are assumed to print the way the idx writes them
-# (`string(500) * " mb"`), so level dims should hold `Int` hPa.
+# Level coordinates are assumed to print the way the index writes them
+# (`string(500) * " mb"` in a wgrib2 idx, `string(500) * " pl"` in an ECMWF
+# index), so level dims should hold `Int` hPa.
 function fetch!(src::GRIBRangeSource, u::FetchUnit, sch::SourceSchema)
     loc = string(u.payload)
-    idx = _parseidx(_readtext(loc * ".idx"))
-    isempty(idx) && error("no GRIB index entries found in $(loc).idx")
+    idx = _readidx(Val(src.index), loc)
+    isempty(idx) && error("no GRIB index entries found for $loc")
     names = _unitvars(u, sch)
     arrs = map(n -> _fetchgribvar(src, u, sch, idx, loc, var(sch, n)), names)
     NamedTuple{Tuple(names)}(Tuple(arrs))
