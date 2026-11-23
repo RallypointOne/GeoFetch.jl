@@ -19,7 +19,7 @@ A pipeline is a chain of stages joined with `|`:
 Source | Select / Rechunk | Store
 ```
 
-- **Source** — the upstream dataset and how it is split into fetchable pieces. Presets such as `OISST(...)` and `GFS(...)` build a source for a known dataset.
+- **Source** — the upstream dataset and how it is split into fetchable pieces. Presets such as `OISST(...)`, `GFS(...)` and `IFS(...)` build a source for a known dataset.
 - **Transform** — `Select` narrows dimensions and variables; `Rechunk` changes the chunk shape of the output.
 - **Sink** — `Store` is the Zarr store to write.
 
@@ -54,6 +54,9 @@ The registered v0.1.0 predates the pipeline API described here, so install from 
 |---------|---------|--------|------|
 | `OISST` | NOAA Optimum Interpolation SST v2.1, daily, 0.25° global | NetCDF files over HTTPS (NCEI) | none |
 | `GFS`   | NOAA Global Forecast System forecasts, 0.25° / 0.5° / 1° global | GRIB2 messages by byte range (AWS `noaa-gfs-bdp-pds`) | none |
+| `IFS`   | ECMWF IFS deterministic forecasts, 0.25° / 0.1° global | GRIB2 messages by byte range (ECMWF open data) | none |
+| `AIFS`  | ECMWF AIFS Single machine-learning forecasts, 0.25° global | GRIB2 messages by byte range (ECMWF open data) | none |
+| `HRRR`  | NOAA High-Resolution Rapid Refresh forecasts, 3 km, contiguous US | GRIB2 messages by byte range (AWS `noaa-hrrr-bdp-pds`) | none |
 | `ERA5`  | ECMWF ERA5 reanalysis | not implemented yet | — |
 
 ### OISST
@@ -94,6 +97,88 @@ Things to know:
 - At 0.25° every hour up to 120 is available; beyond that, and at 0.5° and 1°, lead times are multiples of 3 up to 384.
 - `GFS(...; base=...)` reads from a mirror or a local directory with the same layout as the bucket.
 
+### IFS and AIFS
+
+Deterministic forecasts from the [ECMWF open data](https://www.ecmwf.int/en/forecasts/datasets/open-data) (CC-BY-4.0): `IFS` is the physical model (available here from 2024-03-01), `AIFS` the machine-learning model AIFS Single (from 2025-03-01). Dimensions are those of GFS, except that `lon` runs from -180 to 180 and there are 14 pressure levels.
+
+Each file holds one lead time of one run. GeoFetch reads the `.index` file published next to it and requests only the byte ranges of the selected variables and levels.
+
+```{julia}
+#| eval: false
+pipeline = IFS(start=Date(2026, 11, 14), stop=Date(2026, 11, 14), cycles=[0], steps=[0, 6, 12]) |
+    Select(vars=[:t2m, :tp, :t], level=[850, 500], lon=Between(0, 30), lat=Between(35, 60)) |
+    Store("ifs.zarr")
+
+execute(pipeline)
+```
+
+IFS variables:
+
+```{julia}
+#| echo: false
+#| output: asis
+function fieldtable(fields)
+    println("| Variable | ECMWF name | Level | Units | Description |")
+    println("|----------|------------|-------|-------|-------------|")
+    foreach(fields) do f
+        lev = occursin("{}", f.level) ? "pressure levels" : f.level == "sfc" ? "single level" : "soil layer"
+        println("| `", f.name, "` | `", f.param, "` | ", lev, " | ", f.units, " | ", f.long_name, " |")
+    end
+end
+fieldtable(GeoFetch._IFS_FIELDS)
+```
+
+AIFS variables:
+
+```{julia}
+#| echo: false
+#| output: asis
+fieldtable(GeoFetch._AIFS_FIELDS)
+```
+
+Things to know:
+
+- Units differ between the two models: precipitation and snowfall are in m for IFS and kg m⁻² for AIFS, cloud cover is a fraction for IFS and a percentage for AIFS.
+- IFS lead times are multiples of 3 up to 144 and, for the 0 and 12 UTC cycles, multiples of 6 up to 360. AIFS lead times are multiples of 6 up to 360 for every cycle.
+- `IFS(...; resolution="0p1")` reads the 0.1° files, available from 2026-10-21.
+- A message that a file does not contain is stored as `NaN`. The open data has grown over time, so older runs lack many of the variables and levels listed here.
+- The default `base` is the Google Cloud mirror. `base=` also takes the AWS bucket (`https://ecmwf-forecasts.s3.eu-central-1.amazonaws.com`), ECMWF's own server (`https://data.ecmwf.int/forecasts`, about the last 4 days only) or a local directory with the same layout.
+
+### HRRR
+
+Hourly forecasts over the contiguous United States on a 3 km grid, from the public AWS bucket, available from 2014-07-30. Each lead time of a run has a `wrfsfc` file (about 140 MB) with the single-level variables and a `wrfprs` file (about 390 MB) with the pressure-level variables. As for GFS, only the byte ranges of the selected variables and levels are requested.
+
+The grid is regular in a Lambert conformal projection, not in longitude and latitude. The dimensions are therefore `x` and `y` (projected coordinates in m, 1799 by 1059 points), `level` (hPa), `step` and `time`. `lon` and `lat` are two-dimensional auxiliary coordinates on `(x, y)`: they are stored next to the variables, and a `Select` on them keeps the smallest `x`/`y` rectangle that contains every matching grid point.
+
+```{julia}
+#| eval: false
+pipeline = HRRR(start=Date(2026, 11, 14), stop=Date(2026, 11, 14), cycles=[0], steps=0:3) |
+    Select(vars=[:t2m, :apcp, :t], level=[850, 500], lon=Between(-110, -100), lat=Between(35, 42)) |
+    Store("hrrr.zarr")
+
+execute(pipeline)
+```
+
+```{julia}
+#| echo: false
+#| output: asis
+println("| Variable | Level | Units | Description |")
+println("|----------|-------|-------|-------------|")
+foreach(GeoFetch._HRRR_FIELDS) do f
+    lev = occursin("{}", f.level) ? "pressure levels" : f.level
+    println("| `", f.name, "` | ", lev, " | ", f.units, " | ", f.long_name, " |")
+end
+```
+
+Things to know:
+
+- Wind components are relative to the grid: `u` is along `x` and `v` along `y`, which away from the central meridian (97.5° W) is not due east and north.
+- `lon` runs from about -134 to -61. Because the selection is a rectangle in `x` and `y`, the store also holds some points just outside the requested longitude and latitude box.
+- The projection is stored as a PROJ string in the `crs` attribute of the store.
+- Every cycle has lead times up to 18 hours; the 0, 6, 12 and 18 UTC cycles go up to 48. Older runs are shorter.
+- There are 39 pressure levels, from 1000 to 50 hPa in steps of 25. Without a `Select(vars=...)` every variable on every level is fetched, which is about 310 requests and several GB in memory per lead time.
+- A message that a file does not contain is stored as `NaN`. The model has changed over the years, so older runs lack some of the variables listed here.
+
 ## Selecting and chunking
 
 `Select` takes one keyword per dimension, plus `vars`:
@@ -106,6 +191,8 @@ Select(lat=Between(30, 60))                 # closed interval
 Select(level=[850, 500])                    # explicit values
 Select(time=Date(2025, 1, 1):Day(1):Date(2025, 1, 5))   # a range
 ```
+
+On a projected grid (`HRRR`), `lon` and `lat` are selected the same way even though they are not dimensions; see the HRRR section above.
 
 Selections are applied before anything is downloaded: files outside the selected times are skipped, and unselected variables, levels and grid points are not read.
 
@@ -125,7 +212,7 @@ lon = g["lon"][:]
 time = DateTime(1970) .+ Second.(g["time"][:])
 ```
 
-Each dimension is stored as a coordinate array of the same name. Time coordinates are integers with CF `units` attributes: `seconds since 1970-01-01T00:00:00` for `DateTime` dimensions (GFS) and `days since 1970-01-01` for `Date` dimensions (OISST).
+Each dimension is stored as a coordinate array of the same name; for HRRR the two-dimensional `lon` and `lat` are stored as arrays on `(x, y)` as well. Time coordinates are integers with CF `units` attributes: `seconds since 1970-01-01T00:00:00` for `DateTime` dimensions (GFS, IFS, AIFS, HRRR) and `days since 1970-01-01` for `Date` dimensions (OISST).
 
 ## Examples
 
@@ -134,4 +221,6 @@ The `examples/` directory of the repository has a runnable script per source. Ea
 ```
 julia --project=. examples/oisst.jl
 julia --project=. examples/gfs.jl
+julia --project=. examples/ifs.jl
+julia --project=. examples/hrrr.jl
 ```
