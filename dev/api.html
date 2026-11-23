@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.37">
+<meta name="generator" content="quarto-1.11.9">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -12,16 +12,54 @@
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
 */
-code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -37,14 +75,15 @@ ul.task-list li input[type="checkbox"] {
 <link href="./index.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-3db6c18bb69885e7f25697a9383847b5.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-a25274e1f4d10790e0ba3e859271560c.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-426f41d558ea4d560124c4548de7cb69.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-7ade0d2eeb53a02b6382f342698cd8a4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -74,11 +113,11 @@ ul.task-list li input[type="checkbox"] {
 <link rel="stylesheet" href="assets/styles.css">
 </head>
 
-<body class="nav-sidebar floating nav-fixed quarto-light">
+<body class="nav-sidebar floating nav-fixed quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a>
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark" aria-label="Site">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a href="https://rallypoint1.com" class="navbar-brand navbar-brand-logo">
@@ -89,7 +128,7 @@ ul.task-list li input[type="checkbox"] {
     <span class="navbar-title">GeoFetch.jl</span>
     </a>
   </div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -110,13 +149,13 @@ ul.task-list li input[type="checkbox"] {
 </div>
       </div> <!-- /container-fluid -->
     </nav>
-  <nav class="quarto-secondary-nav">
+  <nav class="quarto-secondary-nav" aria-label="Toolbar">
     <div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./api.html">API</a></li><li class="breadcrumb-item"><a href="./api.html"><span class="chapter-title">API</span></a></li></ol></nav>
-        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./api.html">API</a></li><li class="breadcrumb-item"><a href="./api.html"><span class="chapter-title">API</span></a></li></ol></nav>
+        <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
@@ -127,7 +166,7 @@ ul.task-list li input[type="checkbox"] {
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto" aria-label="Section">
         <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
         <div id="quarto-search" class="" title="Search"></div>
@@ -137,13 +176,10 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
- <span class="menu-text">Docs</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-controls="quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-1-label">Docs</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">GeoFetch.jl</span></a>
@@ -153,13 +189,10 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
- <span class="menu-text">API</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-2-label">API</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./api.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">API</span></a>
@@ -169,13 +202,10 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
- <span class="menu-text">Resources</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-3-label">Resources</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./resources/changelog.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Changelog</span></a>
@@ -194,7 +224,7 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
@@ -204,9 +234,9 @@ ul.task-list li input[type="checkbox"] {
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content" id="quarto-document-content" tabindex="-1">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./api.html">API</a></li><li class="breadcrumb-item"><a href="./api.html"><span class="chapter-title">API</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./api.html">API</a></li><li class="breadcrumb-item"><a href="./api.html"><span class="chapter-title">API</span></a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title"><span class="chapter-title">API</span></h1>
 </div>
@@ -232,278 +262,317 @@ ul.task-list li input[type="checkbox"] {
 <h4 class="anchored" data-anchor-id="all"><code>All</code></h4>
 </section>
 <div class="card-body">
-<p>No documentation found for public binding <code>GeoFetch.All</code>.</p>
-<section id="summary" class="level1">
-<h1>Summary</h1>
-<pre><code>struct GeoFetch.All</code></pre>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">All</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Selector that keeps everything along a dimension, or every variable, in a <code>Select</code>. Equivalent to not naming that dimension at all; useful for making intent explicit, as in <code>Select(vars=All())</code>.</p>
+</div>
+</div>
+<div class="card mb-3">
+<section id="between" class="level4 card-header api-item-header">
+<h4 class="anchored" data-anchor-id="between"><code>Between</code></h4>
+</section>
+<div class="card-body">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Between</span>(lo, hi)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Selector for <code>Select</code> that keeps the coordinate values in the closed interval <code>[lo, hi]</code>. Works for anything ordered: numbers, <code>Date</code>s, <code>DateTime</code>s. <code>lo</code> and <code>hi</code> must have the same type, so write <code>Between(0.0, 20.5)</code> rather than <code>Between(0, 20.5)</code>.</p>
+</div>
+</div>
+<div class="card mb-3">
+<section id="pipeline" class="level4 card-header api-item-header">
+<h4 class="anchored" data-anchor-id="pipeline"><code>Pipeline</code></h4>
+</section>
+<div class="card-body">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>Pipeline</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>An ordered chain of stages: one <code>Source</code>, any number of <code>Transform</code>s, and one <code>Sink</code>. Pipelines are built with <code>|</code> and are plain values: building, printing or extending one does no I/O. Pass it to <code>execute</code> to download the data and write the store.</p>
+<section id="example" class="level1">
+<h1>Example</h1>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>pipeline <span class="op">=</span> <span class="fu">OISST</span>(start<span class="op">=</span><span class="fu">Date</span>(<span class="fl">2025</span>, <span class="fl">1</span>, <span class="fl">1</span>), stop<span class="op">=</span><span class="fu">Date</span>(<span class="fl">2025</span>, <span class="fl">1</span>, <span class="fl">3</span>)) <span class="op">|</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">Select</span>(vars<span class="op">=:</span>sst) <span class="op">|</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">Store</span>(<span class="st">"oisst.zarr"</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">execute</span>(pipeline)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </div>
 </div>
 <div class="card mb-3">
-<section id="cds" class="level4 card-header api-item-header">
-<h4 class="anchored" data-anchor-id="cds"><code>CDS</code></h4>
+<section id="rechunk" class="level4 card-header api-item-header">
+<h4 class="anchored" data-anchor-id="rechunk"><code>Rechunk</code></h4>
 </section>
 <div class="card-body">
-<p>Copernicus Climate Data Store — ERA5 reanalysis and other climate datasets.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Rechunk</span>(; dim<span class="op">=</span>n, <span class="op">...</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Transform that sets the chunk size of the output store along the named dimensions, for example <code>Rechunk(time=30)</code>. It changes only how the data is laid out on disk, not what is fetched. Dimensions that are not named keep the source’s native chunk size, and <code>Store(path; chunks=...)</code> takes precedence over <code>Rechunk</code>.</p>
 </div>
 </div>
 <div class="card mb-3">
-<section id="cdsdataset" class="level4 card-header api-item-header">
-<h4 class="anchored" data-anchor-id="cdsdataset"><code>CDSDataset</code></h4>
+<section id="select" class="level4 card-header api-item-header">
+<h4 class="anchored" data-anchor-id="select"><code>Select</code></h4>
 </section>
 <div class="card-body">
-<p>CDS dataset configured by dataset ID, variables, times, and output format. Requires API key.</p>
-</div>
-</div>
-<div class="card mb-3">
-<section id="chunk" class="level4 card-header api-item-header">
-<h4 class="anchored" data-anchor-id="chunk"><code>Chunk</code></h4>
-</section>
-<div class="card-body">
-<p>No documentation found for public binding <code>GeoFetch.Chunk</code>.</p>
-<section id="summary-1" class="level1">
-<h1>Summary</h1>
-<pre><code>abstract type GeoFetch.Chunk</code></pre>
-</section>
-<section id="subtypes" class="level1">
-<h1>Subtypes</h1>
-<pre><code>GeoFetch.CDSChunk
-GeoFetch.ETOPOChunk
-GeoFetch.FireChunk
-GeoFetch.GOESChunk
-GeoFetch.GribChunk
-GeoFetch.HRRRArchiveChunk
-GeoFetch.LandfireChunk
-GeoFetch.NASAPowerChunk
-GeoFetch.NCEIChunk
-GeoFetch.NDBCChunk
-GeoFetch.NominatimChunk
-GeoFetch.OISSTChunk
-GeoFetch.SRTMChunk
-GeoFetch.USGSWaterChunk</code></pre>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Select</span>(; vars<span class="op">=...</span>, dim<span class="op">=</span>selector, <span class="op">...</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Transform that narrows a pipeline to part of the source. Each keyword names a dimension of the source (for example <code>lon</code>, <code>lat</code>, <code>time</code>, <code>level</code>), and <code>vars</code> picks variables. Anything not named is kept whole.</p>
+<p>A dimension selector is one of</p>
+<ul>
+<li><code>Between(lo, hi)</code>: values in a closed interval,</li>
+<li>a range, such as <code>Date(2025, 1, 1):Day(1):Date(2025, 1, 5)</code>: values in the range,</li>
+<li>a vector, such as <code>[850, 500]</code>: exactly those values,</li>
+<li><code>All()</code>: everything.</li>
+</ul>
+<p><code>vars</code> takes a <code>Symbol</code>, a vector of <code>Symbol</code>s, or <code>All()</code>.</p>
+<p>On a projected grid (such as <code>HRRR</code>, with dimensions <code>x</code> and <code>y</code>), <code>lon</code> and <code>lat</code> are two-dimensional auxiliary coordinates. They are selected the same way, and keep the smallest <code>x</code>/<code>y</code> rectangle that contains every grid point matching all of them, so some points just outside the requested box are kept as well.</p>
+<p>Kept values stay in the source’s order. The selection is applied before anything is downloaded: files, variables and levels that are not selected are never fetched.</p>
+<section id="example-1" class="level1">
+<h1>Example</h1>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Select</span>(vars<span class="op">=</span>[<span class="op">:</span>t2m, <span class="op">:</span>t], level<span class="op">=</span>[<span class="fl">850</span>, <span class="fl">500</span>], lon<span class="op">=</span><span class="fu">Between</span>(<span class="fl">0</span>, <span class="fl">30</span>), lat<span class="op">=</span><span class="fu">Between</span>(<span class="fl">35</span>, <span class="fl">60</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </div>
 </div>
 <div class="card mb-3">
-<section id="dataset" class="level4 card-header api-item-header">
-<h4 class="anchored" data-anchor-id="dataset"><code>Dataset</code></h4>
+<section id="sink" class="level4 card-header api-item-header">
+<h4 class="anchored" data-anchor-id="sink"><code>Sink</code></h4>
 </section>
 <div class="card-body">
-<p>No documentation found for public binding <code>GeoFetch.Dataset</code>.</p>
-<section id="summary-2" class="level1">
-<h1>Summary</h1>
-<pre><code>abstract type GeoFetch.Dataset</code></pre>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>Sink <span class="op">&lt;:</span><span class="dt"> Stage</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The last stage of a pipeline: where the data is written. The only sink is <code>Store</code>, a Zarr store on local disk.</p>
+</div>
+</div>
+<div class="card mb-3">
+<section id="source" class="level4 card-header api-item-header">
+<h4 class="anchored" data-anchor-id="source"><code>Source</code></h4>
 </section>
-<section id="subtypes-1" class="level1">
-<h1>Subtypes</h1>
-<pre><code>GeoFetch.CDSDataset
-GeoFetch.ETOPODataset
-GeoFetch.FIRMSDataset
-GeoFetch.GOESDataset
-GeoFetch.HRRRArchiveDataset
-GeoFetch.LandfireDataset
-GeoFetch.NASAPowerDataset
-GeoFetch.NCEIDataset
-GeoFetch.NDBCDataset
-GeoFetch.NomadsDataset
-GeoFetch.NominatimDataset
-GeoFetch.OISSTDataset
-GeoFetch.SRTMDataset
-GeoFetch.USGSWaterDataset</code></pre>
+<div class="card-body">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>Source <span class="op">&lt;:</span><span class="dt"> Stage</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The first stage of a pipeline: an upstream dataset, described by a schema (dimensions and variables) and a list of fetch units (the pieces it is downloaded in, typically one remote file each).</p>
+<p>Sources are normally built by a preset such as <code>OISST</code>, <code>GFS</code> or <code>IFS</code>. A new source type provides <code>schema(src)</code> and <code>units(src)</code> (by default the fields of those names) and a method <code>fetch!(src, unit, schema)</code> returning the unit’s variables as arrays shaped for the selected (narrowed) schema.</p>
+</div>
+</div>
+<div class="card mb-3">
+<section id="stage" class="level4 card-header api-item-header">
+<h4 class="anchored" data-anchor-id="stage"><code>Stage</code></h4>
+</section>
+<div class="card-body">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>Stage</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Abstract supertype of everything that can appear in a <code>Pipeline</code>: a <code>Source</code>, a <code>Transform</code> or a <code>Sink</code>. Stages are combined with <code>|</code>, as in <code>source | transform | sink</code>.</p>
+</div>
+</div>
+<div class="card mb-3">
+<section id="store" class="level4 card-header api-item-header">
+<h4 class="anchored" data-anchor-id="store"><code>Store</code></h4>
+</section>
+<div class="card-body">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Store</span>(path; chunks<span class="op">=</span><span class="fu">Dict</span>(), zarr_version<span class="op">=</span><span class="fl">3</span>, overwrite<span class="op">=</span><span class="cn">false</span>, attrs<span class="op">=</span><span class="fu">Dict</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Sink that writes a Zarr store to the local directory <code>path</code>. Each dimension becomes a coordinate array of the same name and each variable a data array. Auxiliary coordinates (the two-dimensional <code>lon</code> and <code>lat</code> of a projected grid) are stored as arrays of their own. <code>Date</code> and <code>DateTime</code> coordinates are stored as integers with CF <code>units</code> and <code>calendar</code> attributes.</p>
+<section id="keyword-arguments" class="level1">
+<h1>Keyword arguments</h1>
+<ul>
+<li><code>chunks</code>: chunk size per dimension, such as <code>Dict(:time =&gt; 30)</code>. Takes precedence over <code>Rechunk</code> and over the source’s native chunks.</li>
+<li><code>zarr_version</code>: <code>2</code> or <code>3</code>.</li>
+<li><code>overwrite</code>: replace an existing store at <code>path</code>. When <code>false</code>, an existing store makes <code>execute</code> throw.</li>
+<li><code>attrs</code>: extra attributes for the root group, merged over the source’s.</li>
+</ul>
 </section>
 </div>
 </div>
 <div class="card mb-3">
-<section id="etopo" class="level4 card-header api-item-header">
-<h4 class="anchored" data-anchor-id="etopo"><code>ETOPO</code></h4>
+<section id="transform" class="level4 card-header api-item-header">
+<h4 class="anchored" data-anchor-id="transform"><code>Transform</code></h4>
 </section>
 <div class="card-body">
-<p>NOAA ETOPO Global Relief Model — combined topography and bathymetry.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>Transform <span class="op">&lt;:</span><span class="dt"> Stage</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>A middle stage of a pipeline. <code>Select</code> narrows dimensions and variables; <code>Rechunk</code> sets the chunk shape of the output.</p>
+</div>
+</div>
+</section>
+<section id="functions" class="level2">
+<h2 class="anchored" data-anchor-id="functions">Functions</h2>
+<div class="card mb-3">
+<section id="aifs" class="level4 card-header api-item-header">
+<h4 class="anchored" data-anchor-id="aifs"><code>AIFS</code></h4>
+</section>
+<div class="card-body">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">AIFS</span>(; start, stop, cycles<span class="op">=</span><span class="fl">0</span><span class="op">:</span><span class="fl">6</span><span class="op">:</span><span class="fl">18</span>, steps<span class="op">=</span>[<span class="fl">0</span>], base<span class="op">=...</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>ECMWF Artificial Intelligence Forecasting System (AIFS Single) deterministic forecasts on a regular global 0.25° lat/lon grid, read from the GRIB2 files of the <a href="https://www.ecmwf.int/en/forecasts/datasets/open-data">ECMWF open data</a> (CC-BY-4.0). Works like <code>IFS</code>, with which it shares the file layout, the dimensions and the variable naming.</p>
+<section id="keyword-arguments-1" class="level1">
+<h1>Keyword arguments</h1>
+<ul>
+<li><code>start</code>, <code>stop</code>: first and last cycle <code>Date</code> (inclusive). The file layout used here starts on 2025-03-01.</li>
+<li><code>cycles</code>: initialization hours (UTC) to use on each date, any of 0, 6, 12, 18.</li>
+<li><code>steps</code>: forecast lead times in hours, multiples of 6 up to 360.</li>
+<li><code>base</code>: root location of the <code>YYYYMMDD/HHz/aifs-single/</code> tree, see <code>IFS</code>.</li>
+</ul>
+</section>
+<section id="dimensions" class="level1">
+<h1>Dimensions</h1>
+<p><code>lon</code> (from -180 eastwards), <code>lat</code> (north first), <code>level</code> (hPa, 14 levels from 1000 up to 10), <code>step</code> and <code>time</code>, as for <code>IFS</code>. One file, hence one fetch unit, exists per <code>(time, step)</code>.</p>
+</section>
+<section id="variables" class="level1">
+<h1>Variables</h1>
+<p>On <code>(lon, lat, step, time)</code>: <code>t2m</code>, <code>d2m</code>, <code>u10</code>, <code>v10</code>, <code>u100</code>, <code>v100</code>, <code>skt</code>, <code>msl</code>, <code>sp</code>, <code>tcc</code>, <code>lcc</code>, <code>mcc</code>, <code>hcc</code>, <code>tcw</code>, <code>tp</code>, <code>cp</code>, <code>sf</code>, <code>rowe</code>, <code>fscov</code>, <code>ssrd</code>, <code>strd</code>, <code>lsm</code>, <code>zsfc</code>, <code>sdor</code>, <code>slor</code>, and the soil layers <code>sot1</code>, <code>sot2</code>, <code>vsw1</code> and <code>vsw2</code>.</p>
+<p>On <code>(lon, lat, level, step, time)</code>: <code>t</code>, <code>u</code>, <code>v</code>, <code>w</code>, <code>z</code>, <code>gh</code>, <code>q</code>.</p>
+<p>All are stored as <code>Float32</code>. Some units differ from <code>IFS</code>: <code>tp</code>, <code>cp</code> and <code>sf</code> are in kg m⁻² (accumulated since forecast start) and cloud cover is in %.</p>
+<p>!!! warning Without a <code>Select(vars=...)</code> every variable above is fetched on every level: about 125 sequential range requests per <code>(cycle, step)</code>. Select the variables, levels and region you need.</p>
+<p>A message that a file does not contain is stored as <code>NaN</code> rather than raising an error, for example <code>lsm</code>, <code>zsfc</code>, <code>sdor</code> and <code>slor</code> at any step but 0, or variables and levels that were added to the open data after the selected dates.</p>
+</section>
+<section id="example-2" class="level1">
+<h1>Example</h1>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">GeoFetch</span>, <span class="bu">Dates</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>pipeline <span class="op">=</span> <span class="fu">AIFS</span>(start<span class="op">=</span><span class="fu">Date</span>(<span class="fl">2026</span>, <span class="fl">11</span>, <span class="fl">14</span>), stop<span class="op">=</span><span class="fu">Date</span>(<span class="fl">2026</span>, <span class="fl">11</span>, <span class="fl">14</span>), cycles<span class="op">=</span>[<span class="fl">0</span>], steps<span class="op">=</span><span class="fl">0</span><span class="op">:</span><span class="fl">6</span><span class="op">:</span><span class="fl">24</span>) <span class="op">|</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">Select</span>(vars<span class="op">=</span>[<span class="op">:</span>t2m, <span class="op">:</span>tp], lon<span class="op">=</span><span class="fu">Between</span>(<span class="fl">0</span>, <span class="fl">30</span>), lat<span class="op">=</span><span class="fu">Between</span>(<span class="fl">30</span>, <span class="fl">60</span>)) <span class="op">|</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">Store</span>(<span class="st">"aifs.zarr"</span>)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="fu">execute</span>(pipeline)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
 </div>
 </div>
 <div class="card mb-3">
-<section id="etopodataset" class="level4 card-header api-item-header">
-<h4 class="anchored" data-anchor-id="etopodataset"><code>ETOPODataset</code></h4>
+<section id="era5" class="level4 card-header api-item-header">
+<h4 class="anchored" data-anchor-id="era5"><code>ERA5</code></h4>
 </section>
 <div class="card-body">
-<p>ETOPO 2022 global relief at 60”, 30”, or 15” resolution (surface or bedrock).</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ERA5</span>(; start, stop, variables, levels<span class="op">=</span><span class="cn">nothing</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>ECMWF ERA5 reanalysis from the Copernicus Climate Data Store. Not implemented yet: calling it throws an error.</p>
 </div>
 </div>
 <div class="card mb-3">
-<section id="firms" class="level4 card-header api-item-header">
-<h4 class="anchored" data-anchor-id="firms"><code>FIRMS</code></h4>
+<section id="gfs" class="level4 card-header api-item-header">
+<h4 class="anchored" data-anchor-id="gfs"><code>GFS</code></h4>
 </section>
 <div class="card-body">
-<p>NASA Fire Information for Resource Management System — active fire/hotspot data.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">GFS</span>(; start, stop, cycles<span class="op">=</span><span class="fl">0</span><span class="op">:</span><span class="fl">6</span><span class="op">:</span><span class="fl">18</span>, steps<span class="op">=</span>[<span class="fl">0</span>], resolution<span class="op">=</span><span class="st">"0p25"</span>, base<span class="op">=...</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>NOAA Global Forecast System (GFS) forecasts on a regular global lat/lon grid, read from the <code>pgrb2</code> GRIB2 files of the public AWS bucket <code>noaa-gfs-bdp-pds</code>. Returns a <code>GRIBRangeSource</code>: only the GRIB messages of the selected variables and levels are downloaded, located through the <code>.idx</code> sidecar of each file and fetched with HTTP byte-range requests.</p>
+<section id="keyword-arguments-2" class="level1">
+<h1>Keyword arguments</h1>
+<ul>
+<li><code>start</code>, <code>stop</code>: first and last cycle <code>Date</code> (inclusive). The bucket layout used here starts on 2021-03-23.</li>
+<li><code>cycles</code>: initialization hours (UTC) to use on each date, any of 0, 6, 12, 18.</li>
+<li><code>steps</code>: forecast lead times in hours, within <code>0:384</code>. At <code>"0p25"</code> every hour up to 120 is available, beyond that (and at the other resolutions) only multiples of 3.</li>
+<li><code>resolution</code>: <code>"0p25"</code>, <code>"0p50"</code> or <code>"1p00"</code> (grid spacing in degrees).</li>
+<li><code>base</code>: root location of the <code>gfs.YYYYMMDD/HH/atmos/</code> tree. Defaults to the AWS bucket; pass the URL of a mirror or a local directory with the same layout (GRIB files plus their <code>.idx</code> sidecars) to read from there instead.</li>
+</ul>
+</section>
+<section id="dimensions-1" class="level1">
+<h1>Dimensions</h1>
+<ul>
+<li><code>lon</code>: degrees east, from 0 eastwards.</li>
+<li><code>lat</code>: degrees north, from 90 down to -90 (north first).</li>
+<li><code>level</code>: isobaric level in hPa, from 1000 up to 1 (33 levels).</li>
+<li><code>step</code>: forecast lead time in hours.</li>
+<li><code>time</code>: forecast initialization time (the cycle), one per date and cycle.</li>
+</ul>
+<p>One file, hence one fetch unit, exists per <code>(time, step)</code>.</p>
+</section>
+<section id="variables-1" class="level1">
+<h1>Variables</h1>
+<p>On <code>(lon, lat, step, time)</code>: <code>t2m</code>, <code>d2m</code>, <code>rh2m</code>, <code>u10</code>, <code>v10</code>, <code>gust</code>, <code>prmsl</code>, <code>sp</code>, <code>pwat</code>, <code>cape</code>, <code>tcc</code>, <code>apcp</code>, <code>orog</code>, <code>lsm</code>.</p>
+<p>On <code>(lon, lat, level, step, time)</code>: <code>t</code>, <code>u</code>, <code>v</code>, <code>w</code>, <code>z</code>, <code>rh</code>, <code>q</code>.</p>
+<p>All are stored as <code>Float32</code>. <code>apcp</code> is the precipitation accumulated since forecast start.</p>
+<p>!!! warning Without a <code>Select(vars=...)</code> every variable above is fetched on every level: about 245 sequential range requests and on the order of 1 GB in memory per <code>(cycle, step)</code> at <code>"0p25"</code>. Select the variables, levels and region you need.</p>
+<p>A message that a file does not contain is stored as <code>NaN</code> rather than raising an error, for example <code>apcp</code> at step 0 or a level that a variable lacks.</p>
+</section>
+<section id="example-3" class="level1">
+<h1>Example</h1>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">GeoFetch</span>, <span class="bu">Dates</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>pipeline <span class="op">=</span> <span class="fu">GFS</span>(start<span class="op">=</span><span class="fu">Date</span>(<span class="fl">2026</span>, <span class="fl">11</span>, <span class="fl">8</span>), stop<span class="op">=</span><span class="fu">Date</span>(<span class="fl">2026</span>, <span class="fl">11</span>, <span class="fl">8</span>), cycles<span class="op">=</span>[<span class="fl">0</span>], steps<span class="op">=</span><span class="fl">0</span><span class="op">:</span><span class="fl">6</span><span class="op">:</span><span class="fl">24</span>) <span class="op">|</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">Select</span>(vars<span class="op">=</span>[<span class="op">:</span>t2m, <span class="op">:</span>t], level<span class="op">=</span>[<span class="fl">850</span>, <span class="fl">500</span>], lon<span class="op">=</span><span class="fu">Between</span>(<span class="fl">0</span>, <span class="fl">30</span>), lat<span class="op">=</span><span class="fu">Between</span>(<span class="fl">30</span>, <span class="fl">60</span>)) <span class="op">|</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">Store</span>(<span class="st">"gfs.zarr"</span>)</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="fu">execute</span>(pipeline)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
 </div>
 </div>
 <div class="card mb-3">
-<section id="firmsdataset" class="level4 card-header api-item-header">
-<h4 class="anchored" data-anchor-id="firmsdataset"><code>FIRMSDataset</code></h4>
+<section id="hrrr" class="level4 card-header api-item-header">
+<h4 class="anchored" data-anchor-id="hrrr"><code>HRRR</code></h4>
 </section>
 <div class="card-body">
-<p>FIRMS active fire dataset by satellite source (VIIRS, MODIS, LANDSAT). Requires MAP_KEY.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">HRRR</span>(; start, stop, cycles<span class="op">=</span><span class="fl">0</span><span class="op">:</span><span class="fl">23</span>, steps<span class="op">=</span>[<span class="fl">0</span>], base<span class="op">=...</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>NOAA High-Resolution Rapid Refresh (HRRR) forecasts over the contiguous United States on a 3 km grid, read from the GRIB2 files of the public AWS bucket <code>noaa-hrrr-bdp-pds</code>. Returns a <code>GRIBRangeSource</code>: only the GRIB messages of the selected variables and levels are downloaded, located through the <code>.idx</code> sidecar of each file and fetched with HTTP byte-range requests.</p>
+<section id="keyword-arguments-3" class="level1">
+<h1>Keyword arguments</h1>
+<ul>
+<li><code>start</code>, <code>stop</code>: first and last cycle <code>Date</code> (inclusive). The bucket starts on 2014-07-30.</li>
+<li><code>cycles</code>: initialization hours (UTC) to use on each date, within <code>0:23</code>.</li>
+<li><code>steps</code>: forecast lead times in hours: up to 18, and for the 0, 6, 12 and 18 UTC cycles up to 48. Older runs are shorter (36 before December 2020, 18 before July 2018).</li>
+<li><code>base</code>: root location of the <code>hrrr.YYYYMMDD/conus/</code> tree. Defaults to the AWS bucket; pass the URL of a mirror or a local directory with the same layout (GRIB files plus their <code>.idx</code> sidecars) to read from there instead.</li>
+</ul>
+</section>
+<section id="dimensions-2" class="level1">
+<h1>Dimensions</h1>
+<p>The grid is regular in a Lambert conformal projection, not in longitude and latitude, so the horizontal dimensions are the projected coordinates.</p>
+<ul>
+<li><code>x</code>: projected easting in m, 1799 points from west to east.</li>
+<li><code>y</code>: projected northing in m, 1059 points from south to north.</li>
+<li><code>level</code>: isobaric level in hPa, from 1000 up to 50 in steps of 25 (39 levels).</li>
+<li><code>step</code>: forecast lead time in hours.</li>
+<li><code>time</code>: forecast initialization time (the cycle), one per date and cycle.</li>
+</ul>
+<p><code>lon</code> (degrees east, about -134 to -61) and <code>lat</code> (degrees north, about 21 to</p>
+<ol start="53" type="1">
+<li>are two-dimensional auxiliary coordinates on <code>(x, y)</code>, stored next to the</li>
+</ol>
+<p>variables. A <code>Select</code> on <code>lon</code> and <code>lat</code> keeps the smallest <code>x</code>/<code>y</code> rectangle that contains the matching grid points. The projection is recorded as a PROJ string in the <code>crs</code> attribute of the store.</p>
+<p>Two files, hence two fetch units, exist per <code>(time, step)</code>: <code>wrfsfc</code> with the single-level variables and <code>wrfprs</code> with the pressure-level variables.</p>
+</section>
+<section id="variables-2" class="level1">
+<h1>Variables</h1>
+<p>On <code>(x, y, step, time)</code>: <code>t2m</code>, <code>d2m</code>, <code>rh2m</code>, <code>q2m</code>, <code>u10</code>, <code>v10</code>, <code>u80</code>, <code>v80</code>, <code>gust</code>, <code>prmsl</code>, <code>sp</code>, <code>skt</code>, <code>pwat</code>, <code>cape</code>, <code>cin</code>, <code>tcc</code>, <code>lcc</code>, <code>mcc</code>, <code>hcc</code>, <code>vis</code>, <code>refc</code>, <code>hpbl</code>, <code>prate</code>, <code>apcp</code>, <code>asnow</code>, <code>snod</code>, <code>weasd</code>, <code>dswrf</code>, <code>dlwrf</code>, <code>shtfl</code>, <code>lhtfl</code>, <code>smoke</code>, <code>colmd</code>, <code>orog</code>, <code>lsm</code>.</p>
+<p>On <code>(x, y, level, step, time)</code>: <code>t</code>, <code>u</code>, <code>v</code>, <code>w</code>, <code>z</code>, <code>rh</code>, <code>q</code>.</p>
+<p>All are stored as <code>Float32</code>. <code>apcp</code> and <code>asnow</code> are accumulated since forecast start.</p>
+<p>!!! warning Wind components (<code>u10</code>, <code>v10</code>, <code>u80</code>, <code>v80</code>, <code>u</code>, <code>v</code>) are relative to the grid: <code>u</code> is along <code>x</code> and <code>v</code> along <code>y</code>, which away from the central meridian (97.5° W) is not due east and north.</p>
+<p>!!! warning Without a <code>Select(vars=...)</code> every variable above is fetched on every level: about 310 sequential range requests and several GB in memory per <code>(cycle, step)</code>. Select the variables, levels and region you need.</p>
+<p>A message that a file does not contain is stored as <code>NaN</code> rather than raising an error, for example variables that were added in later versions of the model (such as <code>smoke</code> and <code>colmd</code>, added in December 2020).</p>
+</section>
+<section id="example-4" class="level1">
+<h1>Example</h1>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">GeoFetch</span>, <span class="bu">Dates</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>pipeline <span class="op">=</span> <span class="fu">HRRR</span>(start<span class="op">=</span><span class="fu">Date</span>(<span class="fl">2026</span>, <span class="fl">11</span>, <span class="fl">14</span>), stop<span class="op">=</span><span class="fu">Date</span>(<span class="fl">2026</span>, <span class="fl">11</span>, <span class="fl">14</span>), cycles<span class="op">=</span>[<span class="fl">0</span>], steps<span class="op">=</span><span class="fl">0</span><span class="op">:</span><span class="fl">3</span>) <span class="op">|</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">Select</span>(vars<span class="op">=</span>[<span class="op">:</span>t2m, <span class="op">:</span>t], level<span class="op">=</span>[<span class="fl">850</span>, <span class="fl">500</span>], lon<span class="op">=</span><span class="fu">Between</span>(<span class="op">-</span><span class="fl">110</span>, <span class="op">-</span><span class="fl">100</span>), lat<span class="op">=</span><span class="fu">Between</span>(<span class="fl">35</span>, <span class="fl">42</span>)) <span class="op">|</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">Store</span>(<span class="st">"hrrr.zarr"</span>)</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="fu">execute</span>(pipeline)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
 </div>
 </div>
 <div class="card mb-3">
-<section id="goes" class="level4 card-header api-item-header">
-<h4 class="anchored" data-anchor-id="goes"><code>GOES</code></h4>
+<section id="ifs" class="level4 card-header api-item-header">
+<h4 class="anchored" data-anchor-id="ifs"><code>IFS</code></h4>
 </section>
 <div class="card-body">
-<p>NOAA Geostationary Operational Environmental Satellites — real-time imagery and products.</p>
-</div>
-</div>
-<div class="card mb-3">
-<section id="goesdataset" class="level4 card-header api-item-header">
-<h4 class="anchored" data-anchor-id="goesdataset"><code>GOESDataset</code></h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">IFS</span>(; start, stop, cycles<span class="op">=</span><span class="fl">0</span><span class="op">:</span><span class="fl">6</span><span class="op">:</span><span class="fl">18</span>, steps<span class="op">=</span>[<span class="fl">0</span>], resolution<span class="op">=</span><span class="st">"0p25"</span>, base<span class="op">=...</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>ECMWF Integrated Forecasting System (IFS) high-resolution deterministic forecasts on a regular global lat/lon grid, read from the GRIB2 files of the <a href="https://www.ecmwf.int/en/forecasts/datasets/open-data">ECMWF open data</a> (CC-BY-4.0). Returns a <code>GRIBRangeSource</code>: only the GRIB messages of the selected variables and levels are downloaded, located through the <code>.index</code> sidecar of each file and fetched with HTTP byte-range requests.</p>
+<section id="keyword-arguments-4" class="level1">
+<h1>Keyword arguments</h1>
+<ul>
+<li><code>start</code>, <code>stop</code>: first and last cycle <code>Date</code> (inclusive). The file layout used here starts on 2024-03-01.</li>
+<li><code>cycles</code>: initialization hours (UTC) to use on each date, any of 0, 6, 12, 18.</li>
+<li><code>steps</code>: forecast lead times in hours: multiples of 3 up to 144, and for the 0 and 12 UTC cycles also multiples of 6 up to 360. Older runs are shorter: the 6 and 18 UTC cycles end at 90 before 2026-05-12, the 0 and 12 UTC cycles at 240 before November 2024.</li>
+<li><code>resolution</code>: <code>"0p25"</code>, or <code>"0p1"</code> (0.1°, from 2026-10-21).</li>
+<li><code>base</code>: root location of the <code>YYYYMMDD/HHz/ifs/</code> tree. Defaults to the Google Cloud mirror; pass the URL of another mirror (the AWS bucket <code>https://ecmwf-forecasts.s3.eu-central-1.amazonaws.com</code>, or <code>https://data.ecmwf.int/forecasts</code>, which keeps about the last 4 days) or a local directory with the same layout (GRIB files plus their <code>.index</code> sidecars) to read from there instead.</li>
+</ul>
 </section>
-<div class="card-body">
-<p>GOES satellite imagery dataset by satellite (16/17/18), product, and optional band.</p>
-</div>
-</div>
-<div class="card mb-3">
-<section id="hrrrarchive" class="level4 card-header api-item-header">
-<h4 class="anchored" data-anchor-id="hrrrarchive"><code>HRRRArchive</code></h4>
+<section id="dimensions-3" class="level1">
+<h1>Dimensions</h1>
+<ul>
+<li><code>lon</code>: degrees east, from -180 eastwards (unlike <code>GFS</code>, which starts at 0).</li>
+<li><code>lat</code>: degrees north, from 90 down to -90 (north first).</li>
+<li><code>level</code>: isobaric level in hPa, from 1000 up to 10 (14 levels).</li>
+<li><code>step</code>: forecast lead time in hours.</li>
+<li><code>time</code>: forecast initialization time (the cycle), one per date and cycle.</li>
+</ul>
+<p>One file, hence one fetch unit, exists per <code>(time, step)</code>; at <code>"0p1"</code> there are two, one with the pressure-level variables and one with all the others.</p>
 </section>
-<div class="card-body">
-<p>NOAA High-Resolution Rapid Refresh archive — hourly 3km weather forecasts (S3).</p>
-</div>
-</div>
-<div class="card mb-3">
-<section id="hrrrarchivedataset" class="level4 card-header api-item-header">
-<h4 class="anchored" data-anchor-id="hrrrarchivedataset"><code>HRRRArchiveDataset</code></h4>
+<section id="variables-3" class="level1">
+<h1>Variables</h1>
+<p>On <code>(lon, lat, step, time)</code>: <code>t2m</code>, <code>d2m</code>, <code>u10</code>, <code>v10</code>, <code>u100</code>, <code>v100</code>, <code>fg10</code>, <code>mx2t3</code>, <code>mn2t3</code>, <code>skt</code>, <code>msl</code>, <code>sp</code>, <code>tcc</code>, <code>lcc</code>, <code>mcc</code>, <code>hcc</code>, <code>tcw</code>, <code>tcwv</code>, <code>tclw</code>, <code>tciw</code>, <code>tcrw</code>, <code>mucape</code>, <code>tp</code>, <code>cp</code>, <code>sf</code>, <code>ro</code>, <code>tprate</code>, <code>ptype</code>, <code>ssrd</code>, <code>ssr</code>, <code>strd</code>, <code>str</code>, <code>ttr</code>, <code>ewss</code>, <code>nsss</code>, <code>sd</code>, <code>rsn</code>, <code>asn</code>, <code>sithick</code>, <code>zos</code>, <code>sve</code>, <code>svn</code>, <code>lsm</code>, <code>zsfc</code>, <code>sdor</code>, <code>slor</code>, and the soil layers <code>sot1</code> to <code>sot4</code> and <code>vsw1</code> to <code>vsw4</code>.</p>
+<p>On <code>(lon, lat, level, step, time)</code>: <code>t</code>, <code>u</code>, <code>v</code>, <code>w</code>, <code>z</code>, <code>gh</code>, <code>q</code>, <code>r</code>, <code>d</code>, <code>vo</code>.</p>
+<p>Names are the ECMWF short names, except that a leading number moves to the end (<code>2t</code> is <code>t2m</code>, <code>10u</code> is <code>u10</code>, <code>10fg</code> is <code>fg10</code>), the surface geopotential <code>z</code> is <code>zsfc</code>, and the soil parameters <code>sot</code> and <code>vsw</code> carry their layer number. All are stored as <code>Float32</code>. <code>tp</code>, <code>cp</code>, <code>sf</code>, <code>ro</code> and the radiation and stress fields are accumulated since forecast start; <code>tp</code> is in metres. <code>z</code> is the geopotential in m² s⁻² and <code>gh</code> the geopotential height.</p>
+<p>!!! warning Without a <code>Select(vars=...)</code> every variable above is fetched on every level: about 190 sequential range requests and on the order of 1 GB in memory per <code>(cycle, step)</code> at <code>"0p25"</code>, and about six times that at <code>"0p1"</code>. Select the variables, levels and region you need.</p>
+<p>A message that a file does not contain is stored as <code>NaN</code> rather than raising an error. That applies to <code>zsfc</code>, <code>sdor</code> and <code>slor</code> at any step but 0, to <code>mx2t3</code> and <code>mn2t3</code> beyond step 144, and to the many variables and levels that were added to the open data over time (in March 2024 it had 11 single-level variables and 9 levels). Ocean fields are <code>NaN</code> over land.</p>
 </section>
-<div class="card-body">
-<p>HRRR archived GRIB2 files by product (sfc/prs/nat), domain, forecast hours, and cycles.</p>
-</div>
-</div>
-<div class="card mb-3">
-<section id="landfire" class="level4 card-header api-item-header">
-<h4 class="anchored" data-anchor-id="landfire"><code>Landfire</code></h4>
-</section>
-<div class="card-body">
-<p>USGS LANDFIRE — wildland fire, vegetation, and fuel geospatial data via WCS.</p>
-</div>
-</div>
-<div class="card mb-3">
-<section id="landfiredataset" class="level4 card-header api-item-header">
-<h4 class="anchored" data-anchor-id="landfiredataset"><code>LandfireDataset</code></h4>
-</section>
-<div class="card-body">
-<p>LANDFIRE raster product accessed via WCS (30m resolution, GeoTIFF output).</p>
-</div>
-</div>
-<div class="card mb-3">
-<section id="latest" class="level4 card-header api-item-header">
-<h4 class="anchored" data-anchor-id="latest"><code>Latest</code></h4>
-</section>
-<div class="card-body">
-<p>Sentinel type for versioned datasets — resolves to the most recent available version.</p>
-</div>
-</div>
-<div class="card mb-3">
-<section id="nasapower" class="level4 card-header api-item-header">
-<h4 class="anchored" data-anchor-id="nasapower"><code>NASAPower</code></h4>
-</section>
-<div class="card-body">
-<p>NASA Prediction of Worldwide Energy Resources — global daily meteorological and solar data.</p>
-</div>
-</div>
-<div class="card mb-3">
-<section id="nasapowerdataset" class="level4 card-header api-item-header">
-<h4 class="anchored" data-anchor-id="nasapowerdataset"><code>NASAPowerDataset</code></h4>
-</section>
-<div class="card-body">
-<p>NASA POWER daily data by variables, community (AG/RE/SB), and query type (point/regional).</p>
-</div>
-</div>
-<div class="card mb-3">
-<section id="ncei" class="level4 card-header api-item-header">
-<h4 class="anchored" data-anchor-id="ncei"><code>NCEI</code></h4>
-</section>
-<div class="card-body">
-<p>NOAA National Centers for Environmental Information — historical weather and climate observations.</p>
-</div>
-</div>
-<div class="card mb-3">
-<section id="nceidataset" class="level4 card-header api-item-header">
-<h4 class="anchored" data-anchor-id="nceidataset"><code>NCEIDataset</code></h4>
-</section>
-<div class="card-body">
-<p>NCEI Data Access Service by dataset, data types, and stations or bbox. No API key required.</p>
-</div>
-</div>
-<div class="card mb-3">
-<section id="ndbc" class="level4 card-header api-item-header">
-<h4 class="anchored" data-anchor-id="ndbc"><code>NDBC</code></h4>
-</section>
-<div class="card-body">
-<p>NOAA National Data Buoy Center — ocean and meteorological observations from moored and drifting buoys.</p>
-</div>
-</div>
-<div class="card mb-3">
-<section id="ndbcdataset" class="level4 card-header api-item-header">
-<h4 class="anchored" data-anchor-id="ndbcdataset"><code>NDBCDataset</code></h4>
-</section>
-<div class="card-body">
-<p>NDBC buoy observations by station, data type, and format (text or NetCDF).</p>
-</div>
-</div>
-<div class="card mb-3">
-<section id="nomads" class="level4 card-header api-item-header">
-<h4 class="anchored" data-anchor-id="nomads"><code>NOMADS</code></h4>
-</section>
-<div class="card-body">
-<p>NOAA Operational Model Archive and Distribution System — real-time weather model output.</p>
-</div>
-</div>
-<div class="card mb-3">
-<section id="nomadsdataset" class="level4 card-header api-item-header">
-<h4 class="anchored" data-anchor-id="nomadsdataset"><code>NomadsDataset</code></h4>
-</section>
-<div class="card-body">
-<p>NOMADS forecast dataset identified by category, name, and GRIB filter URL.</p>
-</div>
-</div>
-<div class="card mb-3">
-<section id="nominatim" class="level4 card-header api-item-header">
-<h4 class="anchored" data-anchor-id="nominatim"><code>Nominatim</code></h4>
-</section>
-<div class="card-body">
-<p>OpenStreetMap Nominatim — geocoding, reverse geocoding, and OSM object lookup.</p>
-</div>
-</div>
-<div class="card mb-3">
-<section id="nominatimdataset" class="level4 card-header api-item-header">
-<h4 class="anchored" data-anchor-id="nominatimdataset"><code>NominatimDataset</code></h4>
-</section>
-<div class="card-body">
-<p>No documentation found for public binding <code>GeoFetch.NominatimDataset</code>.</p>
-<section id="summary-3" class="level1">
-<h1>Summary</h1>
-<pre><code>struct GeoFetch.NominatimDataset</code></pre>
-</section>
-<section id="fields" class="level1">
-<h1>Fields</h1>
-<pre><code>endpoint        :: String
-q               :: String
-osm_ids         :: Vector{String}
-format          :: String
-addressdetails  :: Bool
-extratags       :: Bool
-namedetails     :: Bool
-limit           :: Int64
-zoom            :: Int64
-polygon_geojson :: Bool
-countrycodes    :: Vector{String}
-layer           :: Vector{String}
-accept_language :: String
-email           :: String
-base_url        :: String</code></pre>
-</section>
-<section id="supertype-hierarchy" class="level1">
-<h1>Supertype Hierarchy</h1>
-<pre><code>GeoFetch.NominatimDataset &lt;: GeoFetch.Dataset &lt;: Any</code></pre>
+<section id="example-5" class="level1">
+<h1>Example</h1>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">GeoFetch</span>, <span class="bu">Dates</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>pipeline <span class="op">=</span> <span class="fu">IFS</span>(start<span class="op">=</span><span class="fu">Date</span>(<span class="fl">2026</span>, <span class="fl">11</span>, <span class="fl">14</span>), stop<span class="op">=</span><span class="fu">Date</span>(<span class="fl">2026</span>, <span class="fl">11</span>, <span class="fl">14</span>), cycles<span class="op">=</span>[<span class="fl">0</span>], steps<span class="op">=</span><span class="fl">0</span><span class="op">:</span><span class="fl">6</span><span class="op">:</span><span class="fl">24</span>) <span class="op">|</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">Select</span>(vars<span class="op">=</span>[<span class="op">:</span>t2m, <span class="op">:</span>t], level<span class="op">=</span>[<span class="fl">850</span>, <span class="fl">500</span>], lon<span class="op">=</span><span class="fu">Between</span>(<span class="fl">0</span>, <span class="fl">30</span>), lat<span class="op">=</span><span class="fu">Between</span>(<span class="fl">30</span>, <span class="fl">60</span>)) <span class="op">|</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">Store</span>(<span class="st">"ifs.zarr"</span>)</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="fu">execute</span>(pipeline)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </div>
 </div>
@@ -512,244 +581,40 @@ base_url        :: String</code></pre>
 <h4 class="anchored" data-anchor-id="oisst"><code>OISST</code></h4>
 </section>
 <div class="card-body">
-<p>NOAA Optimum Interpolation SST — daily global sea surface temperature on a 0.25° grid.</p>
-</div>
-</div>
-<div class="card mb-3">
-<section id="oisstdataset" class="level4 card-header api-item-header">
-<h4 class="anchored" data-anchor-id="oisstdataset"><code>OISSTDataset</code></h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">OISST</span>(; start, stop)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>NOAA Optimum Interpolation Sea Surface Temperature (OISST) v2.1, AVHRR-only: daily fields on a 0.25° global grid, read from NCEI over HTTPS. Returns an <code>HTTPFileSource</code> with one NetCDF file (about 1.6 MB) per day from <code>start</code> to <code>stop</code> (<code>Date</code>s, inclusive).</p>
+<section id="dimensions-4" class="level1">
+<h1>Dimensions</h1>
+<ul>
+<li><code>lon</code>: degrees east, 0.125 to 359.875.</li>
+<li><code>lat</code>: degrees north, -89.875 to 89.875.</li>
+<li><code>zlev</code>: a single level at 0 m.</li>
+<li><code>time</code>: one <code>Date</code> per day.</li>
+</ul>
 </section>
-<div class="card-body">
-<p>NOAA OISST v2.1 daily global SST on a 0.25° grid. One NetCDF file per day, 1981–present.</p>
-</div>
-</div>
-<div class="card mb-3">
-<section id="project" class="level4 card-header api-item-header">
-<h4 class="anchored" data-anchor-id="project"><code>Project</code></h4>
+<section id="variables-4" class="level1">
+<h1>Variables</h1>
+<p>All on <code>(lon, lat, zlev, time)</code> as <code>Float32</code>, with <code>NaN</code> where there is no data (such as <code>sst</code> over land): <code>sst</code> (sea surface temperature, °C), <code>anom</code> (anomaly from the climatological mean, °C), <code>err</code> (estimated error standard deviation, °C), <code>ice</code> (sea-ice concentration).</p>
 </section>
-<div class="card-body">
-<p>No documentation found for public binding <code>GeoFetch.Project</code>.</p>
-<section id="summary-4" class="level1">
-<h1>Summary</h1>
-<pre><code>struct GeoFetch.Project{G, E, C}</code></pre>
-</section>
-<section id="fields-1" class="level1">
-<h1>Fields</h1>
-<pre><code>geometry  :: G
-extent    :: E
-datetimes :: Union{Nothing, Tuple{Dates.DateTime, Dates.DateTime}}
-crs       :: C
-path      :: String
-datasets  :: Vector</code></pre>
+<section id="example-6" class="level1">
+<h1>Example</h1>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">GeoFetch</span>, <span class="bu">Dates</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>pipeline <span class="op">=</span> <span class="fu">OISST</span>(start<span class="op">=</span><span class="fu">Date</span>(<span class="fl">2025</span>, <span class="fl">1</span>, <span class="fl">1</span>), stop<span class="op">=</span><span class="fu">Date</span>(<span class="fl">2025</span>, <span class="fl">1</span>, <span class="fl">3</span>)) <span class="op">|</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">Select</span>(vars<span class="op">=:</span>sst, lon<span class="op">=</span><span class="fu">Between</span>(<span class="fl">280</span>, <span class="fl">350</span>), lat<span class="op">=</span><span class="fu">Between</span>(<span class="fl">20</span>, <span class="fl">60</span>)) <span class="op">|</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">Store</span>(<span class="st">"oisst.zarr"</span>)</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="fu">execute</span>(pipeline)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </div>
 </div>
 <div class="card mb-3">
-<section id="srtm" class="level4 card-header api-item-header">
-<h4 class="anchored" data-anchor-id="srtm"><code>SRTM</code></h4>
+<section id="execute" class="level4 card-header api-item-header">
+<h4 class="anchored" data-anchor-id="execute"><code>execute</code></h4>
 </section>
 <div class="card-body">
-<p>NASA Shuttle Radar Topography Mission — global elevation data at 1” and 3” resolution.</p>
-</div>
-</div>
-<div class="card mb-3">
-<section id="srtmdataset" class="level4 card-header api-item-header">
-<h4 class="anchored" data-anchor-id="srtmdataset"><code>SRTMDataset</code></h4>
-</section>
-<div class="card-body">
-<p>SRTM elevation tiles (SRTMGL1 at 1” or SRTMGL3 at 3”). Requires Earthdata login.</p>
-</div>
-</div>
-<div class="card mb-3">
-<section id="source" class="level4 card-header api-item-header">
-<h4 class="anchored" data-anchor-id="source"><code>Source</code></h4>
-</section>
-<div class="card-body">
-<p>No documentation found for public binding <code>GeoFetch.Source</code>.</p>
-<section id="summary-5" class="level1">
-<h1>Summary</h1>
-<pre><code>abstract type GeoFetch.Source</code></pre>
-</section>
-<section id="subtypes-2" class="level1">
-<h1>Subtypes</h1>
-<pre><code>GeoFetch.CDS
-GeoFetch.ETOPO
-GeoFetch.FIRMS
-GeoFetch.GOES
-GeoFetch.HRRRArchive
-GeoFetch.Landfire
-GeoFetch.NASAPower
-GeoFetch.NCEI
-GeoFetch.NDBC
-GeoFetch.NOMADS
-GeoFetch.Nominatim
-GeoFetch.OISST
-GeoFetch.SRTM
-GeoFetch.USGSWater</code></pre>
-</section>
-</div>
-</div>
-<div class="card mb-3">
-<section id="usgswater" class="level4 card-header api-item-header">
-<h4 class="anchored" data-anchor-id="usgswater"><code>USGSWater</code></h4>
-</section>
-<div class="card-body">
-<p>USGS Water Data — streamflow, gage height, water quality, and other hydrological observations.</p>
-</div>
-</div>
-<div class="card mb-3">
-<section id="usgswaterdataset" class="level4 card-header api-item-header">
-<h4 class="anchored" data-anchor-id="usgswaterdataset"><code>USGSWaterDataset</code></h4>
-</section>
-<div class="card-body">
-<p>USGS water observations by parameter codes, collection (daily/continuous), and site IDs or bbox.</p>
-</div>
-</div>
-</section>
-<section id="functions" class="level2">
-<h2 class="anchored" data-anchor-id="functions">Functions</h2>
-<div class="card mb-3">
-<section id="datasets" class="level4 card-header api-item-header">
-<h4 class="anchored" data-anchor-id="datasets"><code>datasets</code></h4>
-</section>
-<div class="card-body">
-<p>No documentation found for public binding <code>GeoFetch.datasets</code>.</p>
-<p><code>GeoFetch.datasets</code> is a <code>Function</code>.</p>
-<pre><code># 14 methods for generic function "datasets" from GeoFetch:
-  [1] datasets(::GeoFetch.GOES; satellite, product)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/GOES.jl:124
-  [2] datasets(::GeoFetch.USGSWater; collection, parameter_code)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/USGSWater.jl:112
-  [3] datasets(::GeoFetch.CDS; dataset_id, product_type)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/CDS.jl:166
-  [4] datasets(::GeoFetch.Nominatim; endpoint)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/Nominatim.jl:123
-  [5] datasets(::GeoFetch.NCEI; dataset)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/NCEI.jl:103
-  [6] datasets(::GeoFetch.SRTM; product)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/SRTM.jl:86
-  [7] datasets(::GeoFetch.HRRRArchive; product, domain)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/HRRRArchive.jl:79
-  [8] datasets(::GeoFetch.NASAPower; community)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/NASAPower.jl:85
-  [9] datasets(::GeoFetch.NOMADS; category, name, freq)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/NOMADS.jl:263
- [10] datasets(::GeoFetch.NDBC; datatype)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/NDBC.jl:127
- [11] datasets(::GeoFetch.FIRMS)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/FIRMS.jl:86
- [12] datasets(::GeoFetch.ETOPO; resolution, surface_type)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/ETOPO.jl:64
- [13] datasets(::GeoFetch.Landfire; product, region)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/Landfire.jl:89
- [14] datasets(::GeoFetch.OISST)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/OISST.jl:46</code></pre>
-</div>
-</div>
-<div class="card mb-3">
-<section id="help" class="level4 card-header api-item-header">
-<h4 class="anchored" data-anchor-id="help"><code>help</code></h4>
-</section>
-<div class="card-body">
-<p>No documentation found for public binding <code>GeoFetch.help</code>.</p>
-<p><code>GeoFetch.help</code> is a <code>Function</code>.</p>
-<pre><code># 28 methods for generic function "help" from GeoFetch:
-  [1] help(::GeoFetch.OISSTDataset)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/OISST.jl:8
-  [2] help(::GeoFetch.NomadsDataset)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/NOMADS.jl:17
-  [3] help(::GeoFetch.CDS)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/CDS.jl:35
-  [4] help(::GeoFetch.HRRRArchive)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/HRRRArchive.jl:16
-  [5] help(::GeoFetch.FIRMSDataset)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/FIRMS.jl:31
-  [6] help(::GeoFetch.NominatimDataset)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/Nominatim.jl:26
-  [7] help(::GeoFetch.SRTM)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/SRTM.jl:11
-  [8] help(::GeoFetch.GOESDataset)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/GOES.jl:22
-  [9] help(::GeoFetch.USGSWater)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/USGSWater.jl:33
- [10] help(::GeoFetch.ETOPO)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/ETOPO.jl:14
- [11] help(::GeoFetch.NDBC)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/NDBC.jl:43
- [12] help(::GeoFetch.FIRMS)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/FIRMS.jl:30
- [13] help(::GeoFetch.NCEIDataset)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/NCEI.jl:26
- [14] help(::GeoFetch.GOES)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/GOES.jl:21
- [15] help(::GeoFetch.OISST)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/OISST.jl:7
- [16] help(::GeoFetch.ETOPODataset)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/ETOPO.jl:15
- [17] help(::GeoFetch.NDBCDataset)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/NDBC.jl:44
- [18] help(::GeoFetch.NCEI)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/NCEI.jl:25
- [19] help(::GeoFetch.USGSWaterDataset)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/USGSWater.jl:34
- [20] help(::GeoFetch.NASAPower)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/NASAPower.jl:21
- [21] help(::GeoFetch.SRTMDataset)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/SRTM.jl:12
- [22] help(::GeoFetch.Nominatim)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/Nominatim.jl:25
- [23] help(::GeoFetch.NASAPowerDataset)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/NASAPower.jl:22
- [24] help(::GeoFetch.NOMADS)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/NOMADS.jl:16
- [25] help(::GeoFetch.HRRRArchiveDataset)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/HRRRArchive.jl:17
- [26] help(::GeoFetch.LandfireDataset)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/Landfire.jl:40
- [27] help(::GeoFetch.Landfire)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/Landfire.jl:39
- [28] help(d::GeoFetch.CDSDataset)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/CDS.jl:36</code></pre>
-</div>
-</div>
-<div class="card mb-3">
-<section id="metadata" class="level4 card-header api-item-header">
-<h4 class="anchored" data-anchor-id="metadata"><code>metadata</code></h4>
-</section>
-<div class="card-body">
-<p>No documentation found for public binding <code>GeoFetch.metadata</code>.</p>
-<p><code>GeoFetch.metadata</code> is a <code>Function</code>.</p>
-<pre><code># 15 methods for generic function "metadata" from GeoFetch:
-  [1] metadata(d::GeoFetch.CDSDataset)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/CDS.jl:49
-  [2] metadata(d::GeoFetch.ETOPODataset)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/ETOPO.jl:19
-  [3] metadata(::GeoFetch.NCEIDataset)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/NCEI.jl:28
-  [4] metadata(::GeoFetch.NDBCDataset)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/NDBC.jl:46
-  [5] metadata(::GeoFetch.HRRRArchiveDataset)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/HRRRArchive.jl:20
-  [6] metadata(::GeoFetch.OISSTDataset)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/OISST.jl:10
-  [7] metadata(d::GeoFetch.SRTMDataset)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/SRTM.jl:14
-  [8] metadata(::GeoFetch.NomadsDataset)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/NOMADS.jl:19
-  [9] metadata(::GeoFetch.GOESDataset)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/GOES.jl:25
- [10] metadata(::GeoFetch.NominatimDataset)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/Nominatim.jl:28
- [11] metadata(::GeoFetch.FIRMSDataset)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/FIRMS.jl:33
- [12] metadata(d::GeoFetch.NASAPowerDataset)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/NASAPower.jl:24
- [13] metadata(::GeoFetch.USGSWaterDataset)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/USGSWater.jl:36
- [14] metadata(::GeoFetch.LandfireDataset)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/sources/Landfire.jl:42
- [15] metadata(::GeoFetch.Dataset)
-     @ ~/work/GeoFetch.jl/GeoFetch.jl/src/GeoFetch.jl:73</code></pre>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">execute</span>(pipeline)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Run a <code>Pipeline</code>: apply its <code>Select</code>s, create the Zarr store described by its <code>Store</code>, then fetch each remaining unit from the source and write it into place. This is the only operation that downloads data or touches the disk. Returns the root group of the new store.</p>
+<p>Throws if the store already exists and was not created with <code>overwrite=true</code>.</p>
 </div>
 </div>
 
@@ -835,7 +700,8 @@ GeoFetch.USGSWater</code></pre>
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
       // Inspect non-navigation links and adorn them if external
-     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
       for (var i=0; i<links.length; i++) {
         const link = links[i];
         if (!isInternal(link.href)) {
@@ -844,8 +710,69 @@ GeoFetch.USGSWater</code></pre>
           if (link.dataset.originalHref !== undefined) {
             link.href = link.dataset.originalHref;
           }
+          if (!link.classList.contains('no-external-icon')) {
+          }
         }
       }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
     function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
       const config = {
         allowHTML: true,
@@ -859,6 +786,7 @@ GeoFetch.USGSWater</code></pre>
         interactiveBorder: 10,
         theme: 'quarto',
         placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
       };
       if (contentFn) {
         config.content = contentFn;
@@ -1021,44 +949,54 @@ GeoFetch.USGSWater</code></pre>
           const lineIds = lines.map((line) => {
             return targetCell + "-" + line;
           })
-          let top = null;
-          let height = null;
-          let parent = null;
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
           if (lineIds.length > 0) {
-              //compute the position of the single el (top and bottom and make a div)
-              const el = window.document.getElementById(lineIds[0]);
-              top = el.offsetTop;
-              height = el.offsetHeight;
-              parent = el.parentElement.parentElement;
-            if (lineIds.length > 1) {
-              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
-              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
-              height = bottom - top;
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
             }
-            if (top !== null && height !== null && parent !== null) {
-              // cook up a div (if necessary) and position it 
-              let div = window.document.getElementById("code-annotation-line-highlight");
-              if (div === null) {
-                div = window.document.createElement("div");
-                div.setAttribute("id", "code-annotation-line-highlight");
-                div.style.position = 'absolute';
-                parent.appendChild(div);
-              }
-              div.style.top = top - 2 + "px";
-              div.style.height = height + 4 + "px";
-              div.style.left = 0;
-              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
-              if (gutterDiv === null) {
-                gutterDiv = window.document.createElement("div");
-                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
-                gutterDiv.style.position = 'absolute';
-                const codeCell = window.document.getElementById(targetCell);
-                const gutter = codeCell.querySelector('.code-annotation-gutter');
-                gutter.appendChild(gutterDiv);
-              }
-              gutterDiv.style.top = top - 2 + "px";
-              gutterDiv.style.height = height + 4 + "px";
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
             }
+            placeBand(gutterDiv, el, lastEl);
             selectedAnnoteEl = annoteEl;
           }
         };
@@ -1157,7 +1095,10 @@ GeoFetch.USGSWater</code></pre>
     }
   });
   </script>
-<nav class="page-navigation">
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+<nav class="page-navigation" aria-label="Page">
   <div class="nav-page nav-page-previous">
       <a href="./index.html" class="pagination-link" aria-label="GeoFetch.jl">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">GeoFetch.jl</span></span>
@@ -1176,7 +1117,7 @@ GeoFetch.USGSWater</code></pre>
       &nbsp;
     </div>   
     <div class="nav-footer-center">
-<p>Built on 2026-04-14</p>
+<p>Built on 2026-11-23</p>
 </div>
     <div class="nav-footer-right">
       &nbsp;

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.37">
+<meta name="generator" content="quarto-1.11.9">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -12,10 +12,13 @@
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
 */
-code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -71,14 +74,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="./api.html" rel="next">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-3db6c18bb69885e7f25697a9383847b5.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-a25274e1f4d10790e0ba3e859271560c.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-426f41d558ea4d560124c4548de7cb69.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-7ade0d2eeb53a02b6382f342698cd8a4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -108,11 +112,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link rel="stylesheet" href="assets/styles.css">
 </head>
 
-<body class="nav-sidebar floating nav-fixed quarto-light">
+<body class="nav-sidebar floating nav-fixed quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a>
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark" aria-label="Site">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a href="https://rallypoint1.com" class="navbar-brand navbar-brand-logo">
@@ -123,7 +127,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <span class="navbar-title">GeoFetch.jl</span>
     </a>
   </div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -144,13 +148,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
       </div> <!-- /container-fluid -->
     </nav>
-  <nav class="quarto-secondary-nav">
+  <nav class="quarto-secondary-nav" aria-label="Toolbar">
     <div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Docs</a></li><li class="breadcrumb-item"><a href="./index.html"><span class="chapter-title">GeoFetch.jl</span></a></li></ol></nav>
-        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Docs</a></li><li class="breadcrumb-item"><a href="./index.html"><span class="chapter-title">GeoFetch.jl</span></a></li></ol></nav>
+        <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
@@ -161,7 +165,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto" aria-label="Section">
         <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
         <div id="quarto-search" class="" title="Search"></div>
@@ -171,13 +175,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
- <span class="menu-text">Docs</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-controls="quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-1-label">Docs</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">GeoFetch.jl</span></a>
@@ -187,13 +188,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
- <span class="menu-text">API</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-2-label">API</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./api.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">API</span></a>
@@ -203,13 +201,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
- <span class="menu-text">Resources</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-3-label">Resources</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./resources/changelog.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Changelog</span></a>
@@ -228,20 +223,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
   <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
-  <li><a href="#quickstart" id="toc-quickstart" class="nav-link" data-scroll-target="#quickstart">Quickstart</a></li>
-  <li><a href="#available-sources" id="toc-available-sources" class="nav-link" data-scroll-target="#available-sources">Available Sources</a></li>
+  <li><a href="#installation" id="toc-installation" class="nav-link" data-scroll-target="#installation">Installation</a></li>
+  <li><a href="#available-sources" id="toc-available-sources" class="nav-link" data-scroll-target="#available-sources">Available sources</a>
+  <ul class="collapse">
+  <li><a href="#oisst" id="toc-oisst" class="nav-link" data-scroll-target="#oisst">OISST</a></li>
+  <li><a href="#gfs" id="toc-gfs" class="nav-link" data-scroll-target="#gfs">GFS</a></li>
+  <li><a href="#ifs-and-aifs" id="toc-ifs-and-aifs" class="nav-link" data-scroll-target="#ifs-and-aifs">IFS and AIFS</a></li>
+  <li><a href="#hrrr" id="toc-hrrr" class="nav-link" data-scroll-target="#hrrr">HRRR</a></li>
+  </ul></li>
+  <li><a href="#selecting-and-chunking" id="toc-selecting-and-chunking" class="nav-link" data-scroll-target="#selecting-and-chunking">Selecting and chunking</a></li>
+  <li><a href="#reading-a-store" id="toc-reading-a-store" class="nav-link" data-scroll-target="#reading-a-store">Reading a store</a></li>
+  <li><a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples">Examples</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content" id="quarto-document-content" tabindex="-1">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Docs</a></li><li class="breadcrumb-item"><a href="./index.html"><span class="chapter-title">GeoFetch.jl</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Docs</a></li><li class="breadcrumb-item"><a href="./index.html"><span class="chapter-title">GeoFetch.jl</span></a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title">GeoFetch.jl</h1>
 </div>
@@ -260,115 +264,1353 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>Welcome to the documentation for <strong>GeoFetch.jl</strong> — a unified interface for fetching geospatial data from multiple providers.</p>
+<p><strong>GeoFetch.jl</strong> builds local <a href="https://zarr.dev">Zarr</a> stores from remote weather and geoscience datasets. You describe what you want as a small pipeline, and GeoFetch downloads only the pieces it needs and writes them into a single store with labelled dimensions.</p>
 <section id="overview" class="level2">
 <h2 class="anchored" data-anchor-id="overview">Overview</h2>
-<p>GeoFetch organizes geospatial data access around four core types:</p>
-<pre><code>Source → Dataset → Chunk → File</code></pre>
+<p>A pipeline is a chain of stages joined with <code>|</code>:</p>
+<pre><code>Source | Select / Rechunk | Store</code></pre>
 <ul>
-<li><strong><code>Source</code></strong> — A data provider (e.g.&nbsp;<code>NOMADS()</code>, <code>CDS()</code>, <code>Landfire()</code>).
-<ul>
-<li><code>datasets(source)</code> lists available datasets.</li>
-<li><code>help(source)</code> returns a documentation URL.</li>
-</ul></li>
-<li><strong><code>Dataset</code></strong> — A configurable remote dataset (e.g.&nbsp;<code>LandfireDataset(product="FBFM40")</code>).
-<ul>
-<li><code>chunks(project, dataset)</code> resolves it into downloadable pieces.</li>
-</ul></li>
-<li><strong><code>Chunk</code></strong> — A single downloadable file with a URL and metadata.
-<ul>
-<li><code>fetch(chunk, filepath)</code> downloads the data to disk.</li>
-</ul></li>
-<li><strong><code>Project</code></strong> — Ties everything together: a spatial/temporal region of interest, an output directory, and a list of datasets to fetch.</li>
+<li><strong>Source</strong> — the upstream dataset and how it is split into fetchable pieces. Presets such as <code>OISST(...)</code>, <code>GFS(...)</code> and <code>IFS(...)</code> build a source for a known dataset.</li>
+<li><strong>Transform</strong> — <code>Select</code> narrows dimensions and variables; <code>Rechunk</code> changes the chunk shape of the output.</li>
+<li><strong>Sink</strong> — <code>Store</code> is the Zarr store to write.</li>
 </ul>
-</section>
-<section id="quickstart" class="level2">
-<h2 class="anchored" data-anchor-id="quickstart">Quickstart</h2>
-<p>Create a <code>Project</code> with a geometry and datasets, then <code>fetch</code> it:</p>
-<div id="4" class="cell" data-execution_count="0">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">GeoFetch</span>, <span class="bu">Dates</span>, <span class="bu">Extents</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> <span class="fu">Project</span>(</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    geometry <span class="op">=</span> <span class="fu">Extent</span>(X<span class="op">=</span>(<span class="op">-</span><span class="fl">106.0</span>, <span class="op">-</span><span class="fl">105.0</span>), Y<span class="op">=</span>(<span class="fl">39.0</span>, <span class="fl">40.0</span>)),</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    datasets <span class="op">=</span> [<span class="fu">LandfireDataset</span>(product<span class="op">=</span><span class="st">"FBFM40"</span>)],</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">fetch</span>(p)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Building a pipeline does no I/O, so it can be printed and inspected freely:</p>
+<div id="4" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>pipeline <span class="op">=</span> <span class="fu">GFS</span>(start<span class="op">=</span><span class="fu">Date</span>(<span class="fl">2026</span>, <span class="fl">11</span>, <span class="fl">8</span>), stop<span class="op">=</span><span class="fu">Date</span>(<span class="fl">2026</span>, <span class="fl">11</span>, <span class="fl">8</span>), cycles<span class="op">=</span>[<span class="fl">0</span>], steps<span class="op">=</span>[<span class="fl">0</span>, <span class="fl">6</span>, <span class="fl">12</span>]) <span class="op">|</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">Select</span>(vars<span class="op">=</span>[<span class="op">:</span>t2m, <span class="op">:</span>apcp, <span class="op">:</span>t], level<span class="op">=</span>[<span class="fl">850</span>, <span class="fl">500</span>], lon<span class="op">=</span><span class="fu">Between</span>(<span class="fl">0</span>, <span class="fl">30</span>), lat<span class="op">=</span><span class="fu">Between</span>(<span class="fl">35</span>, <span class="fl">60</span>)) <span class="op">|</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">Store</span>(<span class="st">"gfs.zarr"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="1">
+<pre><code>Pipeline (3 stages)
+  1. GRIBRangeSource(3 units, 21 fields)
+  2. Select(vars=[:t2m, :apcp, :t], level=[850, 500], lat=Between(35, 60), lon=Between(0, 30))
+  3. Store("gfs.zarr", v3)</code></pre>
+</div>
+</div>
+<p><code>execute</code> is the one call that downloads data and writes the store:</p>
+<div id="6" class="cell" data-execution_count="0">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">execute</span>(pipeline)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
+<section id="installation" class="level2">
+<h2 class="anchored" data-anchor-id="installation">Installation</h2>
+<div id="8" class="cell" data-execution_count="0">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Pkg</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="bu">Pkg</span>.<span class="fu">add</span>(url<span class="op">=</span><span class="st">"https://github.com/RallypointOne/GeoFetch.jl"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The registered v0.1.0 predates the pipeline API described here, so install from the repository for now.</p>
+</section>
 <section id="available-sources" class="level2">
-<h2 class="anchored" data-anchor-id="available-sources">Available Sources</h2>
+<h2 class="anchored" data-anchor-id="available-sources">Available sources</h2>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 28%">
+<col style="width: 28%">
+<col style="width: 25%">
+<col style="width: 18%">
+</colgroup>
 <thead>
 <tr class="header">
-<th>Source</th>
-<th>Description</th>
+<th>Preset</th>
+<th>Dataset</th>
+<th>Access</th>
 <th>Auth</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>NOMADS</code></td>
-<td>NOAA weather models (GFS, HRRR, NAM, …)</td>
-<td>None</td>
-</tr>
-<tr class="even">
-<td><code>CDS</code></td>
-<td>Copernicus Climate Data Store (ERA5, …)</td>
-<td>API key</td>
-</tr>
-<tr class="odd">
-<td><code>FIRMS</code></td>
-<td>NASA active fire data (VIIRS, MODIS)</td>
-<td>API key</td>
-</tr>
-<tr class="even">
-<td><code>ETOPO</code></td>
-<td>NOAA global relief model</td>
-<td>None</td>
-</tr>
-<tr class="odd">
-<td><code>SRTM</code></td>
-<td>NASA Shuttle Radar Topography Mission</td>
-<td>API key</td>
-</tr>
-<tr class="even">
-<td><code>GOES</code></td>
-<td>NOAA GOES satellite imagery (S3)</td>
-<td>None</td>
-</tr>
-<tr class="odd">
-<td><code>HRRRArchive</code></td>
-<td>HRRR model archive (S3)</td>
-<td>None</td>
-</tr>
-<tr class="even">
-<td><code>NASAPower</code></td>
-<td>NASA daily meteorological/solar data</td>
-<td>None</td>
-</tr>
-<tr class="odd">
-<td><code>USGSWater</code></td>
-<td>USGS streamflow and water quality</td>
-<td>None</td>
-</tr>
-<tr class="even">
-<td><code>NCEI</code></td>
-<td>NOAA historical weather observations</td>
-<td>None</td>
-</tr>
-<tr class="odd">
 <td><code>OISST</code></td>
-<td>NOAA daily sea surface temperature</td>
-<td>None</td>
+<td>NOAA Optimum Interpolation SST v2.1, daily, 0.25° global</td>
+<td>NetCDF files over HTTPS (NCEI)</td>
+<td>none</td>
 </tr>
 <tr class="even">
-<td><code>Landfire</code></td>
-<td>USGS wildland fire and vegetation (WCS)</td>
-<td>None</td>
+<td><code>GFS</code></td>
+<td>NOAA Global Forecast System forecasts, 0.25° / 0.5° / 1° global</td>
+<td>GRIB2 messages by byte range (AWS <code>noaa-gfs-bdp-pds</code>)</td>
+<td>none</td>
+</tr>
+<tr class="odd">
+<td><code>IFS</code></td>
+<td>ECMWF IFS deterministic forecasts, 0.25° / 0.1° global</td>
+<td>GRIB2 messages by byte range (ECMWF open data)</td>
+<td>none</td>
+</tr>
+<tr class="even">
+<td><code>AIFS</code></td>
+<td>ECMWF AIFS Single machine-learning forecasts, 0.25° global</td>
+<td>GRIB2 messages by byte range (ECMWF open data)</td>
+<td>none</td>
+</tr>
+<tr class="odd">
+<td><code>HRRR</code></td>
+<td>NOAA High-Resolution Rapid Refresh forecasts, 3 km, contiguous US</td>
+<td>GRIB2 messages by byte range (AWS <code>noaa-hrrr-bdp-pds</code>)</td>
+<td>none</td>
+</tr>
+<tr class="even">
+<td><code>ERA5</code></td>
+<td>ECMWF ERA5 reanalysis</td>
+<td>not implemented yet</td>
+<td>—</td>
 </tr>
 </tbody>
 </table>
+<section id="oisst" class="level3">
+<h3 class="anchored" data-anchor-id="oisst">OISST</h3>
+<p>Daily sea surface temperature on a 0.25° global grid, one NetCDF file (about 1.6 MB) per day. Dimensions are <code>lon</code> (0 to 360), <code>lat</code>, <code>zlev</code> and <code>time</code>; variables are <code>sst</code>, <code>anom</code>, <code>err</code> and <code>ice</code>.</p>
+<div id="10" class="cell" data-execution_count="0">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>pipeline <span class="op">=</span> <span class="fu">OISST</span>(start<span class="op">=</span><span class="fu">Date</span>(<span class="fl">2025</span>, <span class="fl">1</span>, <span class="fl">1</span>), stop<span class="op">=</span><span class="fu">Date</span>(<span class="fl">2025</span>, <span class="fl">1</span>, <span class="fl">3</span>)) <span class="op">|</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">Select</span>(vars<span class="op">=:</span>sst, lon<span class="op">=</span><span class="fu">Between</span>(<span class="fl">280</span>, <span class="fl">350</span>), lat<span class="op">=</span><span class="fu">Between</span>(<span class="fl">20</span>, <span class="fl">60</span>)) <span class="op">|</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">Rechunk</span>(time<span class="op">=</span><span class="fl">3</span>) <span class="op">|</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">Store</span>(<span class="st">"oisst.zarr"</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="fu">execute</span>(pipeline)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="gfs" class="level3">
+<h3 class="anchored" data-anchor-id="gfs">GFS</h3>
+<p>Global forecasts from the <code>pgrb2</code> files of the public AWS bucket, available from 2021-03-23. Dimensions are <code>lon</code> (0 to 360), <code>lat</code> (north first), <code>level</code> (hPa), <code>step</code> (lead time in hours) and <code>time</code> (forecast initialization).</p>
+<p>Each GFS file is about 540 MB at 0.25° and holds several hundred GRIB messages. GeoFetch reads the <code>.idx</code> file published next to each one and requests only the byte ranges of the selected variables and levels.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 27%">
+<col style="width: 18%">
+<col style="width: 18%">
+<col style="width: 35%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Level</th>
+<th>Units</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>t2m</code></td>
+<td>2 m above ground</td>
+<td>K</td>
+<td>2 metre temperature</td>
+</tr>
+<tr class="even">
+<td><code>d2m</code></td>
+<td>2 m above ground</td>
+<td>K</td>
+<td>2 metre dewpoint temperature</td>
+</tr>
+<tr class="odd">
+<td><code>rh2m</code></td>
+<td>2 m above ground</td>
+<td>%</td>
+<td>2 metre relative humidity</td>
+</tr>
+<tr class="even">
+<td><code>u10</code></td>
+<td>10 m above ground</td>
+<td>m s-1</td>
+<td>10 metre eastward wind</td>
+</tr>
+<tr class="odd">
+<td><code>v10</code></td>
+<td>10 m above ground</td>
+<td>m s-1</td>
+<td>10 metre northward wind</td>
+</tr>
+<tr class="even">
+<td><code>gust</code></td>
+<td>surface</td>
+<td>m s-1</td>
+<td>surface wind gust</td>
+</tr>
+<tr class="odd">
+<td><code>prmsl</code></td>
+<td>mean sea level</td>
+<td>Pa</td>
+<td>pressure reduced to mean sea level</td>
+</tr>
+<tr class="even">
+<td><code>sp</code></td>
+<td>surface</td>
+<td>Pa</td>
+<td>surface pressure</td>
+</tr>
+<tr class="odd">
+<td><code>pwat</code></td>
+<td>entire atmosphere (considered as a single layer)</td>
+<td>kg m-2</td>
+<td>precipitable water</td>
+</tr>
+<tr class="even">
+<td><code>cape</code></td>
+<td>surface</td>
+<td>J kg-1</td>
+<td>surface-based convective available potential energy</td>
+</tr>
+<tr class="odd">
+<td><code>tcc</code></td>
+<td>entire atmosphere</td>
+<td>%</td>
+<td>total cloud cover</td>
+</tr>
+<tr class="even">
+<td><code>apcp</code></td>
+<td>surface</td>
+<td>kg m-2</td>
+<td>total precipitation accumulated since forecast start</td>
+</tr>
+<tr class="odd">
+<td><code>orog</code></td>
+<td>surface</td>
+<td>gpm</td>
+<td>surface geopotential height (orography)</td>
+</tr>
+<tr class="even">
+<td><code>lsm</code></td>
+<td>surface</td>
+<td>1</td>
+<td>land-sea mask (1 = land)</td>
+</tr>
+<tr class="odd">
+<td><code>t</code></td>
+<td>pressure levels</td>
+<td>K</td>
+<td>temperature</td>
+</tr>
+<tr class="even">
+<td><code>u</code></td>
+<td>pressure levels</td>
+<td>m s-1</td>
+<td>eastward wind</td>
+</tr>
+<tr class="odd">
+<td><code>v</code></td>
+<td>pressure levels</td>
+<td>m s-1</td>
+<td>northward wind</td>
+</tr>
+<tr class="even">
+<td><code>w</code></td>
+<td>pressure levels</td>
+<td>Pa s-1</td>
+<td>vertical velocity (pressure)</td>
+</tr>
+<tr class="odd">
+<td><code>z</code></td>
+<td>pressure levels</td>
+<td>gpm</td>
+<td>geopotential height</td>
+</tr>
+<tr class="even">
+<td><code>rh</code></td>
+<td>pressure levels</td>
+<td>%</td>
+<td>relative humidity</td>
+</tr>
+<tr class="odd">
+<td><code>q</code></td>
+<td>pressure levels</td>
+<td>kg kg-1</td>
+<td>specific humidity</td>
+</tr>
+</tbody>
+</table>
+<p>Things to know:</p>
+<ul>
+<li>Without a <code>Select(vars=...)</code> every variable on every level is fetched, which is about 245 requests and on the order of 1 GB in memory per file at 0.25°.</li>
+<li>A message that a file does not contain is stored as <code>NaN</code>. For example <code>apcp</code> (precipitation accumulated since forecast start) has no value at step 0.</li>
+<li>At 0.25° every hour up to 120 is available; beyond that, and at 0.5° and 1°, lead times are multiples of 3 up to 384.</li>
+<li><code>GFS(...; base=...)</code> reads from a mirror or a local directory with the same layout as the bucket.</li>
+</ul>
+</section>
+<section id="ifs-and-aifs" class="level3">
+<h3 class="anchored" data-anchor-id="ifs-and-aifs">IFS and AIFS</h3>
+<p>Deterministic forecasts from the <a href="https://www.ecmwf.int/en/forecasts/datasets/open-data">ECMWF open data</a> (CC-BY-4.0): <code>IFS</code> is the physical model (available here from 2024-03-01), <code>AIFS</code> the machine-learning model AIFS Single (from 2025-03-01). Dimensions are those of GFS, except that <code>lon</code> runs from -180 to 180 and there are 14 pressure levels.</p>
+<p>Each file holds one lead time of one run. GeoFetch reads the <code>.index</code> file published next to it and requests only the byte ranges of the selected variables and levels.</p>
+<div id="14" class="cell" data-execution_count="0">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>pipeline <span class="op">=</span> <span class="fu">IFS</span>(start<span class="op">=</span><span class="fu">Date</span>(<span class="fl">2026</span>, <span class="fl">11</span>, <span class="fl">14</span>), stop<span class="op">=</span><span class="fu">Date</span>(<span class="fl">2026</span>, <span class="fl">11</span>, <span class="fl">14</span>), cycles<span class="op">=</span>[<span class="fl">0</span>], steps<span class="op">=</span>[<span class="fl">0</span>, <span class="fl">6</span>, <span class="fl">12</span>]) <span class="op">|</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">Select</span>(vars<span class="op">=</span>[<span class="op">:</span>t2m, <span class="op">:</span>tp, <span class="op">:</span>t], level<span class="op">=</span>[<span class="fl">850</span>, <span class="fl">500</span>], lon<span class="op">=</span><span class="fu">Between</span>(<span class="fl">0</span>, <span class="fl">30</span>), lat<span class="op">=</span><span class="fu">Between</span>(<span class="fl">35</span>, <span class="fl">60</span>)) <span class="op">|</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">Store</span>(<span class="st">"ifs.zarr"</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">execute</span>(pipeline)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>IFS variables:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 24%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 26%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>ECMWF name</th>
+<th>Level</th>
+<th>Units</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>t2m</code></td>
+<td><code>2t</code></td>
+<td>single level</td>
+<td>K</td>
+<td>2 metre temperature</td>
+</tr>
+<tr class="even">
+<td><code>d2m</code></td>
+<td><code>2d</code></td>
+<td>single level</td>
+<td>K</td>
+<td>2 metre dewpoint temperature</td>
+</tr>
+<tr class="odd">
+<td><code>u10</code></td>
+<td><code>10u</code></td>
+<td>single level</td>
+<td>m s-1</td>
+<td>10 metre eastward wind</td>
+</tr>
+<tr class="even">
+<td><code>v10</code></td>
+<td><code>10v</code></td>
+<td>single level</td>
+<td>m s-1</td>
+<td>10 metre northward wind</td>
+</tr>
+<tr class="odd">
+<td><code>u100</code></td>
+<td><code>100u</code></td>
+<td>single level</td>
+<td>m s-1</td>
+<td>100 metre eastward wind</td>
+</tr>
+<tr class="even">
+<td><code>v100</code></td>
+<td><code>100v</code></td>
+<td>single level</td>
+<td>m s-1</td>
+<td>100 metre northward wind</td>
+</tr>
+<tr class="odd">
+<td><code>fg10</code></td>
+<td><code>10fg</code></td>
+<td>single level</td>
+<td>m s-1</td>
+<td>maximum 10 metre wind gust since previous post-processing</td>
+</tr>
+<tr class="even">
+<td><code>mx2t3</code></td>
+<td><code>mx2t3</code></td>
+<td>single level</td>
+<td>K</td>
+<td>maximum 2 metre temperature in the last 3 hours</td>
+</tr>
+<tr class="odd">
+<td><code>mn2t3</code></td>
+<td><code>mn2t3</code></td>
+<td>single level</td>
+<td>K</td>
+<td>minimum 2 metre temperature in the last 3 hours</td>
+</tr>
+<tr class="even">
+<td><code>skt</code></td>
+<td><code>skt</code></td>
+<td>single level</td>
+<td>K</td>
+<td>skin temperature</td>
+</tr>
+<tr class="odd">
+<td><code>msl</code></td>
+<td><code>msl</code></td>
+<td>single level</td>
+<td>Pa</td>
+<td>mean sea level pressure</td>
+</tr>
+<tr class="even">
+<td><code>sp</code></td>
+<td><code>sp</code></td>
+<td>single level</td>
+<td>Pa</td>
+<td>surface pressure</td>
+</tr>
+<tr class="odd">
+<td><code>tcc</code></td>
+<td><code>tcc</code></td>
+<td>single level</td>
+<td>1</td>
+<td>total cloud cover (0 - 1)</td>
+</tr>
+<tr class="even">
+<td><code>lcc</code></td>
+<td><code>lcc</code></td>
+<td>single level</td>
+<td>1</td>
+<td>low cloud cover (0 - 1)</td>
+</tr>
+<tr class="odd">
+<td><code>mcc</code></td>
+<td><code>mcc</code></td>
+<td>single level</td>
+<td>1</td>
+<td>medium cloud cover (0 - 1)</td>
+</tr>
+<tr class="even">
+<td><code>hcc</code></td>
+<td><code>hcc</code></td>
+<td>single level</td>
+<td>1</td>
+<td>high cloud cover (0 - 1)</td>
+</tr>
+<tr class="odd">
+<td><code>tcw</code></td>
+<td><code>tcw</code></td>
+<td>single level</td>
+<td>kg m-2</td>
+<td>total column water</td>
+</tr>
+<tr class="even">
+<td><code>tcwv</code></td>
+<td><code>tcwv</code></td>
+<td>single level</td>
+<td>kg m-2</td>
+<td>total column water vapour</td>
+</tr>
+<tr class="odd">
+<td><code>tclw</code></td>
+<td><code>tclw</code></td>
+<td>single level</td>
+<td>kg m-2</td>
+<td>total column cloud liquid water</td>
+</tr>
+<tr class="even">
+<td><code>tciw</code></td>
+<td><code>tciw</code></td>
+<td>single level</td>
+<td>kg m-2</td>
+<td>total column cloud ice water</td>
+</tr>
+<tr class="odd">
+<td><code>tcrw</code></td>
+<td><code>tcrw</code></td>
+<td>single level</td>
+<td>kg m-2</td>
+<td>total column rain water</td>
+</tr>
+<tr class="even">
+<td><code>mucape</code></td>
+<td><code>mucape</code></td>
+<td>single level</td>
+<td>J kg-1</td>
+<td>most-unstable convective available potential energy</td>
+</tr>
+<tr class="odd">
+<td><code>tp</code></td>
+<td><code>tp</code></td>
+<td>single level</td>
+<td>m</td>
+<td>total precipitation accumulated since forecast start</td>
+</tr>
+<tr class="even">
+<td><code>cp</code></td>
+<td><code>cp</code></td>
+<td>single level</td>
+<td>m</td>
+<td>convective precipitation accumulated since forecast start</td>
+</tr>
+<tr class="odd">
+<td><code>sf</code></td>
+<td><code>sf</code></td>
+<td>single level</td>
+<td>m</td>
+<td>snowfall (water equivalent) accumulated since forecast start</td>
+</tr>
+<tr class="even">
+<td><code>ro</code></td>
+<td><code>ro</code></td>
+<td>single level</td>
+<td>m</td>
+<td>runoff accumulated since forecast start</td>
+</tr>
+<tr class="odd">
+<td><code>tprate</code></td>
+<td><code>tprate</code></td>
+<td>single level</td>
+<td>kg m-2 s-1</td>
+<td>total precipitation rate</td>
+</tr>
+<tr class="even">
+<td><code>ptype</code></td>
+<td><code>ptype</code></td>
+<td>single level</td>
+<td>1</td>
+<td>precipitation type (WMO code table 4.201)</td>
+</tr>
+<tr class="odd">
+<td><code>ssrd</code></td>
+<td><code>ssrd</code></td>
+<td>single level</td>
+<td>J m-2</td>
+<td>surface short-wave radiation downwards accumulated since forecast start</td>
+</tr>
+<tr class="even">
+<td><code>ssr</code></td>
+<td><code>ssr</code></td>
+<td>single level</td>
+<td>J m-2</td>
+<td>surface net short-wave radiation accumulated since forecast start</td>
+</tr>
+<tr class="odd">
+<td><code>strd</code></td>
+<td><code>strd</code></td>
+<td>single level</td>
+<td>J m-2</td>
+<td>surface long-wave radiation downwards accumulated since forecast start</td>
+</tr>
+<tr class="even">
+<td><code>str</code></td>
+<td><code>str</code></td>
+<td>single level</td>
+<td>J m-2</td>
+<td>surface net long-wave radiation accumulated since forecast start</td>
+</tr>
+<tr class="odd">
+<td><code>ttr</code></td>
+<td><code>ttr</code></td>
+<td>single level</td>
+<td>J m-2</td>
+<td>top net long-wave radiation accumulated since forecast start</td>
+</tr>
+<tr class="even">
+<td><code>ewss</code></td>
+<td><code>ewss</code></td>
+<td>single level</td>
+<td>N m-2 s</td>
+<td>time-integrated eastward turbulent surface stress</td>
+</tr>
+<tr class="odd">
+<td><code>nsss</code></td>
+<td><code>nsss</code></td>
+<td>single level</td>
+<td>N m-2 s</td>
+<td>time-integrated northward turbulent surface stress</td>
+</tr>
+<tr class="even">
+<td><code>sd</code></td>
+<td><code>sd</code></td>
+<td>single level</td>
+<td>m</td>
+<td>snow depth (water equivalent)</td>
+</tr>
+<tr class="odd">
+<td><code>rsn</code></td>
+<td><code>rsn</code></td>
+<td>single level</td>
+<td>kg m-3</td>
+<td>snow density</td>
+</tr>
+<tr class="even">
+<td><code>asn</code></td>
+<td><code>asn</code></td>
+<td>single level</td>
+<td>1</td>
+<td>snow albedo (0 - 1)</td>
+</tr>
+<tr class="odd">
+<td><code>sithick</code></td>
+<td><code>sithick</code></td>
+<td>single level</td>
+<td>m</td>
+<td>sea ice thickness</td>
+</tr>
+<tr class="even">
+<td><code>zos</code></td>
+<td><code>zos</code></td>
+<td>single level</td>
+<td>m</td>
+<td>sea surface height</td>
+</tr>
+<tr class="odd">
+<td><code>sve</code></td>
+<td><code>sve</code></td>
+<td>single level</td>
+<td>m s-1</td>
+<td>eastward surface sea water velocity</td>
+</tr>
+<tr class="even">
+<td><code>svn</code></td>
+<td><code>svn</code></td>
+<td>single level</td>
+<td>m s-1</td>
+<td>northward surface sea water velocity</td>
+</tr>
+<tr class="odd">
+<td><code>lsm</code></td>
+<td><code>lsm</code></td>
+<td>single level</td>
+<td>1</td>
+<td>land-sea mask (0 - 1, 1 = land)</td>
+</tr>
+<tr class="even">
+<td><code>zsfc</code></td>
+<td><code>z</code></td>
+<td>single level</td>
+<td>m2 s-2</td>
+<td>surface geopotential (orography), step 0 only</td>
+</tr>
+<tr class="odd">
+<td><code>sdor</code></td>
+<td><code>sdor</code></td>
+<td>single level</td>
+<td>m</td>
+<td>standard deviation of sub-gridscale orography, step 0 only</td>
+</tr>
+<tr class="even">
+<td><code>slor</code></td>
+<td><code>slor</code></td>
+<td>single level</td>
+<td>1</td>
+<td>slope of sub-gridscale orography, step 0 only</td>
+</tr>
+<tr class="odd">
+<td><code>sot1</code></td>
+<td><code>sot</code></td>
+<td>soil layer</td>
+<td>K</td>
+<td>soil temperature, layer 1</td>
+</tr>
+<tr class="even">
+<td><code>sot2</code></td>
+<td><code>sot</code></td>
+<td>soil layer</td>
+<td>K</td>
+<td>soil temperature, layer 2</td>
+</tr>
+<tr class="odd">
+<td><code>sot3</code></td>
+<td><code>sot</code></td>
+<td>soil layer</td>
+<td>K</td>
+<td>soil temperature, layer 3</td>
+</tr>
+<tr class="even">
+<td><code>sot4</code></td>
+<td><code>sot</code></td>
+<td>soil layer</td>
+<td>K</td>
+<td>soil temperature, layer 4</td>
+</tr>
+<tr class="odd">
+<td><code>vsw1</code></td>
+<td><code>vsw</code></td>
+<td>soil layer</td>
+<td>m3 m-3</td>
+<td>volumetric soil moisture, layer 1</td>
+</tr>
+<tr class="even">
+<td><code>vsw2</code></td>
+<td><code>vsw</code></td>
+<td>soil layer</td>
+<td>m3 m-3</td>
+<td>volumetric soil moisture, layer 2</td>
+</tr>
+<tr class="odd">
+<td><code>vsw3</code></td>
+<td><code>vsw</code></td>
+<td>soil layer</td>
+<td>m3 m-3</td>
+<td>volumetric soil moisture, layer 3</td>
+</tr>
+<tr class="even">
+<td><code>vsw4</code></td>
+<td><code>vsw</code></td>
+<td>soil layer</td>
+<td>m3 m-3</td>
+<td>volumetric soil moisture, layer 4</td>
+</tr>
+<tr class="odd">
+<td><code>t</code></td>
+<td><code>t</code></td>
+<td>pressure levels</td>
+<td>K</td>
+<td>temperature</td>
+</tr>
+<tr class="even">
+<td><code>u</code></td>
+<td><code>u</code></td>
+<td>pressure levels</td>
+<td>m s-1</td>
+<td>eastward wind</td>
+</tr>
+<tr class="odd">
+<td><code>v</code></td>
+<td><code>v</code></td>
+<td>pressure levels</td>
+<td>m s-1</td>
+<td>northward wind</td>
+</tr>
+<tr class="even">
+<td><code>w</code></td>
+<td><code>w</code></td>
+<td>pressure levels</td>
+<td>Pa s-1</td>
+<td>vertical velocity (pressure)</td>
+</tr>
+<tr class="odd">
+<td><code>z</code></td>
+<td><code>z</code></td>
+<td>pressure levels</td>
+<td>m2 s-2</td>
+<td>geopotential</td>
+</tr>
+<tr class="even">
+<td><code>gh</code></td>
+<td><code>gh</code></td>
+<td>pressure levels</td>
+<td>gpm</td>
+<td>geopotential height</td>
+</tr>
+<tr class="odd">
+<td><code>q</code></td>
+<td><code>q</code></td>
+<td>pressure levels</td>
+<td>kg kg-1</td>
+<td>specific humidity</td>
+</tr>
+<tr class="even">
+<td><code>r</code></td>
+<td><code>r</code></td>
+<td>pressure levels</td>
+<td>%</td>
+<td>relative humidity</td>
+</tr>
+<tr class="odd">
+<td><code>d</code></td>
+<td><code>d</code></td>
+<td>pressure levels</td>
+<td>s-1</td>
+<td>divergence</td>
+</tr>
+<tr class="even">
+<td><code>vo</code></td>
+<td><code>vo</code></td>
+<td>pressure levels</td>
+<td>s-1</td>
+<td>relative vorticity</td>
+</tr>
+</tbody>
+</table>
+<p>AIFS variables:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 24%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 26%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>ECMWF name</th>
+<th>Level</th>
+<th>Units</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>t2m</code></td>
+<td><code>2t</code></td>
+<td>single level</td>
+<td>K</td>
+<td>2 metre temperature</td>
+</tr>
+<tr class="even">
+<td><code>d2m</code></td>
+<td><code>2d</code></td>
+<td>single level</td>
+<td>K</td>
+<td>2 metre dewpoint temperature</td>
+</tr>
+<tr class="odd">
+<td><code>u10</code></td>
+<td><code>10u</code></td>
+<td>single level</td>
+<td>m s-1</td>
+<td>10 metre eastward wind</td>
+</tr>
+<tr class="even">
+<td><code>v10</code></td>
+<td><code>10v</code></td>
+<td>single level</td>
+<td>m s-1</td>
+<td>10 metre northward wind</td>
+</tr>
+<tr class="odd">
+<td><code>u100</code></td>
+<td><code>100u</code></td>
+<td>single level</td>
+<td>m s-1</td>
+<td>100 metre eastward wind</td>
+</tr>
+<tr class="even">
+<td><code>v100</code></td>
+<td><code>100v</code></td>
+<td>single level</td>
+<td>m s-1</td>
+<td>100 metre northward wind</td>
+</tr>
+<tr class="odd">
+<td><code>skt</code></td>
+<td><code>skt</code></td>
+<td>single level</td>
+<td>K</td>
+<td>skin temperature</td>
+</tr>
+<tr class="even">
+<td><code>msl</code></td>
+<td><code>msl</code></td>
+<td>single level</td>
+<td>Pa</td>
+<td>mean sea level pressure</td>
+</tr>
+<tr class="odd">
+<td><code>sp</code></td>
+<td><code>sp</code></td>
+<td>single level</td>
+<td>Pa</td>
+<td>surface pressure</td>
+</tr>
+<tr class="even">
+<td><code>tcc</code></td>
+<td><code>tcc</code></td>
+<td>single level</td>
+<td>%</td>
+<td>total cloud cover</td>
+</tr>
+<tr class="odd">
+<td><code>lcc</code></td>
+<td><code>lcc</code></td>
+<td>single level</td>
+<td>%</td>
+<td>low cloud cover</td>
+</tr>
+<tr class="even">
+<td><code>mcc</code></td>
+<td><code>mcc</code></td>
+<td>single level</td>
+<td>%</td>
+<td>medium cloud cover</td>
+</tr>
+<tr class="odd">
+<td><code>hcc</code></td>
+<td><code>hcc</code></td>
+<td>single level</td>
+<td>%</td>
+<td>high cloud cover</td>
+</tr>
+<tr class="even">
+<td><code>tcw</code></td>
+<td><code>tcw</code></td>
+<td>single level</td>
+<td>kg m-2</td>
+<td>total column water</td>
+</tr>
+<tr class="odd">
+<td><code>tp</code></td>
+<td><code>tp</code></td>
+<td>single level</td>
+<td>kg m-2</td>
+<td>total precipitation accumulated since forecast start</td>
+</tr>
+<tr class="even">
+<td><code>cp</code></td>
+<td><code>cp</code></td>
+<td>single level</td>
+<td>kg m-2</td>
+<td>convective precipitation accumulated since forecast start</td>
+</tr>
+<tr class="odd">
+<td><code>sf</code></td>
+<td><code>sf</code></td>
+<td>single level</td>
+<td>kg m-2</td>
+<td>snowfall water equivalent accumulated since forecast start</td>
+</tr>
+<tr class="even">
+<td><code>rowe</code></td>
+<td><code>rowe</code></td>
+<td>single level</td>
+<td>kg m-2</td>
+<td>runoff water equivalent (surface plus subsurface) accumulated since forecast start</td>
+</tr>
+<tr class="odd">
+<td><code>fscov</code></td>
+<td><code>fscov</code></td>
+<td>single level</td>
+<td>1</td>
+<td>fraction of snow cover (0 - 1)</td>
+</tr>
+<tr class="even">
+<td><code>ssrd</code></td>
+<td><code>ssrd</code></td>
+<td>single level</td>
+<td>J m-2</td>
+<td>surface short-wave radiation downwards accumulated since forecast start</td>
+</tr>
+<tr class="odd">
+<td><code>strd</code></td>
+<td><code>strd</code></td>
+<td>single level</td>
+<td>J m-2</td>
+<td>surface long-wave radiation downwards accumulated since forecast start</td>
+</tr>
+<tr class="even">
+<td><code>lsm</code></td>
+<td><code>lsm</code></td>
+<td>single level</td>
+<td>1</td>
+<td>land-sea mask (0 - 1, 1 = land), step 0 only</td>
+</tr>
+<tr class="odd">
+<td><code>zsfc</code></td>
+<td><code>z</code></td>
+<td>single level</td>
+<td>m2 s-2</td>
+<td>surface geopotential (orography), step 0 only</td>
+</tr>
+<tr class="even">
+<td><code>sdor</code></td>
+<td><code>sdor</code></td>
+<td>single level</td>
+<td>m</td>
+<td>standard deviation of sub-gridscale orography, step 0 only</td>
+</tr>
+<tr class="odd">
+<td><code>slor</code></td>
+<td><code>slor</code></td>
+<td>single level</td>
+<td>1</td>
+<td>slope of sub-gridscale orography, step 0 only</td>
+</tr>
+<tr class="even">
+<td><code>sot1</code></td>
+<td><code>sot</code></td>
+<td>soil layer</td>
+<td>K</td>
+<td>soil temperature, layer 1</td>
+</tr>
+<tr class="odd">
+<td><code>sot2</code></td>
+<td><code>sot</code></td>
+<td>soil layer</td>
+<td>K</td>
+<td>soil temperature, layer 2</td>
+</tr>
+<tr class="even">
+<td><code>vsw1</code></td>
+<td><code>vsw</code></td>
+<td>soil layer</td>
+<td>m3 m-3</td>
+<td>volumetric soil moisture, layer 1</td>
+</tr>
+<tr class="odd">
+<td><code>vsw2</code></td>
+<td><code>vsw</code></td>
+<td>soil layer</td>
+<td>m3 m-3</td>
+<td>volumetric soil moisture, layer 2</td>
+</tr>
+<tr class="even">
+<td><code>t</code></td>
+<td><code>t</code></td>
+<td>pressure levels</td>
+<td>K</td>
+<td>temperature</td>
+</tr>
+<tr class="odd">
+<td><code>u</code></td>
+<td><code>u</code></td>
+<td>pressure levels</td>
+<td>m s-1</td>
+<td>eastward wind</td>
+</tr>
+<tr class="even">
+<td><code>v</code></td>
+<td><code>v</code></td>
+<td>pressure levels</td>
+<td>m s-1</td>
+<td>northward wind</td>
+</tr>
+<tr class="odd">
+<td><code>w</code></td>
+<td><code>w</code></td>
+<td>pressure levels</td>
+<td>Pa s-1</td>
+<td>vertical velocity (pressure)</td>
+</tr>
+<tr class="even">
+<td><code>z</code></td>
+<td><code>z</code></td>
+<td>pressure levels</td>
+<td>m2 s-2</td>
+<td>geopotential</td>
+</tr>
+<tr class="odd">
+<td><code>gh</code></td>
+<td><code>gh</code></td>
+<td>pressure levels</td>
+<td>gpm</td>
+<td>geopotential height</td>
+</tr>
+<tr class="even">
+<td><code>q</code></td>
+<td><code>q</code></td>
+<td>pressure levels</td>
+<td>kg kg-1</td>
+<td>specific humidity</td>
+</tr>
+</tbody>
+</table>
+<p>Things to know:</p>
+<ul>
+<li>Units differ between the two models: precipitation and snowfall are in m for IFS and kg m⁻² for AIFS, cloud cover is a fraction for IFS and a percentage for AIFS.</li>
+<li>IFS lead times are multiples of 3 up to 144 and, for the 0 and 12 UTC cycles, multiples of 6 up to 360. AIFS lead times are multiples of 6 up to 360 for every cycle.</li>
+<li><code>IFS(...; resolution="0p1")</code> reads the 0.1° files, available from 2026-10-21.</li>
+<li>A message that a file does not contain is stored as <code>NaN</code>. The open data has grown over time, so older runs lack many of the variables and levels listed here.</li>
+<li>The default <code>base</code> is the Google Cloud mirror. <code>base=</code> also takes the AWS bucket (<code>https://ecmwf-forecasts.s3.eu-central-1.amazonaws.com</code>), ECMWF’s own server (<code>https://data.ecmwf.int/forecasts</code>, about the last 4 days only) or a local directory with the same layout.</li>
+</ul>
+</section>
+<section id="hrrr" class="level3">
+<h3 class="anchored" data-anchor-id="hrrr">HRRR</h3>
+<p>Hourly forecasts over the contiguous United States on a 3 km grid, from the public AWS bucket, available from 2014-07-30. Each lead time of a run has a <code>wrfsfc</code> file (about 140 MB) with the single-level variables and a <code>wrfprs</code> file (about 390 MB) with the pressure-level variables. As for GFS, only the byte ranges of the selected variables and levels are requested.</p>
+<p>The grid is regular in a Lambert conformal projection, not in longitude and latitude. The dimensions are therefore <code>x</code> and <code>y</code> (projected coordinates in m, 1799 by 1059 points), <code>level</code> (hPa), <code>step</code> and <code>time</code>. <code>lon</code> and <code>lat</code> are two-dimensional auxiliary coordinates on <code>(x, y)</code>: they are stored next to the variables, and a <code>Select</code> on them keeps the smallest <code>x</code>/<code>y</code> rectangle that contains every matching grid point.</p>
+<div id="20" class="cell" data-execution_count="0">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>pipeline <span class="op">=</span> <span class="fu">HRRR</span>(start<span class="op">=</span><span class="fu">Date</span>(<span class="fl">2026</span>, <span class="fl">11</span>, <span class="fl">14</span>), stop<span class="op">=</span><span class="fu">Date</span>(<span class="fl">2026</span>, <span class="fl">11</span>, <span class="fl">14</span>), cycles<span class="op">=</span>[<span class="fl">0</span>], steps<span class="op">=</span><span class="fl">0</span><span class="op">:</span><span class="fl">3</span>) <span class="op">|</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">Select</span>(vars<span class="op">=</span>[<span class="op">:</span>t2m, <span class="op">:</span>apcp, <span class="op">:</span>t], level<span class="op">=</span>[<span class="fl">850</span>, <span class="fl">500</span>], lon<span class="op">=</span><span class="fu">Between</span>(<span class="op">-</span><span class="fl">110</span>, <span class="op">-</span><span class="fl">100</span>), lat<span class="op">=</span><span class="fu">Between</span>(<span class="fl">35</span>, <span class="fl">42</span>)) <span class="op">|</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">Store</span>(<span class="st">"hrrr.zarr"</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="fu">execute</span>(pipeline)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 27%">
+<col style="width: 18%">
+<col style="width: 18%">
+<col style="width: 35%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Level</th>
+<th>Units</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>t2m</code></td>
+<td>2 m above ground</td>
+<td>K</td>
+<td>2 metre temperature</td>
+</tr>
+<tr class="even">
+<td><code>d2m</code></td>
+<td>2 m above ground</td>
+<td>K</td>
+<td>2 metre dewpoint temperature</td>
+</tr>
+<tr class="odd">
+<td><code>rh2m</code></td>
+<td>2 m above ground</td>
+<td>%</td>
+<td>2 metre relative humidity</td>
+</tr>
+<tr class="even">
+<td><code>q2m</code></td>
+<td>2 m above ground</td>
+<td>kg kg-1</td>
+<td>2 metre specific humidity</td>
+</tr>
+<tr class="odd">
+<td><code>u10</code></td>
+<td>10 m above ground</td>
+<td>m s-1</td>
+<td>10 metre wind along the grid x axis</td>
+</tr>
+<tr class="even">
+<td><code>v10</code></td>
+<td>10 m above ground</td>
+<td>m s-1</td>
+<td>10 metre wind along the grid y axis</td>
+</tr>
+<tr class="odd">
+<td><code>u80</code></td>
+<td>80 m above ground</td>
+<td>m s-1</td>
+<td>80 metre wind along the grid x axis</td>
+</tr>
+<tr class="even">
+<td><code>v80</code></td>
+<td>80 m above ground</td>
+<td>m s-1</td>
+<td>80 metre wind along the grid y axis</td>
+</tr>
+<tr class="odd">
+<td><code>gust</code></td>
+<td>surface</td>
+<td>m s-1</td>
+<td>surface wind gust</td>
+</tr>
+<tr class="even">
+<td><code>prmsl</code></td>
+<td>mean sea level</td>
+<td>Pa</td>
+<td>pressure reduced to mean sea level (MAPS reduction)</td>
+</tr>
+<tr class="odd">
+<td><code>sp</code></td>
+<td>surface</td>
+<td>Pa</td>
+<td>surface pressure</td>
+</tr>
+<tr class="even">
+<td><code>skt</code></td>
+<td>surface</td>
+<td>K</td>
+<td>surface (skin) temperature</td>
+</tr>
+<tr class="odd">
+<td><code>pwat</code></td>
+<td>entire atmosphere (considered as a single layer)</td>
+<td>kg m-2</td>
+<td>precipitable water</td>
+</tr>
+<tr class="even">
+<td><code>cape</code></td>
+<td>surface</td>
+<td>J kg-1</td>
+<td>surface-based convective available potential energy</td>
+</tr>
+<tr class="odd">
+<td><code>cin</code></td>
+<td>surface</td>
+<td>J kg-1</td>
+<td>surface-based convective inhibition</td>
+</tr>
+<tr class="even">
+<td><code>tcc</code></td>
+<td>entire atmosphere</td>
+<td>%</td>
+<td>total cloud cover</td>
+</tr>
+<tr class="odd">
+<td><code>lcc</code></td>
+<td>low cloud layer</td>
+<td>%</td>
+<td>low cloud cover</td>
+</tr>
+<tr class="even">
+<td><code>mcc</code></td>
+<td>middle cloud layer</td>
+<td>%</td>
+<td>medium cloud cover</td>
+</tr>
+<tr class="odd">
+<td><code>hcc</code></td>
+<td>high cloud layer</td>
+<td>%</td>
+<td>high cloud cover</td>
+</tr>
+<tr class="even">
+<td><code>vis</code></td>
+<td>surface</td>
+<td>m</td>
+<td>surface visibility</td>
+</tr>
+<tr class="odd">
+<td><code>refc</code></td>
+<td>entire atmosphere</td>
+<td>dBZ</td>
+<td>composite radar reflectivity</td>
+</tr>
+<tr class="even">
+<td><code>hpbl</code></td>
+<td>surface</td>
+<td>m</td>
+<td>planetary boundary layer height</td>
+</tr>
+<tr class="odd">
+<td><code>prate</code></td>
+<td>surface</td>
+<td>kg m-2 s-1</td>
+<td>precipitation rate</td>
+</tr>
+<tr class="even">
+<td><code>apcp</code></td>
+<td>surface</td>
+<td>kg m-2</td>
+<td>total precipitation accumulated since forecast start</td>
+</tr>
+<tr class="odd">
+<td><code>asnow</code></td>
+<td>surface</td>
+<td>m</td>
+<td>snowfall accumulated since forecast start</td>
+</tr>
+<tr class="even">
+<td><code>snod</code></td>
+<td>surface</td>
+<td>m</td>
+<td>snow depth</td>
+</tr>
+<tr class="odd">
+<td><code>weasd</code></td>
+<td>surface</td>
+<td>kg m-2</td>
+<td>water equivalent of snow depth</td>
+</tr>
+<tr class="even">
+<td><code>dswrf</code></td>
+<td>surface</td>
+<td>W m-2</td>
+<td>downward short-wave radiation flux at the surface</td>
+</tr>
+<tr class="odd">
+<td><code>dlwrf</code></td>
+<td>surface</td>
+<td>W m-2</td>
+<td>downward long-wave radiation flux at the surface</td>
+</tr>
+<tr class="even">
+<td><code>shtfl</code></td>
+<td>surface</td>
+<td>W m-2</td>
+<td>sensible heat flux at the surface</td>
+</tr>
+<tr class="odd">
+<td><code>lhtfl</code></td>
+<td>surface</td>
+<td>W m-2</td>
+<td>latent heat flux at the surface</td>
+</tr>
+<tr class="even">
+<td><code>smoke</code></td>
+<td>8 m above ground</td>
+<td>kg m-3</td>
+<td>near-surface smoke mass density</td>
+</tr>
+<tr class="odd">
+<td><code>colmd</code></td>
+<td>entire atmosphere (considered as a single layer)</td>
+<td>kg m-2</td>
+<td>vertically integrated smoke</td>
+</tr>
+<tr class="even">
+<td><code>orog</code></td>
+<td>surface</td>
+<td>gpm</td>
+<td>surface geopotential height (orography)</td>
+</tr>
+<tr class="odd">
+<td><code>lsm</code></td>
+<td>surface</td>
+<td>1</td>
+<td>land-sea mask (1 = land)</td>
+</tr>
+<tr class="even">
+<td><code>t</code></td>
+<td>pressure levels</td>
+<td>K</td>
+<td>temperature</td>
+</tr>
+<tr class="odd">
+<td><code>u</code></td>
+<td>pressure levels</td>
+<td>m s-1</td>
+<td>wind along the grid x axis</td>
+</tr>
+<tr class="even">
+<td><code>v</code></td>
+<td>pressure levels</td>
+<td>m s-1</td>
+<td>wind along the grid y axis</td>
+</tr>
+<tr class="odd">
+<td><code>w</code></td>
+<td>pressure levels</td>
+<td>Pa s-1</td>
+<td>vertical velocity (pressure)</td>
+</tr>
+<tr class="even">
+<td><code>z</code></td>
+<td>pressure levels</td>
+<td>gpm</td>
+<td>geopotential height</td>
+</tr>
+<tr class="odd">
+<td><code>rh</code></td>
+<td>pressure levels</td>
+<td>%</td>
+<td>relative humidity</td>
+</tr>
+<tr class="even">
+<td><code>q</code></td>
+<td>pressure levels</td>
+<td>kg kg-1</td>
+<td>specific humidity</td>
+</tr>
+</tbody>
+</table>
+<p>Things to know:</p>
+<ul>
+<li>Wind components are relative to the grid: <code>u</code> is along <code>x</code> and <code>v</code> along <code>y</code>, which away from the central meridian (97.5° W) is not due east and north.</li>
+<li><code>lon</code> runs from about -134 to -61. Because the selection is a rectangle in <code>x</code> and <code>y</code>, the store also holds some points just outside the requested longitude and latitude box.</li>
+<li>The projection is stored as a PROJ string in the <code>crs</code> attribute of the store.</li>
+<li>Every cycle has lead times up to 18 hours; the 0, 6, 12 and 18 UTC cycles go up to 48. Older runs are shorter.</li>
+<li>There are 39 pressure levels, from 1000 to 50 hPa in steps of 25. Without a <code>Select(vars=...)</code> every variable on every level is fetched, which is about 310 requests and several GB in memory per lead time.</li>
+<li>A message that a file does not contain is stored as <code>NaN</code>. The model has changed over the years, so older runs lack some of the variables listed here.</li>
+</ul>
+</section>
+</section>
+<section id="selecting-and-chunking" class="level2">
+<h2 class="anchored" data-anchor-id="selecting-and-chunking">Selecting and chunking</h2>
+<p><code>Select</code> takes one keyword per dimension, plus <code>vars</code>:</p>
+<div id="24" class="cell" data-execution_count="0">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Select</span>(vars<span class="op">=:</span>sst)                           <span class="co"># one variable</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">Select</span>(vars<span class="op">=</span>[<span class="op">:</span>t2m, <span class="op">:</span>u10, <span class="op">:</span>v10])             <span class="co"># several</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">Select</span>(lat<span class="op">=</span><span class="fu">Between</span>(<span class="fl">30</span>, <span class="fl">60</span>))                 <span class="co"># closed interval</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">Select</span>(level<span class="op">=</span>[<span class="fl">850</span>, <span class="fl">500</span>])                    <span class="co"># explicit values</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="fu">Select</span>(time<span class="op">=</span><span class="fu">Date</span>(<span class="fl">2025</span>, <span class="fl">1</span>, <span class="fl">1</span>)<span class="op">:</span><span class="fu">Day</span>(<span class="fl">1</span>)<span class="op">:</span><span class="fu">Date</span>(<span class="fl">2025</span>, <span class="fl">1</span>, <span class="fl">5</span>))   <span class="co"># a range</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>On a projected grid (<code>HRRR</code>), <code>lon</code> and <code>lat</code> are selected the same way even though they are not dimensions; see the HRRR section above.</p>
+<p>Selections are applied before anything is downloaded: files outside the selected times are skipped, and unselected variables, levels and grid points are not read.</p>
+<p><code>Rechunk(time=30)</code> sets the chunk size of the output store along a dimension. It does not change what is fetched. <code>Store(path; chunks=Dict(:time =&gt; 30))</code> does the same and takes precedence.</p>
+</section>
+<section id="reading-a-store" class="level2">
+<h2 class="anchored" data-anchor-id="reading-a-store">Reading a store</h2>
+<p>Stores are plain Zarr and open with any Zarr reader. <code>Store</code> writes Zarr v3 by default; pass <code>zarr_version=2</code> for v2, and <code>overwrite=true</code> to replace an existing store.</p>
+<div id="26" class="cell" data-execution_count="0">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Zarr</span>, <span class="bu">Dates</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>g <span class="op">=</span> <span class="fu">zopen</span>(<span class="st">"gfs.zarr"</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>t2m <span class="op">=</span> g[<span class="st">"t2m"</span>][<span class="op">:</span>, <span class="op">:</span>, <span class="op">:</span>, <span class="op">:</span>]                  <span class="co"># (lon, lat, step, time)</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>lon <span class="op">=</span> g[<span class="st">"lon"</span>][<span class="op">:</span>]</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>time <span class="op">=</span> <span class="fu">DateTime</span>(<span class="fl">1970</span>) <span class="op">.+</span> <span class="fu">Second</span>.(g[<span class="st">"time"</span>][<span class="op">:</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Each dimension is stored as a coordinate array of the same name; for HRRR the two-dimensional <code>lon</code> and <code>lat</code> are stored as arrays on <code>(x, y)</code> as well. Time coordinates are integers with CF <code>units</code> attributes: <code>seconds since 1970-01-01T00:00:00</code> for <code>DateTime</code> dimensions (GFS, IFS, AIFS, HRRR) and <code>days since 1970-01-01</code> for <code>Date</code> dimensions (OISST).</p>
+</section>
+<section id="examples" class="level2">
+<h2 class="anchored" data-anchor-id="examples">Examples</h2>
+<p>The <code>examples/</code> directory of the repository has a runnable script per source. Each pulls a small dataset, then reopens the store and prints a summary:</p>
+<pre><code>julia --project=. examples/oisst.jl
+julia --project=. examples/gfs.jl
+julia --project=. examples/ifs.jl
+julia --project=. examples/hrrr.jl</code></pre>
 
 
 </section>
@@ -452,7 +1694,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
       // Inspect non-navigation links and adorn them if external
-     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
       for (var i=0; i<links.length; i++) {
         const link = links[i];
         if (!isInternal(link.href)) {
@@ -461,8 +1704,69 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           if (link.dataset.originalHref !== undefined) {
             link.href = link.dataset.originalHref;
           }
+          if (!link.classList.contains('no-external-icon')) {
+          }
         }
       }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
     function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
       const config = {
         allowHTML: true,
@@ -476,6 +1780,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         interactiveBorder: 10,
         theme: 'quarto',
         placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
       };
       if (contentFn) {
         config.content = contentFn;
@@ -638,44 +1943,54 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           const lineIds = lines.map((line) => {
             return targetCell + "-" + line;
           })
-          let top = null;
-          let height = null;
-          let parent = null;
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
           if (lineIds.length > 0) {
-              //compute the position of the single el (top and bottom and make a div)
-              const el = window.document.getElementById(lineIds[0]);
-              top = el.offsetTop;
-              height = el.offsetHeight;
-              parent = el.parentElement.parentElement;
-            if (lineIds.length > 1) {
-              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
-              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
-              height = bottom - top;
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
             }
-            if (top !== null && height !== null && parent !== null) {
-              // cook up a div (if necessary) and position it 
-              let div = window.document.getElementById("code-annotation-line-highlight");
-              if (div === null) {
-                div = window.document.createElement("div");
-                div.setAttribute("id", "code-annotation-line-highlight");
-                div.style.position = 'absolute';
-                parent.appendChild(div);
-              }
-              div.style.top = top - 2 + "px";
-              div.style.height = height + 4 + "px";
-              div.style.left = 0;
-              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
-              if (gutterDiv === null) {
-                gutterDiv = window.document.createElement("div");
-                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
-                gutterDiv.style.position = 'absolute';
-                const codeCell = window.document.getElementById(targetCell);
-                const gutter = codeCell.querySelector('.code-annotation-gutter');
-                gutter.appendChild(gutterDiv);
-              }
-              gutterDiv.style.top = top - 2 + "px";
-              gutterDiv.style.height = height + 4 + "px";
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
             }
+            placeBand(gutterDiv, el, lastEl);
             selectedAnnoteEl = annoteEl;
           }
         };
@@ -774,7 +2089,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     }
   });
   </script>
-<nav class="page-navigation">
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+<nav class="page-navigation" aria-label="Page">
   <div class="nav-page nav-page-previous">
   </div>
   <div class="nav-page nav-page-next">
@@ -790,7 +2108,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       &nbsp;
     </div>   
     <div class="nav-footer-center">
-<p>Built on 2026-04-14</p>
+<p>Built on 2026-11-23</p>
 </div>
     <div class="nav-footer-right">
       &nbsp;
